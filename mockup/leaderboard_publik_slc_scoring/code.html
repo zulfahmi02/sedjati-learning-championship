@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SLC Public Leaderboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Geist:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-bright": "#f5faf8",
+                    "primary-fixed": "#89f5e7",
+                    "inverse-surface": "#2c3130",
+                    "tertiary-container": "#b05e3d",
+                    "on-surface": "#171d1c",
+                    "background": "#f5faf8",
+                    "tertiary-fixed-dim": "#ffb59a",
+                    "surface-tint": "#006a61",
+                    "secondary": "#855300",
+                    "on-tertiary": "#ffffff",
+                    "on-tertiary-fixed": "#370e00",
+                    "secondary-fixed-dim": "#ffb95f",
+                    "tertiary": "#924628",
+                    "on-tertiary-fixed-variant": "#773215",
+                    "surface-container-highest": "#dee4e1",
+                    "on-primary-fixed-variant": "#005049",
+                    "on-primary-fixed": "#00201d",
+                    "on-tertiary-container": "#fffbff",
+                    "on-primary-container": "#f4fffc",
+                    "on-primary": "#ffffff",
+                    "surface-container-lowest": "#ffffff",
+                    "surface": "#f5faf8",
+                    "on-error-container": "#93000a",
+                    "on-secondary-fixed": "#2a1700",
+                    "tertiary-fixed": "#ffdbce",
+                    "on-background": "#171d1c",
+                    "surface-container-high": "#e4e9e7",
+                    "surface-container": "#eaefed",
+                    "secondary-container": "#fea619",
+                    "error-container": "#ffdad6",
+                    "on-secondary-fixed-variant": "#653e00",
+                    "secondary-fixed": "#ffddb8",
+                    "surface-variant": "#dee4e1",
+                    "primary-fixed-dim": "#6bd8cb",
+                    "primary": "#00685f",
+                    "outline-variant": "#bcc9c6",
+                    "inverse-primary": "#6bd8cb",
+                    "inverse-on-surface": "#edf2f0",
+                    "error": "#ba1a1a",
+                    "on-error": "#ffffff",
+                    "surface-dim": "#d6dbd9",
+                    "on-secondary-container": "#684000",
+                    "on-surface-variant": "#3d4947",
+                    "on-secondary": "#ffffff",
+                    "primary-container": "#008378",
+                    "outline": "#6d7a77",
+                    "surface-container-low": "#f0f5f2"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "stack-md": "16px",
+                    "stack-lg": "32px",
+                    "stack-sm": "8px",
+                    "margin-mobile": "16px",
+                    "container-max-width": "1440px",
+                    "gutter": "24px",
+                    "sidebar-width": "260px"
+            },
+            "fontFamily": {
+                    "label-md": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "table-numeric": ["Inter"],
+                    "headline-sm": ["Geist"],
+                    "body-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "headline-md": ["Geist"],
+                    "headline-lg": ["Geist"],
+                    "display-score": ["Geist"]
+            },
+            "fontSize": {
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "table-numeric": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "display-score": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #f5faf8;
+            color: #171d1c;
+            -webkit-font-smoothing: antialiased;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .podium-card {
+            transition: transform 0.2s ease-out;
+        }
+        .podium-card:hover {
+            transform: translateY(-4px);
+        }
+        .tabular-nums {
+            font-variant-numeric: tabular-nums;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+<!-- Top AppBar (Simplified, No Sidebar Layout) -->
+<header class="fixed top-0 left-0 right-0 z-40 bg-surface/80 backdrop-blur-md border-b border-outline-variant flex justify-between items-center h-16 px-gutter">
+<div class="flex items-center gap-4">
+<span class="font-headline-sm text-on-surface font-semibold">SLC Scoring</span>
+<div class="h-6 w-[1px] bg-outline-variant mx-2"></div>
+<span class="font-label-md text-on-surface-variant uppercase tracking-widest">Public Leaderboard</span>
+</div>
+<div class="flex items-center gap-6">
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-primary font-bold font-label-md" href="#">Preliminary Round</a>
+</nav>
+<div class="flex items-center gap-3 border-l border-outline-variant pl-6">
+<span class="material-symbols-outlined text-on-surface-variant">refresh</span>
+<span class="font-label-md text-on-surface-variant">Live Update</span>
+</div>
+</div>
+</header>
+<main class="pt-24 pb-stack-lg px-gutter max-w-container-max-width mx-auto">
+<!-- Header Section -->
+<div class="mb-stack-lg flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface">Real-time Leaderboard</h1>
+<p class="font-body-md text-on-surface-variant mt-2">Current standings for the Preliminary Round sessions.</p>
+</div>
+<div class="bg-surface-container-high px-4 py-2 rounded-lg border border-outline-variant flex items-center gap-3">
+<div class="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
+<span class="font-label-md text-on-surface-variant">Last entry: 2 mins ago</span>
+</div>
+</div>
+<!-- Podium Section (Top 3) -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-stack-lg items-end">
+<!-- Rank 2 -->
+<div class="order-2 md:order-1 flex flex-col">
+<div class="podium-card bg-surface-container-lowest border border-outline-variant p-8 rounded-xl flex flex-col items-center text-center">
+<div class="w-16 h-16 rounded-full bg-surface-container mb-4 overflow-hidden border-2 border-secondary/30">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a corporate competitor, clean lighting, minimalist background, high-resolution portrait photography, soft shadows, part of a sophisticated teal and amber design system." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdmDWugCRZ9vc0m9n_iAHnS227uefA-nyDWUdvrMM2M3D0o9bP7SbF4_hiobbBqmfmP9t4GQ-vOxuoeB7OFtEk6fxa7bzPydu43kKN5JoGqdsMZVahS84bJTfRpUmiSmqAV8iDSLCyKiuEq_6GY_3ZI7gZOQJtROYsFFdZ18qoDJD-QNRU3vishFKmESYuvK2bSCbk2PserFRl2P0a9WT3hr_q1owFXIaJ0pVS0CIQIzy6tBrTWiSfTrGktMIgIaeuddRo5S1JPcaM"/>
+</div>
+<div class="inline-flex items-center gap-1 bg-secondary/10 text-secondary px-3 py-1 rounded-full mb-3">
+<span class="material-symbols-outlined text-[18px]">workspace_premium</span>
+<span class="font-label-md">RANK 02</span>
+</div>
+<h3 class="font-headline-sm text-on-surface">Alex Rivera</h3>
+<p class="font-label-md text-on-surface-variant mt-1">Panel: Global Logistics</p>
+<div class="mt-6">
+<span class="font-display-score text-[40px] text-on-surface tabular-nums">94.8</span>
+<span class="font-label-md text-on-surface-variant ml-1">pts</span>
+</div>
+</div>
+</div>
+<!-- Rank 1 (The Winner/Leader) -->
+<div class="order-1 md:order-2 flex flex-col">
+<div class="podium-card bg-surface-container-lowest border-2 border-secondary p-10 rounded-xl flex flex-col items-center text-center shadow-sm relative overflow-hidden">
+<!-- Subtle Accent Background -->
+<div class="absolute top-0 right-0 p-4 opacity-10">
+<span class="material-symbols-outlined text-secondary text-8xl" style="font-variation-settings: 'FILL' 1;">military_tech</span>
+</div>
+<div class="w-24 h-24 rounded-full bg-surface-container mb-6 overflow-hidden border-4 border-secondary shadow-md">
+<img class="w-full h-full object-cover" data-alt="Close-up professional portrait of a leader, confident expression, neutral gray studio background, high-end photography, highlighting skin textures and clean aesthetic, fitting into a corporate teal color scheme." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA89mM21l0d1sonS6dGsBgu6Q8BnmQFK9PeqKEFQQMjOb8x0c674XVogQbAEt-vpb8MbDXpW11qmaHBVuFQK64QfBQD3qCT3ZfLQ2eWfhg6GIUliKPsgrtvEq6ZSA8KFnW1lIFQpeUJ973_NU5J_BPCGqmp-e3I95zAEviQ-66avIXwSkYy-5XyR9UKvyP1eS2I1Ik5aXvvCdJL6s8TvtzXPrgEzqhtS_Q5VpHdejQp_cmwQZl6iUhk-gDn6t7_Q_gn9Hyj2xYkwbW7"/>
+</div>
+<div class="inline-flex items-center gap-1 bg-secondary text-on-secondary px-4 py-1.5 rounded-full mb-4 shadow-sm">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">stars</span>
+<span class="font-label-md tracking-wider">RANK 01</span>
+</div>
+<h2 class="font-headline-md text-on-surface text-3xl">Sarah Chen</h2>
+<p class="font-label-md text-on-surface-variant mt-1">Panel: Strategic Innovation</p>
+<div class="mt-8 border-t border-outline-variant pt-6 w-full">
+<span class="font-display-score text-display-score text-secondary tabular-nums">98.2</span>
+<span class="font-label-md text-on-surface-variant ml-1">pts</span>
+</div>
+</div>
+</div>
+<!-- Rank 3 -->
+<div class="order-3 md:order-3 flex flex-col">
+<div class="podium-card bg-surface-container-lowest border border-outline-variant p-8 rounded-xl flex flex-col items-center text-center">
+<div class="w-16 h-16 rounded-full bg-surface-container mb-4 overflow-hidden border-2 border-secondary/20">
+<img class="w-full h-full object-cover" data-alt="A studio portrait of a business professional, warm lighting, minimalist composition, corporate headshot style, part of a clinical and high-efficiency visual identity for a performance dashboard." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBx6GRNlby9OemyxlhdUfkl9c760hgUIyjquVAQC7b6Dnr8brEJPX6fi3q-PSBY9ha0V9aLOKTo91YaAGBeknWE_c6Fbf0qX3Lr4NjVsLuflUdn0whjBPWYJtGPaGjWa6jRL_1_NbJgeI55OPRuRygVpa3fgUEx3sgiaLcWCSgCkoN3MxJejD3K5i6bLlbY0NCieG5bXX92ZBYEVqYVhbgKvP1FLJM38npX9AiApW-AChJeP4pe0GcB8rTvjT_0V8bkWjNy8wCJQuFv"/>
+</div>
+<div class="inline-flex items-center gap-1 bg-secondary/10 text-secondary px-3 py-1 rounded-full mb-3">
+<span class="material-symbols-outlined text-[18px]">military_tech</span>
+<span class="font-label-md">RANK 03</span>
+</div>
+<h3 class="font-headline-sm text-on-surface">Jordan Smyth</h3>
+<p class="font-label-md text-on-surface-variant mt-1">Panel: Ops Excellence</p>
+<div class="mt-6">
+<span class="font-display-score text-[40px] text-on-surface tabular-nums">91.5</span>
+<span class="font-label-md text-on-surface-variant ml-1">pts</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Leaderboard Table -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden shadow-sm">
+<table class="w-full text-left border-collapse">
+<thead class="bg-surface-container-low border-b border-outline-variant">
+<tr>
+<th class="px-6 py-4 font-label-md text-on-surface-variant uppercase tracking-wider w-24 text-center">Rank</th>
+<th class="px-6 py-4 font-label-md text-on-surface-variant uppercase tracking-wider">Participant</th>
+<th class="px-6 py-4 font-label-md text-on-surface-variant uppercase tracking-wider">Panel Category</th>
+<th class="px-6 py-4 font-label-md text-on-surface-variant uppercase tracking-wider text-right pr-12">Final Score</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<!-- Generating Rows 4-20 using sample data -->
+<script>
+                        const participants = [
+                            { name: "Marcus Thorne", panel: "Supply Chain", score: 89.4 },
+                            { name: "Elena Rodriguez", panel: "Human Capital", score: 88.7 },
+                            { name: "David Kim", panel: "Market Analysis", score: 88.1 },
+                            { name: "Sophie Van der Berg", panel: "Financial Risk", score: 87.5 },
+                            { name: "Liam O'Connor", panel: "Strategic Innovation", score: 86.9 },
+                            { name: "Aria Montgomery", panel: "Global Logistics", score: 85.2 },
+                            { name: "Hiroshi Tanaka", panel: "Ops Excellence", score: 84.8 },
+                            { name: "Clara Mendosa", panel: "Supply Chain", score: 84.1 },
+                            { name: "Benjamin Foster", panel: "Human Capital", score: 83.5 },
+                            { name: "Priya Sharma", panel: "Market Analysis", score: 82.9 },
+                            { name: "Isabella Rossi", panel: "Financial Risk", score: 81.3 },
+                            { name: "Lucas Petit", panel: "Strategic Innovation", score: 80.7 },
+                            { name: "Nina Ivanov", panel: "Global Logistics", score: 79.9 },
+                            { name: "Oliver Schmidt", panel: "Ops Excellence", score: 78.4 },
+                            { name: "Fatima Al-Sayed", panel: "Supply Chain", score: 77.8 },
+                            { name: "Thomas Wright", panel: "Human Capital", score: 76.5 },
+                            { name: "Yuki Sato", panel: "Market Analysis", score: 75.2 }
+                        ];
+
+                        document.write(participants.map((p, index) => `
+                            <tr class="hover:bg-surface-container transition-colors group">
+                                <td class="px-6 py-5 text-center font-table-numeric text-on-surface-variant tabular-nums">#${index + 4}</td>
+                                <td class="px-6 py-5">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-8 h-8 rounded-full bg-surface-container-high border border-outline-variant flex items-center justify-center text-on-surface-variant text-[10px] font-bold">
+                                            ${p.name.split(' ').map(n => n[0]).join('')}
+                                        </div>
+                                        <span class="font-body-md font-semibold text-on-surface">${p.name}</span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-5 font-body-md text-on-surface-variant">${p.panel}</td>
+                                <td class="px-6 py-5 text-right pr-12">
+                                    <span class="font-table-numeric font-bold text-on-surface text-lg tabular-nums">${p.score.toFixed(1)}</span>
+                                    <span class="font-label-md text-on-surface-variant ml-1">pts</span>
+                                </td>
+                            </tr>
+                        `).join(''));
+                    </script>
+</tbody>
+</table>
+</div>
+<!-- Footer Note -->
+<footer class="mt-stack-lg border-t border-outline-variant pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+<div class="flex items-center gap-4">
+<span class="font-label-md text-on-surface-variant">© 2024 SLC Scoring Management</span>
+<span class="text-outline-variant">•</span>
+<a class="font-label-md text-primary hover:underline" href="#">Full Regulations</a>
+</div>
+<div class="flex gap-2">
+<div class="w-3 h-3 rounded-full bg-outline-variant"></div>
+<div class="w-3 h-3 rounded-full bg-outline-variant"></div>
+<div class="w-3 h-3 rounded-full bg-primary"></div>
+</div>
+</footer>
+</main>
+<script>
+        // Micro-interaction for score updates (visual flair only)
+        document.addEventListener('DOMContentLoaded', () => {
+            const scores = document.querySelectorAll('.font-display-score, .font-table-numeric');
+            
+            // Simple subtle pulse effect every 30 seconds to simulate "Live" data
+            setInterval(() => {
+                const randomRow = Math.floor(Math.random() * scores.length);
+                scores[randomRow].classList.add('text-primary');
+                setTimeout(() => {
+                    scores[randomRow].classList.remove('text-primary');
+                }, 2000);
+            }, 5000);
+        });
+    </script>
+</body></html>

@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SLC Scoring - Judge Portal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Geist:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-bright": "#f5faf8",
+                    "primary-fixed": "#89f5e7",
+                    "inverse-surface": "#2c3130",
+                    "tertiary-container": "#b05e3d",
+                    "on-surface": "#171d1c",
+                    "background": "#f5faf8",
+                    "tertiary-fixed-dim": "#ffb59a",
+                    "surface-tint": "#006a61",
+                    "secondary": "#855300",
+                    "on-tertiary": "#ffffff",
+                    "on-tertiary-fixed": "#370e00",
+                    "secondary-fixed-dim": "#ffb95f",
+                    "tertiary": "#924628",
+                    "on-tertiary-fixed-variant": "#773215",
+                    "surface-container-highest": "#dee4e1",
+                    "on-primary-fixed-variant": "#005049",
+                    "on-primary-fixed": "#00201d",
+                    "on-tertiary-container": "#fffbff",
+                    "on-primary-container": "#f4fffc",
+                    "on-primary": "#ffffff",
+                    "surface-container-lowest": "#ffffff",
+                    "surface": "#f5faf8",
+                    "on-error-container": "#93000a",
+                    "on-secondary-fixed": "#2a1700",
+                    "tertiary-fixed": "#ffdbce",
+                    "on-background": "#171d1c",
+                    "surface-container-high": "#e4e9e7",
+                    "surface-container": "#eaefed",
+                    "secondary-container": "#fea619",
+                    "error-container": "#ffdad6",
+                    "on-secondary-fixed-variant": "#653e00",
+                    "secondary-fixed": "#ffddb8",
+                    "surface-variant": "#dee4e1",
+                    "primary-fixed-dim": "#6bd8cb",
+                    "primary": "#00685f",
+                    "outline-variant": "#bcc9c6",
+                    "inverse-primary": "#6bd8cb",
+                    "inverse-on-surface": "#edf2f0",
+                    "error": "#ba1a1a",
+                    "on-error": "#ffffff",
+                    "surface-dim": "#d6dbd9",
+                    "on-secondary-container": "#684000",
+                    "on-surface-variant": "#3d4947",
+                    "on-secondary": "#ffffff",
+                    "primary-container": "#008378",
+                    "outline": "#6d7a77",
+                    "surface-container-low": "#f0f5f2"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "stack-md": "16px",
+                    "stack-lg": "32px",
+                    "stack-sm": "8px",
+                    "margin-mobile": "16px",
+                    "container-max-width": "1440px",
+                    "gutter": "24px",
+                    "sidebar-width": "260px"
+            },
+            "fontFamily": {
+                    "label-md": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "table-numeric": ["Inter"],
+                    "headline-sm": ["Geist"],
+                    "body-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "headline-md": ["Geist"],
+                    "headline-lg": ["Geist"],
+                    "display-score": ["Geist"]
+            },
+            "fontSize": {
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "table-numeric": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "display-score": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #F9FAFB; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+        input[type="range"]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 6px;
+            background: #E5E7EB;
+            border-radius: 3px;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: #00685f;
+            cursor: pointer;
+            margin-top: -7px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border: 2px solid white;
+        }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #bcc9c6; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-background text-on-surface">
+<!-- Global Navigation Shell -->
+<aside class="fixed left-0 top-0 h-screen w-sidebar-width border-r border-outline-variant bg-surface flex flex-col h-full py-stack-lg z-50">
+<div class="px-6 mb-8">
+<h1 class="font-headline-md text-headline-md font-bold text-primary">SLC Scoring</h1>
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Management Portal</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-6 py-3 bg-primary-container/10 text-primary font-bold border-l-4 border-primary" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined">groups</span>
+<span class="font-label-md text-label-md">Participants</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined">edit_note</span>
+<span class="font-label-md text-label-md">Scoring</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined">leaderboard</span>
+<span class="font-label-md text-label-md">Leaderboard</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:bg-surface-container-high transition-colors mt-auto" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</nav>
+</aside>
+<header class="fixed top-0 right-0 w-[calc(100%-260px)] h-16 bg-surface/80 backdrop-blur-md border-b border-outline-variant flex justify-between items-center px-gutter z-40">
+<div class="flex items-center gap-4">
+<span class="font-headline-sm text-headline-sm font-semibold text-on-surface">Penyisihan Round</span>
+<span class="px-2 py-0.5 rounded bg-primary-container/20 text-primary font-label-md text-[10px] uppercase">Live</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="flex items-center gap-3 pl-4 border-l border-outline-variant">
+<div class="text-right">
+<p class="font-label-md text-label-md text-on-surface">Juri Utama</p>
+<p class="text-[10px] text-on-surface-variant">Admin</p>
+</div>
+<div class="w-8 h-8 rounded-full bg-primary-container text-white flex items-center justify-center font-bold">A</div>
+</div>
+</div>
+</header>
+<main class="ml-sidebar-width pt-16 min-h-screen bg-background">
+<!-- Main Application Layout -->
+<div class="flex h-[calc(100vh-64px)]">
+<!-- Internal Participant Sidebar -->
+<div class="w-80 border-r border-outline-variant bg-surface flex flex-col h-full">
+<div class="p-4 border-b border-outline-variant bg-surface-container-low">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">search</span>
+<input class="w-full pl-10 pr-4 py-2 rounded-lg border border-outline-variant bg-surface text-body-sm focus:ring-1 focus:ring-primary focus:border-primary outline-none" placeholder="Cari peserta..." type="text"/>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto custom-scrollbar">
+<div class="p-3 space-y-1">
+<!-- Scored -->
+<div class="group p-3 rounded-lg border border-primary/20 bg-primary/5 flex items-center gap-3 cursor-pointer">
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary">
+<img class="w-full h-full object-cover" data-alt="A professional studio portrait of a young participant for a competition, neutral background, soft directional lighting, corporate modern photography style, sharp focus." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAgUoPIGRKt9UxGt2sHuIUwNE4tFpOgRdLTp5rMTndADhx4unrUPphNj07Lp-EGBWUF-2_RMm5HNHF4zyeF8Lv3LPyPYZeFjo6EQVo6yDeP6p4ovrs31SNA0R33bU3AkjqlVAhPUDYUlrYgJAXqSFh0oZNAYq4ThxwEQa5imMHSGOQHPUnScLGnOSbs5qpClqrs5SGCxTCXXq3fOxZhMKXCYCfAiFwCh-F84ZxYr6zS42tVPzvVUrLGxdiLGCDAqxpPotrXj9OyuTTA"/>
+</div>
+<div class="flex-1 min-w-0">
+<p class="font-label-md text-label-md text-on-surface truncate">Budi Santoso</p>
+<p class="text-[10px] text-on-surface-variant">ID: SLC-001</p>
+</div>
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<!-- Active Selection -->
+<div class="group p-3 rounded-lg border border-primary bg-white flex items-center gap-3 cursor-pointer shadow-sm">
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="Close up portrait of a female student in a modern competition setting, soft cinematic lighting, clean composition, professional aesthetic, muted color palette." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-5xONsP5tKWjukYG3i6mDizrb9XRUVvHLs0T0L5ya4uTM0pSm5lf2KXqowonad2DvjOWwbZQ_rdBZdgkGqZNukmk_6Am25rMVmAjS-4Ee3bJYojw_WeX-8MWsoCo5XnuedNvM17XY2jDqi8LqOy5E-tmKOPOpNdJ33Le2FPBKCRZjBmrsHjUdp8KSk_A8g1Yni9bmW_iclaUJn08v4zuKAVbZQn0JLDlgw2c2SPpe43Fy9ihFIEJfi9hF2ocJ7RGKJE3moUPc3Iog"/>
+</div>
+<div class="flex-1 min-w-0">
+<p class="font-label-md text-label-md text-primary truncate">Siti Aminah</p>
+<p class="text-[10px] text-on-surface-variant font-medium">PENDING SCORING</p>
+</div>
+<span class="material-symbols-outlined text-outline">radio_button_unchecked</span>
+</div>
+<!-- Pending Others -->
+<div class="group p-3 rounded-lg border border-transparent hover:bg-surface-container-high flex items-center gap-3 cursor-pointer transition-colors">
+<div class="w-10 h-10 rounded-full overflow-hidden border border-outline-variant grayscale opacity-60">
+<img class="w-full h-full object-cover" data-alt="Studio portrait of a male teenager, clean minimalist background, balanced lighting, professional photography for a talent competition portal." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBgtRD4ViI5CVB6O_CFf3JNo4a51RTcLzRW3svy9NWWS4B8tG1mMeUSMz5QUie1qj6pHz-APteb2-f66-FHB7WYsHA2_3sbQYYsGA6ZPI1SV6oCo4HIS78uCEHbaBKFdaMJQDdJoOLUD0RmQouZNsHNKPTNV0Utoc_jsl7oIKhqAnCJCKB7hDmV3YQIJsaX8OPMd91fp_W2pxrktAKQ3bC1dcRFJ0NeLC9eoG-MS-Gw4Wug57HbkFErzOXGaiuRv8EQ2utnuEhgVnxT"/>
+</div>
+<div class="flex-1 min-w-0">
+<p class="font-label-md text-label-md text-on-surface-variant truncate">Eko Prasetyo</p>
+<p class="text-[10px] text-on-surface-variant">ID: SLC-003</p>
+</div>
+<span class="material-symbols-outlined text-outline">radio_button_unchecked</span>
+</div>
+<div class="group p-3 rounded-lg border border-transparent hover:bg-surface-container-high flex items-center gap-3 cursor-pointer transition-colors">
+<div class="w-10 h-10 rounded-full overflow-hidden border border-outline-variant grayscale opacity-60">
+<img class="w-full h-full object-cover" data-alt="Portrait of a young person for a competition profile, minimalist aesthetic, natural lighting, sharp clarity, high-end professional look." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBhpEoI_Yxf3m5CGxR7dNK3AqFYcwSd5owKCWcySxj_930JzXMFMQi1QTq7X9Mf-96rVOOrfGiEIs3XuKYhds9ZKYK4b-w1RbH9pmmhp-zQUWdZOsJO_bttDcXNzywdPd0uMu_ax-khlZGsNUum-LHkE1P9ixsduIMFb7rbBkOsEbzpj0FYv-nsZ-pTXgS01i9-qtu2b16efu75nxsNguKJvBTporMh97_NrjgwRegRR-Ont2Hl1mZsAedF6A36tNUd1rhSRJZamqwG"/>
+</div>
+<div class="flex-1 min-w-0">
+<p class="font-label-md text-label-md text-on-surface-variant truncate">Rina Wati</p>
+<p class="text-[10px] text-on-surface-variant">ID: SLC-004</p>
+</div>
+<span class="material-symbols-outlined text-outline">radio_button_unchecked</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Content Area -->
+<div class="flex-1 flex flex-col overflow-hidden">
+<!-- Horizontal Stepper -->
+<div class="px-gutter py-6 bg-white border-b border-outline-variant">
+<div class="max-w-3xl mx-auto flex items-center">
+<div class="flex flex-col items-center flex-1 relative">
+<div class="w-8 h-8 rounded-full border-2 border-primary bg-primary text-white flex items-center justify-center font-bold text-sm z-10">1</div>
+<span class="mt-2 font-label-md text-label-md text-primary">Penyisihan</span>
+<div class="absolute top-4 left-1/2 w-full h-[2px] bg-outline-variant -z-0"></div>
+</div>
+<div class="flex flex-col items-center flex-1 relative">
+<div class="w-8 h-8 rounded-full border-2 border-outline-variant bg-white text-on-surface-variant flex items-center justify-center font-bold text-sm z-10">2</div>
+<span class="mt-2 font-label-md text-label-md text-on-surface-variant">Semifinal</span>
+<div class="absolute top-4 left-1/2 w-full h-[2px] bg-outline-variant -z-0"></div>
+</div>
+<div class="flex flex-col items-center flex-1">
+<div class="w-8 h-8 rounded-full border-2 border-outline-variant bg-white text-on-surface-variant flex items-center justify-center font-bold text-sm z-10">3</div>
+<span class="mt-2 font-label-md text-label-md text-on-surface-variant">Final</span>
+</div>
+</div>
+</div>
+<!-- Scoring Content -->
+<div class="flex-1 overflow-y-auto p-gutter custom-scrollbar">
+<div class="max-w-[800px] mx-auto space-y-stack-lg">
+<!-- Participant Detail Card -->
+<div class="bg-white rounded-xl border border-outline-variant p-6 flex items-start gap-6 shadow-sm">
+<div class="w-24 h-24 rounded-lg overflow-hidden shrink-0 border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="Direct close-up portrait of a female competition participant, soft professional lighting, neutral background, high detail, clean corporate style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAyIbQWB6Cza66i1YTW7cea7bm3-zCnGacLbMnApraClxDfFDpFILnwgQ2LmqLJnZFgP9pFMS89b-9jCycEcimdgqJuxZs0Ud9tQcYLllP-ldXBmXrjc4pV8mLInbuUPDmkHX8FGL48bp8vw8MOAMSHiCWggnqEUW7XtiD-RHmjrYLrCX9SF3Qp5BFUHki1NmO3JBCEtzB8umzE2dwz1-jDCVoJHQSN33FrDy6HKsMU2kIy3794lIGK41I5hAQVlWHulgxBJj-Id3Sm"/>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface">Siti Aminah</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Universitas Indonesia • Jakarta</p>
+</div>
+<div class="text-right">
+<p class="font-label-md text-label-md text-on-surface-variant uppercase">Kategori</p>
+<p class="font-headline-sm text-headline-sm text-primary">Public Speaking</p>
+</div>
+</div>
+<div class="mt-4 flex gap-2">
+<span class="px-3 py-1 rounded-full bg-surface-container-high border border-outline-variant font-label-md text-[10px] text-on-surface-variant">MODUL 1</span>
+<span class="px-3 py-1 rounded-full bg-surface-container-high border border-outline-variant font-label-md text-[10px] text-on-surface-variant">BAHASA INDONESIA</span>
+</div>
+</div>
+</div>
+<!-- Scoring Form -->
+<div class="space-y-stack-md">
+<h3 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest border-b border-outline-variant pb-2">Kriteria Penilaian</h3>
+<!-- Criterion 1 -->
+<div class="bg-white rounded-xl border border-outline-variant p-6 space-y-4 hover:border-primary-fixed-dim transition-colors group">
+<div class="flex justify-between items-center">
+<div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface">Technique</h4>
+<p class="text-body-sm text-on-surface-variant">Struktur materi dan penggunaan alat bantu.</p>
+</div>
+<div class="px-3 py-1 rounded bg-secondary-fixed text-on-secondary-fixed font-label-md text-label-md">Bobot 40%</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex-1">
+<input class="scoring-slider" data-weight="0.4" id="slider-1" max="100" min="0" type="range" value="0"/>
+<div class="flex justify-between mt-2 font-label-md text-[10px] text-on-surface-variant">
+<span>0</span>
+<span>50</span>
+<span>100</span>
+</div>
+</div>
+<div class="w-20">
+<input class="w-full text-center py-2 border border-outline-variant rounded-lg font-display-score text-headline-md text-primary outline-none focus:ring-2 focus:ring-primary-fixed" id="input-1" max="100" min="0" type="number" value="0"/>
+</div>
+</div>
+</div>
+<!-- Criterion 2 -->
+<div class="bg-white rounded-xl border border-outline-variant p-6 space-y-4 hover:border-primary-fixed-dim transition-colors group">
+<div class="flex justify-between items-center">
+<div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface">Presentation</h4>
+<p class="text-body-sm text-on-surface-variant">Intonasi, artikulasi, dan bahasa tubuh.</p>
+</div>
+<div class="px-3 py-1 rounded bg-secondary-fixed text-on-secondary-fixed font-label-md text-label-md">Bobot 30%</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex-1">
+<input class="scoring-slider" data-weight="0.3" id="slider-2" max="100" min="0" type="range" value="0"/>
+<div class="flex justify-between mt-2 font-label-md text-[10px] text-on-surface-variant">
+<span>0</span>
+<span>50</span>
+<span>100</span>
+</div>
+</div>
+<div class="w-20">
+<input class="w-full text-center py-2 border border-outline-variant rounded-lg font-display-score text-headline-md text-primary outline-none focus:ring-2 focus:ring-primary-fixed" id="input-2" max="100" min="0" type="number" value="0"/>
+</div>
+</div>
+</div>
+<!-- Criterion 3 -->
+<div class="bg-white rounded-xl border border-outline-variant p-6 space-y-4 hover:border-primary-fixed-dim transition-colors group">
+<div class="flex justify-between items-center">
+<div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface">Creativity</h4>
+<p class="text-body-sm text-on-surface-variant">Keaslian ide dan cara penyampaian yang unik.</p>
+</div>
+<div class="px-3 py-1 rounded bg-secondary-fixed text-on-secondary-fixed font-label-md text-label-md">Bobot 30%</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex-1">
+<input class="scoring-slider" data-weight="0.3" id="slider-3" max="100" min="0" type="range" value="0"/>
+<div class="flex justify-between mt-2 font-label-md text-[10px] text-on-surface-variant">
+<span>0</span>
+<span>50</span>
+<span>100</span>
+</div>
+</div>
+<div class="w-20">
+<input class="w-full text-center py-2 border border-outline-variant rounded-lg font-display-score text-headline-md text-primary outline-none focus:ring-2 focus:ring-primary-fixed" id="input-3" max="100" min="0" type="number" value="0"/>
+</div>
+</div>
+</div>
+</div>
+<!-- Summary Section -->
+<div class="bg-primary/5 rounded-xl border-2 border-dashed border-primary/20 p-8 flex flex-col items-center justify-center space-y-2">
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest">Total Skor Terhitung</p>
+<div class="flex items-baseline gap-2">
+<span class="font-display-score text-display-score text-primary" id="total-score">0.00</span>
+<span class="font-headline-sm text-headline-sm text-on-surface-variant">/ 100</span>
+</div>
+</div>
+<!-- Action Bar -->
+<div class="flex items-center justify-end gap-4 pb-12">
+<button class="px-8 py-3 rounded-lg border border-outline-variant bg-white text-on-surface font-label-md text-label-md hover:bg-surface-container transition-colors active:scale-95">
+                                Simpan Draft
+                            </button>
+<button class="px-10 py-3 rounded-lg bg-primary text-white font-label-md text-label-md shadow-lg shadow-primary/20 hover:bg-primary-container transition-all active:scale-95">
+                                Submit Nilai
+                            </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<script>
+        // Simple logic to sync sliders and inputs and calculate total
+        const sliders = document.querySelectorAll('input[type="range"]');
+        const inputs = document.querySelectorAll('input[type="number"]');
+        const totalDisplay = document.getElementById('total-score');
+
+        function calculateTotal() {
+            let total = 0;
+            sliders.forEach((slider, index) => {
+                const weight = parseFloat(slider.getAttribute('data-weight'));
+                const val = parseInt(slider.value);
+                total += (val * weight);
+            });
+            totalDisplay.textContent = total.toFixed(2);
+        }
+
+        sliders.forEach((slider, index) => {
+            const input = document.getElementById(`input-${index + 1}`);
+            slider.addEventListener('input', (e) => {
+                input.value = e.target.value;
+                calculateTotal();
+            });
+        });
+
+        inputs.forEach((input, index) => {
+            const slider = document.getElementById(`slider-${index + 1}`);
+            input.addEventListener('input', (e) => {
+                let val = parseInt(e.target.value);
+                if (isNaN(val)) val = 0;
+                if (val > 100) val = 100;
+                if (val < 0) val = 0;
+                slider.value = val;
+                calculateTotal();
+            });
+        });
+
+        // Micro interaction for buttons
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                if(this.innerText.includes('Submit')) {
+                    const score = totalDisplay.textContent;
+                    if(confirm(`Konfirmasi pengiriman nilai: ${score}?`)) {
+                        alert('Nilai berhasil dikirim!');
+                    }
+                }
+            });
+        });
+    </script>
+</body></html>

@@ -1,0 +1,170 @@
+@import 'tailwindcss';
+
+@import 'tw-animate-css';
+
+@source '../views';
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+    --font-sans:
+        'Inter', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
+        'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-heading:
+        'Geist', 'Inter', ui-sans-serif, system-ui, sans-serif;
+
+    --radius-lg: var(--radius);
+    --radius-md: calc(var(--radius) - 2px);
+    --radius-sm: calc(var(--radius) - 4px);
+
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+
+    --color-card: var(--card);
+    --color-card-foreground: var(--card-foreground);
+
+    --color-popover: var(--popover);
+    --color-popover-foreground: var(--popover-foreground);
+
+    --color-primary: var(--primary);
+    --color-primary-foreground: var(--primary-foreground);
+
+    --color-secondary: var(--secondary);
+    --color-secondary-foreground: var(--secondary-foreground);
+
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
+
+    --color-accent: var(--accent);
+    --color-accent-foreground: var(--accent-foreground);
+
+    --color-destructive: var(--destructive);
+    --color-destructive-foreground: var(--destructive-foreground);
+
+    --color-border: var(--border);
+    --color-input: var(--input);
+    --color-ring: var(--ring);
+
+    --color-chart-1: var(--chart-1);
+    --color-chart-2: var(--chart-2);
+    --color-chart-3: var(--chart-3);
+    --color-chart-4: var(--chart-4);
+    --color-chart-5: var(--chart-5);
+
+    --color-sidebar: var(--sidebar);
+    --color-sidebar-foreground: var(--sidebar-foreground);
+    --color-sidebar-primary: var(--sidebar-primary);
+    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+    --color-sidebar-accent: var(--sidebar-accent);
+    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+    --color-sidebar-border: var(--sidebar-border);
+    --color-sidebar-ring: var(--sidebar-ring);
+
+    /* SLC accent (amber/gold) — leaderboard & achievement highlights */
+    --color-gold: var(--gold);
+    --color-gold-foreground: var(--gold-foreground);
+    --color-gold-muted: var(--gold-muted);
+}
+
+/*
+ * Sedjati Scoring System palette (mockup/sedjati_scoring_system/DESIGN.md)
+ * Primary teal #00685f · Secondary amber #855300 · Surface #f5faf8
+ */
+:root {
+    --background: #f5faf8;
+    --foreground: #171d1c;
+    --card: #ffffff;
+    --card-foreground: #171d1c;
+    --popover: #ffffff;
+    --popover-foreground: #171d1c;
+    --primary: #00685f;
+    --primary-foreground: #ffffff;
+    --secondary: #eaefed;
+    --secondary-foreground: #171d1c;
+    --muted: #eaefed;
+    --muted-foreground: #3d4947;
+    --accent: #e6f2f0;
+    --accent-foreground: #00685f;
+    --destructive: #ba1a1a;
+    --destructive-foreground: #ffffff;
+    --border: #dee4e1;
+    --input: #bcc9c6;
+    --ring: #00685f;
+    --chart-1: #00685f;
+    --chart-2: #fea619;
+    --chart-3: #b05e3d;
+    --chart-4: #6bd8cb;
+    --chart-5: #855300;
+    --radius: 0.5rem;
+    --sidebar: #f5faf8;
+    --sidebar-foreground: #171d1c;
+    --sidebar-primary: #00685f;
+    --sidebar-primary-foreground: #ffffff;
+    --sidebar-accent: #e6f2f0;
+    --sidebar-accent-foreground: #00685f;
+    --sidebar-border: #dee4e1;
+    --sidebar-ring: #00685f;
+    --gold: #855300;
+    --gold-foreground: #ffffff;
+    --gold-muted: #ffddb8;
+}
+
+.dark {
+    --background: #101514;
+    --foreground: #dee4e1;
+    --card: #171d1c;
+    --card-foreground: #dee4e1;
+    --popover: #171d1c;
+    --popover-foreground: #dee4e1;
+    --primary: #6bd8cb;
+    --primary-foreground: #00201d;
+    --secondary: #252b2a;
+    --secondary-foreground: #dee4e1;
+    --muted: #252b2a;
+    --muted-foreground: #9ca8a5;
+    --accent: #14332f;
+    --accent-foreground: #6bd8cb;
+    --destructive: #ffb4ab;
+    --destructive-foreground: #690005;
+    --border: #2c3130;
+    --input: #3d4947;
+    --ring: #6bd8cb;
+    --chart-1: #6bd8cb;
+    --chart-2: #ffb95f;
+    --chart-3: #ffb59a;
+    --chart-4: #00685f;
+    --chart-5: #ffddb8;
+    --sidebar: #101514;
+    --sidebar-foreground: #dee4e1;
+    --sidebar-primary: #6bd8cb;
+    --sidebar-primary-foreground: #00201d;
+    --sidebar-accent: #14332f;
+    --sidebar-accent-foreground: #6bd8cb;
+    --sidebar-border: #2c3130;
+    --sidebar-ring: #6bd8cb;
+    --gold: #ffb95f;
+    --gold-foreground: #2a1700;
+    --gold-muted: #653e00;
+}
+
+@layer base {
+    * {
+        @apply border-border;
+    }
+
+    body {
+        @apply bg-background text-foreground;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+        font-family: var(--font-heading);
+    }
+}
+
+@utility numeric {
+    font-variant-numeric: tabular-nums;
+}
