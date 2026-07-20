@@ -70,13 +70,13 @@ export default function RoundsIndex({ rounds, totalWeight }: Props) {
             <div className="flex h-full flex-1 flex-col gap-6 p-4 md:p-6">
                 <div className="flex flex-wrap items-center justify-between gap-3">
                     <div>
-                        <h1 className="font-heading text-2xl font-semibold">
+                        <h1 className="font-heading text-2xl font-bold text-deep">
                             Manajemen Ronde
                         </h1>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-sm text-deep/70">
                             Total bobot ronde:{' '}
                             <span
-                                className={`numeric font-medium ${totalWeight === 100 ? 'text-primary' : 'text-destructive'}`}
+                                className={`numeric font-bold ${totalWeight === 100 ? 'text-leaf' : 'text-destructive'}`}
                             >
                                 {totalWeight}%
                             </span>{' '}
@@ -92,7 +92,7 @@ export default function RoundsIndex({ rounds, totalWeight }: Props) {
                 </div>
 
                 {rounds.length === 0 && (
-                    <div className="rounded-lg border border-dashed bg-card p-10 text-center text-muted-foreground">
+                    <div className="rounded-2xl border-2 border-dashed border-leaf/10 bg-white p-10 text-center text-deep/70">
                         Belum ada ronde. Tambahkan ronde perlombaan, misal:
                         Penyisihan, Semifinal, Final.
                     </div>
@@ -109,14 +109,14 @@ export default function RoundsIndex({ rounds, totalWeight }: Props) {
                             <Card key={round.id}>
                                 <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-3">
                                     <div className="flex items-center gap-3">
-                                        <span className="numeric flex size-9 items-center justify-center rounded-full bg-accent font-heading font-semibold text-accent-foreground">
+                                        <span className="numeric flex size-9 items-center justify-center rounded-full bg-leaf/10 font-heading font-bold text-leaf">
                                             {round.sequence}
                                         </span>
                                         <div>
                                             <CardTitle className="font-heading text-lg">
                                                 {round.name}
                                             </CardTitle>
-                                            <p className="text-sm text-muted-foreground">
+                                            <p className="text-sm text-deep/70">
                                                 Bobot ronde:{' '}
                                                 <span className="numeric">
                                                     {round.weight}%
@@ -188,7 +188,7 @@ export default function RoundsIndex({ rounds, totalWeight }: Props) {
                                 </CardHeader>
                                 <CardContent>
                                     <div className="mb-2 flex items-center justify-between">
-                                        <p className="text-xs font-semibold tracking-wider text-muted-foreground uppercase">
+                                        <p className="text-xs font-bold tracking-wider text-deep/70 uppercase">
                                             Kriteria Penilaian
                                         </p>
                                         <div className="flex items-center gap-2">
@@ -216,27 +216,27 @@ export default function RoundsIndex({ rounds, totalWeight }: Props) {
                                         </div>
                                     </div>
                                     {(round.criteria ?? []).length === 0 ? (
-                                        <p className="py-3 text-center text-sm text-muted-foreground">
+                                        <p className="py-3 text-center text-sm text-deep/70">
                                             Belum ada kriteria. Total bobot
                                             kriteria harus 100% sebelum ronde
                                             dapat diaktifkan.
                                         </p>
                                     ) : (
                                         <Table>
-                                            <TableHeader>
-                                                <TableRow>
-                                                    <TableHead>
+                                                    <TableHeader className="[&_tr:first-child]:overflow-hidden [&_tr:first-child]:rounded-t-xl">
+                                                <TableRow className="bg-butter">
+                                                    <TableHead className="font-bold text-deep/70">
                                                         Kriteria
                                                     </TableHead>
-                                                    <TableHead className="text-right">
+                                                    <TableHead className="text-right font-bold text-deep/70">
                                                         Bobot
                                                     </TableHead>
-                                                    <TableHead className="text-right">
+                                                    <TableHead className="text-right font-bold text-deep/70">
                                                         Rentang
                                                     </TableHead>
                                                     {round.status ===
                                                         'pending' && (
-                                                        <TableHead className="w-20 text-right">
+                                                        <TableHead className="w-20 text-right font-bold text-deep/70">
                                                             Aksi
                                                         </TableHead>
                                                     )}
@@ -249,16 +249,16 @@ export default function RoundsIndex({ rounds, totalWeight }: Props) {
                                                             key={criterion.id}
                                                         >
                                                             <TableCell>
-                                                                <p className="font-medium">
+                                                            <p className="font-bold">
+                                                                {
+                                                                    criterion.name
+                                                                }
+                                                            </p>
+                                                            {criterion.description && (
+                                                                <p className="text-xs text-deep/70">
                                                                     {
-                                                                        criterion.name
+                                                                        criterion.description
                                                                     }
-                                                                </p>
-                                                                {criterion.description && (
-                                                                    <p className="text-xs text-muted-foreground">
-                                                                        {
-                                                                            criterion.description
-                                                                        }
                                                                     </p>
                                                                 )}
                                                             </TableCell>
@@ -349,7 +349,7 @@ export default function RoundsIndex({ rounds, totalWeight }: Props) {
                         <DialogTitle>
                             {editingRound ? 'Edit Ronde' : 'Tambah Ronde'}
                         </DialogTitle>
-                        <DialogDescription>
+                        <DialogDescription className="text-deep/70">
                             Total bobot seluruh ronde harus 100% agar
                             perhitungan nilai akhir valid.
                         </DialogDescription>
@@ -453,7 +453,7 @@ export default function RoundsIndex({ rounds, totalWeight }: Props) {
                                 ? 'Edit Kriteria'
                                 : 'Tambah Kriteria'}
                         </DialogTitle>
-                        <DialogDescription>
+                        <DialogDescription className="text-deep/70">
                             Kriteria untuk ronde{' '}
                             <strong>{criterionRound?.name}</strong>. Total
                             bobot kriteria harus 100%.
@@ -630,7 +630,7 @@ export default function RoundsIndex({ rounds, totalWeight }: Props) {
                             {dialog?.mode === 'delete-round' &&
                                 'Hapus Ronde'}
                         </DialogTitle>
-                        <DialogDescription>
+                        <DialogDescription className="text-deep/70">
                             {dialog?.mode === 'activate' &&
                                 `Aktifkan ronde ${dialog.round.name}? Juri dapat mulai memberikan nilai pada ronde ini.`}
                             {dialog?.mode === 'lock' &&

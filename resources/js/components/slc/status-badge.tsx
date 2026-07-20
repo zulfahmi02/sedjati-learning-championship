@@ -1,4 +1,3 @@
-import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 
 type Status =
@@ -12,44 +11,51 @@ type Status =
     | 'published'
     | 'unpublished';
 
-const statusConfig: Record<Status, { label: string; className: string }> = {
+const statusConfig: Record<Status, { label: string; bg: string; text: string }> = {
     registered: {
         label: 'Terdaftar',
-        className:
-            'bg-gold-muted text-gold border-transparent dark:bg-gold-muted dark:text-gold',
+        bg: 'bg-sun/30',
+        text: 'text-deep',
     },
     scored: {
         label: 'Dinilai',
-        className: 'bg-accent text-accent-foreground border-transparent',
+        bg: 'bg-leaf/20',
+        text: 'text-leaf',
     },
     draft: {
         label: 'Draf',
-        className: 'bg-muted text-muted-foreground border-transparent',
+        bg: 'bg-butter',
+        text: 'text-ink/60',
     },
     submitted: {
         label: 'Terkirim',
-        className: 'bg-accent text-accent-foreground border-transparent',
+        bg: 'bg-leaf/20',
+        text: 'text-leaf',
     },
     pending: {
         label: 'Menunggu',
-        className: 'bg-muted text-muted-foreground border-transparent',
+        bg: 'bg-butter',
+        text: 'text-ink/60',
     },
     active: {
         label: 'Berlangsung',
-        className: 'bg-primary text-primary-foreground border-transparent',
+        bg: 'bg-leaf',
+        text: 'text-white',
     },
     locked: {
         label: 'Terkunci',
-        className:
-            'bg-destructive/10 text-destructive border-transparent dark:bg-destructive/20',
+        bg: 'bg-papaya/20',
+        text: 'text-papaya',
     },
     published: {
         label: 'Dipublikasikan',
-        className: 'bg-primary text-primary-foreground border-transparent',
+        bg: 'bg-leaf',
+        text: 'text-white',
     },
     unpublished: {
         label: 'Belum Dipublikasikan',
-        className: 'bg-muted text-muted-foreground border-transparent',
+        bg: 'bg-butter',
+        text: 'text-ink/60',
     },
 };
 
@@ -63,11 +69,15 @@ export function StatusBadge({
     const config = statusConfig[status];
 
     return (
-        <Badge
-            variant="outline"
-            className={cn('rounded-full px-3', config.className)}
+        <span
+            className={cn(
+                'inline-block rounded-full px-3.5 py-1 font-heading text-xs font-bold shadow-sm',
+                config.bg,
+                config.text,
+            )}
+            style={{ transform: `rotate(${status === 'active' || status === 'published' ? -2 : 1}deg)` }}
         >
             {label ?? config.label}
-        </Badge>
+        </span>
     );
 }

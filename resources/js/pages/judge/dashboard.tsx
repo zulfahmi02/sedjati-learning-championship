@@ -51,10 +51,10 @@ export default function JudgeDashboard({
             <div className="flex h-full flex-1 flex-col gap-6 p-4 md:p-6">
                 <div className="flex flex-wrap items-center justify-between gap-3">
                     <div>
-                        <h1 className="font-heading text-2xl font-semibold">
+                        <h1 className="font-heading text-2xl font-bold text-deep">
                             Dashboard Juri
                         </h1>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-sm text-deep/70">
                             {panel
                                 ? `Panel Anda: ${panel.name}`
                                 : 'Anda belum ditugaskan ke panel mana pun.'}
@@ -73,13 +73,13 @@ export default function JudgeDashboard({
                 </div>
 
                 {!panel && (
-                    <div className="rounded-lg border border-dashed bg-card p-10 text-center text-muted-foreground">
+                    <div className="rounded-2xl border-2 border-dashed border-leaf/10 bg-white p-10 text-center text-deep/70">
                         Hubungi administrator untuk penugasan panel Anda.
                     </div>
                 )}
 
                 {panel && !activeRound && (
-                    <div className="rounded-lg border border-dashed bg-card p-10 text-center text-muted-foreground">
+                    <div className="rounded-2xl border-2 border-dashed border-leaf/10 bg-white p-10 text-center text-deep/70">
                         Belum ada ronde yang berlangsung. Penilaian akan
                         terbuka saat administrator mengaktifkan ronde.
                     </div>
@@ -105,22 +105,22 @@ export default function JudgeDashboard({
                             />
                         </div>
 
-                        <div className="rounded-lg border bg-card">
+                        <div className="rounded-2xl border-2 border-leaf/10 bg-white">
                             <div className="border-b px-5 py-4">
-                                <h2 className="font-heading text-lg font-semibold">
+                                <h2 className="font-heading text-lg font-bold text-deep">
                                     Daftar Peserta — {activeRound.name}
                                 </h2>
                             </div>
                             <Table>
                                 <TableHeader>
-                                    <TableRow>
-                                        <TableHead className="w-24">
+                                    <TableRow className="bg-butter">
+                                        <TableHead className="w-24 font-bold text-deep/70">
                                             No.
                                         </TableHead>
-                                        <TableHead>Peserta</TableHead>
-                                        <TableHead>Institusi</TableHead>
-                                        <TableHead>Status</TableHead>
-                                        <TableHead className="w-28 text-right">
+                                        <TableHead className="font-bold text-deep/70">Peserta</TableHead>
+                                        <TableHead className="font-bold text-deep/70">Institusi</TableHead>
+                                        <TableHead className="font-bold text-deep/70">Status</TableHead>
+                                        <TableHead className="w-28 text-right font-bold text-deep/70">
                                             Aksi
                                         </TableHead>
                                     </TableRow>
@@ -128,7 +128,7 @@ export default function JudgeDashboard({
                                 <TableBody>
                                     {participants.map((participant) => (
                                         <TableRow key={participant.id}>
-                                            <TableCell className="numeric text-muted-foreground">
+                                            <TableCell className="numeric text-deep/70">
                                                 {
                                                     participant.participant_number
                                                 }
@@ -138,12 +138,12 @@ export default function JudgeDashboard({
                                                     <ParticipantAvatar
                                                         name={participant.name}
                                                     />
-                                                    <span className="font-medium">
+                                                    <span className="font-bold">
                                                         {participant.name}
                                                     </span>
                                                 </div>
                                             </TableCell>
-                                            <TableCell className="text-muted-foreground">
+                                            <TableCell className="text-deep/70">
                                                 {participant.institution ??
                                                     '—'}
                                             </TableCell>

@@ -13,14 +13,14 @@ export function DataTablePagination({
     }
 
     return (
-        <div className="flex items-center justify-between gap-4 border-t px-5 py-3">
-            <p className="text-sm text-muted-foreground">
+        <div className="flex items-center justify-between gap-4 border-t border-leaf/10 px-5 py-3">
+            <p className="text-sm font-semibold text-deep/60">
                 Menampilkan{' '}
-                <span className="numeric font-medium text-foreground">
+                <span className="numeric font-bold text-deep">
                     {paginator.from ?? 0}–{paginator.to ?? 0}
                 </span>{' '}
                 dari{' '}
-                <span className="numeric font-medium text-foreground">
+                <span className="numeric font-bold text-deep">
                     {paginator.total}
                 </span>{' '}
                 data
@@ -61,7 +61,7 @@ export function DataTablePagination({
                         return (
                             <span
                                 key={`${link.label}-${index}`}
-                                className="px-1 text-sm text-muted-foreground"
+                                className="px-1 text-sm font-semibold text-deep/60"
                             >
                                 …
                             </span>

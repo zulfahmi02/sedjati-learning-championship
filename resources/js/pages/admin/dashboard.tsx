@@ -82,10 +82,10 @@ export default function AdminDashboard({
             <div className="flex h-full flex-1 flex-col gap-6 p-4 md:p-6">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                     <div>
-                        <h1 className="font-heading text-2xl font-semibold">
+                        <h1 className="font-heading text-2xl font-bold text-deep">
                             Ringkasan Dashboard
                         </h1>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-sm font-semibold text-ink/70">
                             {activeRound
                                 ? `Ronde berlangsung: ${activeRound.name}`
                                 : 'Belum ada ronde yang berlangsung.'}
@@ -149,7 +149,7 @@ export default function AdminDashboard({
                         detail={
                             <div className="flex flex-col gap-1.5">
                                 <Progress value={stats.progress} />
-                                <span className="numeric">
+                                <span className="font-bold text-deep/70">
                                     {stats.submittedInRound}/
                                     {stats.participants} dinilai
                                 </span>
@@ -158,27 +158,33 @@ export default function AdminDashboard({
                     />
                 </div>
 
-                <div className="rounded-lg border bg-card">
-                    <div className="flex items-center justify-between border-b px-5 py-4">
-                        <h2 className="font-heading text-lg font-semibold">
+                <div className="rounded-2xl border-2 border-leaf/10 bg-white shadow-sm">
+                    <div className="flex items-center justify-between border-b border-leaf/10 px-5 py-4">
+                        <h2 className="font-heading text-lg font-bold text-deep">
                             Status Penilaian Panel
                         </h2>
-                        <span className="text-xs text-muted-foreground">
+                        <span className="text-xs font-bold text-deep/60">
                             Diperbarui otomatis setiap 10 detik
                         </span>
                     </div>
                     <Table>
                         <TableHeader>
-                            <TableRow>
-                                <TableHead>Nama Panel</TableHead>
-                                <TableHead>Juri</TableHead>
-                                <TableHead className="text-right">
+                            <TableRow className="bg-butter">
+                                <TableHead className="font-heading text-xs font-bold tracking-wider text-deep/70 uppercase">
+                                    Nama Panel
+                                </TableHead>
+                                <TableHead className="font-heading text-xs font-bold tracking-wider text-deep/70 uppercase">
+                                    Juri
+                                </TableHead>
+                                <TableHead className="text-right font-heading text-xs font-bold tracking-wider text-deep/70 uppercase">
                                     Peserta
                                 </TableHead>
-                                <TableHead className="text-right">
+                                <TableHead className="text-right font-heading text-xs font-bold tracking-wider text-deep/70 uppercase">
                                     Dinilai
                                 </TableHead>
-                                <TableHead>Status</TableHead>
+                                <TableHead className="font-heading text-xs font-bold tracking-wider text-deep/70 uppercase">
+                                    Status
+                                </TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
@@ -186,7 +192,7 @@ export default function AdminDashboard({
                                 <TableRow>
                                     <TableCell
                                         colSpan={5}
-                                        className="py-8 text-center text-muted-foreground"
+                                        className="py-8 text-center font-semibold text-deep/70"
                                     >
                                         Belum ada panel. Buat panel terlebih
                                         dahulu di menu Panel.
@@ -200,21 +206,21 @@ export default function AdminDashboard({
                                         panel.participants_count;
 
                                 return (
-                                    <TableRow key={panel.id}>
-                                        <TableCell className="font-medium">
+                                    <TableRow key={panel.id} className="hover:bg-butter/50">
+                                        <TableCell className="font-bold text-deep">
                                             {panel.name}
                                         </TableCell>
                                         <TableCell>
                                             {panel.judge ?? (
-                                                <span className="text-muted-foreground italic">
+                                                <span className="font-semibold italic text-deep/60">
                                                     Belum ada juri
                                                 </span>
                                             )}
                                         </TableCell>
-                                        <TableCell className="numeric text-right">
+                                        <TableCell className="text-right font-bold text-deep">
                                             {panel.participants_count}
                                         </TableCell>
-                                        <TableCell className="numeric text-right">
+                                        <TableCell className="text-right font-bold text-deep">
                                             {panel.scored_count}
                                         </TableCell>
                                         <TableCell>

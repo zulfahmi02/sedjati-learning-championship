@@ -137,10 +137,10 @@ export default function Scoring({
             <Head title={`Penilaian — ${participant.name}`} />
             <div className="flex h-full flex-1">
                 {/* Participant queue */}
-                <aside className="hidden w-72 shrink-0 flex-col border-r bg-card md:flex">
+                <aside className="hidden w-72 shrink-0 flex-col border-r bg-white md:flex">
                     <div className="border-b p-4">
                         <div className="relative">
-                            <Search className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
+                            <Search className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-deep/70" />
                             <Input
                                 value={search}
                                 onChange={(e) => setSearch(e.target.value)}
@@ -151,15 +151,15 @@ export default function Scoring({
                     </div>
                     <nav className="flex-1 space-y-1 overflow-y-auto p-3">
                         {filteredQueue.map((item) => (
-                            <Link
-                                key={item.id}
-                                href={scoring.show(item.id)}
-                                className={cn(
-                                    'flex items-center justify-between rounded-lg border p-3 transition-colors',
-                                    item.id === participant.id
-                                        ? 'border-primary bg-accent'
-                                        : 'border-transparent hover:bg-muted',
-                                )}
+                                <Link
+                                    key={item.id}
+                                    href={scoring.show(item.id)}
+                                    className={cn(
+                                        'flex items-center justify-between rounded-2xl border-2 border-leaf/10 p-3 transition-colors',
+                                        item.id === participant.id
+                                            ? 'border-leaf bg-leaf/10'
+                                            : 'border-transparent hover:bg-butter',
+                                    )}
                             >
                                 <div className="flex items-center gap-3">
                                     <ParticipantAvatar
@@ -167,10 +167,10 @@ export default function Scoring({
                                         className="size-8"
                                     />
                                     <div>
-                                        <p className="text-sm font-medium">
+                                        <p className="text-sm font-bold">
                                             {item.name}
                                         </p>
-                                        <p className="numeric text-xs text-muted-foreground">
+                                        <p className="numeric text-xs text-deep/70">
                                             {item.status === 'draft'
                                                 ? 'DRAF TERSIMPAN'
                                                 : item.participant_number}
@@ -178,7 +178,7 @@ export default function Scoring({
                                     </div>
                                 </div>
                                 {item.status === 'submitted' ? (
-                                    <span className="flex size-5 items-center justify-center rounded-full bg-primary text-primary-foreground">
+                                    <span className="flex size-5 items-center justify-center rounded-full bg-leaf text-white">
                                         <Check className="size-3" />
                                     </span>
                                 ) : (
@@ -186,7 +186,7 @@ export default function Scoring({
                                         className={cn(
                                             'size-5 rounded-full border-2',
                                             item.id === participant.id
-                                                ? 'border-primary'
+                                                ? 'border-leaf'
                                                 : 'border-border',
                                         )}
                                     />
@@ -212,13 +212,13 @@ export default function Scoring({
                                     <div className="flex flex-col items-center gap-1">
                                         <span
                                             className={cn(
-                                                'numeric flex size-8 items-center justify-center rounded-full border-2 text-sm font-semibold',
-                                                round.status === 'locked' &&
-                                                    'border-primary bg-primary text-primary-foreground',
-                                                round.status === 'active' &&
-                                                    'border-primary text-primary',
-                                                round.status === 'pending' &&
-                                                    'border-border text-muted-foreground',
+                                            'numeric flex size-8 items-center justify-center rounded-full border-2 text-sm font-bold',
+                                            round.status === 'locked' &&
+                                                'border-leaf bg-leaf text-white',
+                                            round.status === 'active' &&
+                                                'border-leaf text-leaf',
+                                            round.status === 'pending' &&
+                                                'border-border text-deep/70',
                                             )}
                                         >
                                             {round.status === 'locked' ? (
@@ -229,10 +229,10 @@ export default function Scoring({
                                         </span>
                                         <span
                                             className={cn(
-                                                'text-xs font-medium',
+                                                'text-xs font-bold',
                                                 round.status === 'active'
-                                                    ? 'text-primary'
-                                                    : 'text-muted-foreground',
+                                                    ? 'text-leaf'
+                                                    : 'text-deep/70',
                                             )}
                                         >
                                             {round.name}
@@ -250,11 +250,11 @@ export default function Scoring({
                                         name={participant.name}
                                         className="size-14"
                                     />
-                                    <div>
-                                        <h1 className="font-heading text-xl font-semibold">
-                                            {participant.name}
-                                        </h1>
-                                        <p className="text-sm text-muted-foreground">
+                    <div>
+                        <h1 className="font-heading text-xl font-bold text-deep">
+                            {participant.name}
+                        </h1>
+                        <p className="text-sm text-deep/70">
                                             {[
                                                 participant.participant_number,
                                                 participant.institution,
@@ -266,10 +266,10 @@ export default function Scoring({
                                 </div>
                                 {participant.category && (
                                     <div className="text-right">
-                                        <p className="text-xs font-semibold tracking-wider text-muted-foreground uppercase">
+                                        <p className="text-xs font-bold tracking-wider text-deep/70 uppercase">
                                             Kategori
                                         </p>
-                                        <p className="font-heading font-semibold text-primary">
+                                        <p className="font-heading font-bold text-leaf">
                                             {participant.category}
                                         </p>
                                     </div>
@@ -278,7 +278,7 @@ export default function Scoring({
                         </Card>
 
                         {submitted && (
-                            <div className="rounded-lg border border-primary/40 bg-accent p-4 text-center text-sm text-accent-foreground">
+                            <div className="rounded-2xl border-2 border-leaf/40 bg-leaf/10 p-4 text-center text-sm text-leaf">
                                 Nilai untuk peserta ini sudah dikirim dan tidak
                                 dapat diubah.
                             </div>
@@ -286,7 +286,7 @@ export default function Scoring({
 
                         {/* Criteria */}
                         <div className="space-y-4">
-                            <p className="text-xs font-semibold tracking-wider text-muted-foreground uppercase">
+                            <p className="text-xs font-bold tracking-wider text-deep/70 uppercase">
                                 Kriteria Penilaian — {activeRound.name}
                             </p>
                             {criteria.map((criterion) => {
@@ -297,11 +297,11 @@ export default function Scoring({
                                     <Card key={criterion.id}>
                                         <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
                                             <div>
-                                                <h3 className="font-heading text-lg font-semibold">
+                                                <h3 className="font-heading text-lg font-bold text-deep">
                                                     {criterion.name}
                                                 </h3>
                                                 {criterion.description && (
-                                                    <p className="text-sm text-muted-foreground">
+                                                    <p className="text-sm text-deep/70">
                                                         {
                                                             criterion.description
                                                         }
@@ -310,7 +310,7 @@ export default function Scoring({
                                             </div>
                                             <Badge
                                                 variant="outline"
-                                                className="numeric shrink-0 rounded-full bg-gold-muted text-gold"
+                                                className="numeric shrink-0 rounded-full bg-sun/20 text-papaya"
                                             >
                                                 Bobot {criterion.weight}%
                                             </Badge>
@@ -335,7 +335,7 @@ export default function Scoring({
                                                         })
                                                     }
                                                 />
-                                                <div className="numeric mt-2 flex justify-between text-xs text-muted-foreground">
+                                                <div className="numeric mt-2 flex justify-between text-xs text-deep/70">
                                                     <span>
                                                         {criterion.min_score}
                                                     </span>
@@ -392,14 +392,14 @@ export default function Scoring({
                         </div>
 
                         {/* Total & actions */}
-                        <div className="rounded-lg border-2 border-dashed border-primary/40 bg-accent/50 p-5 text-center">
-                            <p className="text-xs font-semibold tracking-wider text-muted-foreground uppercase">
+                        <div className="rounded-2xl border-2 border-dashed border-leaf/40 bg-leaf/50 p-5 text-center">
+                            <p className="text-xs font-bold tracking-wider text-deep/70 uppercase">
                                 Total Skor Terhitung
                             </p>
-                            <p className="numeric font-heading text-5xl font-bold text-primary">
+                            <p className="numeric font-heading text-5xl font-bold text-leaf">
                                 {totalScore.toFixed(2)}
                             </p>
-                            <p className="mt-1 text-xs text-muted-foreground">
+                            <p className="mt-1 text-xs text-deep/70">
                                 Skor berbobot dari {criteria.length} kriteria
                             </p>
                         </div>
@@ -431,7 +431,7 @@ export default function Scoring({
                 <DialogContent className="sm:max-w-md">
                     <DialogHeader>
                         <DialogTitle>Kirim Nilai Final</DialogTitle>
-                        <DialogDescription>
+                        <DialogDescription className="text-deep/70">
                             Kirim nilai untuk{' '}
                             <strong>{participant.name}</strong> dengan total
                             skor{' '}

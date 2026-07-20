@@ -9,7 +9,6 @@ import {
     Users,
     UsersRound,
 } from 'lucide-react';
-import AppLogo from '@/components/app-logo';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
 import {
@@ -102,7 +101,12 @@ export function AppSidebar() {
                     <SidebarMenuItem>
                         <SidebarMenuButton size="lg" asChild>
                             <Link href={dashboard()} prefetch>
-                                <AppLogo />
+                                <span className="flex size-6 items-center justify-center rounded-lg bg-leaf text-xs text-white">
+                                    🌿
+                                </span>
+                                <span className="font-heading text-base font-bold text-deep">
+                                    SLC
+                                </span>
                             </Link>
                         </SidebarMenuButton>
                     </SidebarMenuItem>

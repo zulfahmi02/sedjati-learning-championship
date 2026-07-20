@@ -87,10 +87,10 @@ export default function Monitoring({
             <div className="flex h-full flex-1 flex-col gap-6 p-4 md:p-6">
                 <div className="flex flex-wrap items-center justify-between gap-3">
                     <div>
-                        <h1 className="font-heading text-2xl font-semibold">
+                        <h1 className="font-heading text-2xl font-bold text-deep">
                             Monitoring Penilaian
                         </h1>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-sm text-deep/70">
                             Pantau progres penilaian per panel secara langsung.
                         </p>
                     </div>
@@ -190,7 +190,7 @@ export default function Monitoring({
                 </div>
 
                 {!selectedRound && (
-                    <div className="rounded-lg border border-dashed bg-card p-10 text-center text-muted-foreground">
+                    <div className="rounded-2xl border-2 border-dashed border-leaf/10 bg-white p-10 text-center text-deep/70">
                         Belum ada ronde. Buat ronde terlebih dahulu untuk mulai
                         memantau penilaian.
                     </div>
@@ -235,27 +235,27 @@ export default function Monitoring({
                             />
                         </div>
 
-                        <div className="rounded-lg border bg-card">
+                        <div className="rounded-2xl border-2 border-leaf/10 bg-white">
                             <div className="flex items-center justify-between border-b px-5 py-4">
-                                <h2 className="font-heading text-lg font-semibold">
+                                <h2 className="font-heading text-lg font-bold text-deep">
                                     Progres per Panel — {selectedRound.name}
                                 </h2>
-                                <span className="text-xs text-muted-foreground">
+                                <span className="text-xs text-deep/70">
                                     Diperbarui otomatis setiap 10 detik
                                 </span>
                             </div>
                             <Table>
                                 <TableHeader>
-                                    <TableRow>
-                                        <TableHead>Panel</TableHead>
-                                        <TableHead>Juri</TableHead>
-                                        <TableHead className="text-right">
+                                    <TableRow className="bg-butter">
+                                        <TableHead className="font-bold text-deep/70">Panel</TableHead>
+                                        <TableHead className="font-bold text-deep/70">Juri</TableHead>
+                                        <TableHead className="text-right font-bold text-deep/70">
                                             Dinilai
                                         </TableHead>
-                                        <TableHead className="w-56">
+                                        <TableHead className="w-56 font-bold text-deep/70">
                                             Progres
                                         </TableHead>
-                                        <TableHead>Status</TableHead>
+                                        <TableHead className="font-bold text-deep/70">Status</TableHead>
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
@@ -263,7 +263,7 @@ export default function Monitoring({
                                         <TableRow>
                                             <TableCell
                                                 colSpan={5}
-                                                className="py-8 text-center text-muted-foreground"
+                                                className="py-8 text-center text-deep/70"
                                             >
                                                 Belum ada panel.
                                             </TableCell>
@@ -281,7 +281,7 @@ export default function Monitoring({
 
                                         return (
                                             <TableRow key={row.id}>
-                                                <TableCell className="font-medium">
+                                                <TableCell className="font-bold">
                                                     {row.name}
                                                 </TableCell>
                                                 <TableCell>
@@ -300,7 +300,7 @@ export default function Monitoring({
                                                                 ' (nonaktif)'}
                                                         </span>
                                                     ) : (
-                                                        <span className="text-muted-foreground italic">
+                                                        <span className="italic text-deep/60">
                                                             Belum ada juri
                                                         </span>
                                                     )}
@@ -336,9 +336,9 @@ export default function Monitoring({
                         </div>
 
                         {totals.unscored > 0 && (
-                            <div className="rounded-lg border bg-card">
+                            <div className="rounded-2xl border-2 border-leaf/10 bg-white">
                                 <div className="border-b px-5 py-4">
-                                    <h2 className="font-heading text-lg font-semibold">
+                                    <h2 className="font-heading text-lg font-bold text-deep">
                                         Peserta Belum Dinilai
                                     </h2>
                                 </div>
@@ -348,7 +348,7 @@ export default function Monitoring({
                                             (participant) => (
                                                 <li
                                                     key={participant.id}
-                                                    className="flex items-center gap-3 rounded-lg p-2"
+                                                    className="flex items-center gap-3 rounded-2xl p-2"
                                                 >
                                                     <ParticipantAvatar
                                                         name={
@@ -357,10 +357,10 @@ export default function Monitoring({
                                                         className="size-8"
                                                     />
                                                     <div>
-                                                        <p className="text-sm font-medium">
+                                                        <p className="text-sm font-bold">
                                                             {participant.name}
                                                         </p>
-                                                        <p className="numeric text-xs text-muted-foreground">
+                                                        <p className="numeric text-xs text-deep/70">
                                                             {
                                                                 participant.participant_number
                                                             }{' '}

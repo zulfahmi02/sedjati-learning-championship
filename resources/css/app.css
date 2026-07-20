@@ -1,6 +1,5 @@
-@import 'tailwindcss';
-
-@import 'tw-animate-css';
+@import "tailwindcss";
+@import "tw-animate-css";
 
 @source '../views';
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
@@ -8,11 +7,9 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-    --font-sans:
-        'Inter', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
+    --font-sans: 'Nunito', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
         'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-    --font-heading:
-        'Geist', 'Inter', ui-sans-serif, system-ui, sans-serif;
+    --font-heading: 'Baloo 2', system-ui, sans-serif;
 
     --radius-lg: var(--radius);
     --radius-md: calc(var(--radius) - 2px);
@@ -61,91 +58,84 @@
     --color-sidebar-border: var(--sidebar-border);
     --color-sidebar-ring: var(--sidebar-ring);
 
-    /* SLC accent (amber/gold) — leaderboard & achievement highlights */
-    --color-gold: var(--gold);
-    --color-gold-foreground: var(--gold-foreground);
-    --color-gold-muted: var(--gold-muted);
+    --color-leaf: #4F9A46;
+    --color-butter: #FFF3D6;
+    --color-sun: #FFC93C;
+    --color-papaya: #FF8C42;
+    --color-deep: #2F4B2E;
+    --color-deep2: #2F5B2A;
+    --color-ink: #2A331F;
 }
 
-/*
- * Sedjati Scoring System palette (mockup/sedjati_scoring_system/DESIGN.md)
- * Primary teal #00685f · Secondary amber #855300 · Surface #f5faf8
- */
 :root {
-    --background: #f5faf8;
-    --foreground: #171d1c;
+    --background: #FFFDF6;
+    --foreground: #2A331F;
     --card: #ffffff;
-    --card-foreground: #171d1c;
+    --card-foreground: #2A331F;
     --popover: #ffffff;
-    --popover-foreground: #171d1c;
-    --primary: #00685f;
+    --popover-foreground: #2A331F;
+    --primary: #4F9A46;
     --primary-foreground: #ffffff;
-    --secondary: #eaefed;
-    --secondary-foreground: #171d1c;
-    --muted: #eaefed;
-    --muted-foreground: #3d4947;
-    --accent: #e6f2f0;
-    --accent-foreground: #00685f;
-    --destructive: #ba1a1a;
+    --secondary: #FFF3D6;
+    --secondary-foreground: #2A331F;
+    --muted: #FFF3D6;
+    --muted-foreground: #5A6B4A;
+    --accent: #E8F5E0;
+    --accent-foreground: #2F4B2E;
+    --destructive: #BA1A1A;
     --destructive-foreground: #ffffff;
-    --border: #dee4e1;
-    --input: #bcc9c6;
-    --ring: #00685f;
-    --chart-1: #00685f;
-    --chart-2: #fea619;
-    --chart-3: #b05e3d;
-    --chart-4: #6bd8cb;
-    --chart-5: #855300;
-    --radius: 0.5rem;
-    --sidebar: #f5faf8;
-    --sidebar-foreground: #171d1c;
-    --sidebar-primary: #00685f;
+    --border: #E0E8D8;
+    --input: #C8D4BC;
+    --ring: #4F9A46;
+    --chart-1: #4F9A46;
+    --chart-2: #FFC93C;
+    --chart-3: #FF8C42;
+    --chart-4: #2F4B2E;
+    --chart-5: #FFF3D6;
+    --radius: 0.75rem;
+    --sidebar: #FFFDF6;
+    --sidebar-foreground: #2A331F;
+    --sidebar-primary: #4F9A46;
     --sidebar-primary-foreground: #ffffff;
-    --sidebar-accent: #e6f2f0;
-    --sidebar-accent-foreground: #00685f;
-    --sidebar-border: #dee4e1;
-    --sidebar-ring: #00685f;
-    --gold: #855300;
-    --gold-foreground: #ffffff;
-    --gold-muted: #ffddb8;
+    --sidebar-accent: #E8F5E0;
+    --sidebar-accent-foreground: #2F4B2E;
+    --sidebar-border: #E0E8D8;
+    --sidebar-ring: #4F9A46;
 }
 
 .dark {
-    --background: #101514;
-    --foreground: #dee4e1;
-    --card: #171d1c;
-    --card-foreground: #dee4e1;
-    --popover: #171d1c;
-    --popover-foreground: #dee4e1;
-    --primary: #6bd8cb;
-    --primary-foreground: #00201d;
-    --secondary: #252b2a;
-    --secondary-foreground: #dee4e1;
-    --muted: #252b2a;
-    --muted-foreground: #9ca8a5;
-    --accent: #14332f;
-    --accent-foreground: #6bd8cb;
-    --destructive: #ffb4ab;
+    --background: #1A2618;
+    --foreground: #E0E8D8;
+    --card: #2A331F;
+    --card-foreground: #E0E8D8;
+    --popover: #2A331F;
+    --popover-foreground: #E0E8D8;
+    --primary: #6BC862;
+    --primary-foreground: #1A2618;
+    --secondary: #2F4B2E;
+    --secondary-foreground: #E0E8D8;
+    --muted: #2F4B2E;
+    --muted-foreground: #9AB58A;
+    --accent: #1E3A1C;
+    --accent-foreground: #6BC862;
+    --destructive: #FFB4AB;
     --destructive-foreground: #690005;
-    --border: #2c3130;
-    --input: #3d4947;
-    --ring: #6bd8cb;
-    --chart-1: #6bd8cb;
-    --chart-2: #ffb95f;
-    --chart-3: #ffb59a;
-    --chart-4: #00685f;
-    --chart-5: #ffddb8;
-    --sidebar: #101514;
-    --sidebar-foreground: #dee4e1;
-    --sidebar-primary: #6bd8cb;
-    --sidebar-primary-foreground: #00201d;
-    --sidebar-accent: #14332f;
-    --sidebar-accent-foreground: #6bd8cb;
-    --sidebar-border: #2c3130;
-    --sidebar-ring: #6bd8cb;
-    --gold: #ffb95f;
-    --gold-foreground: #2a1700;
-    --gold-muted: #653e00;
+    --border: #3A5230;
+    --input: #4A6840;
+    --ring: #6BC862;
+    --chart-1: #6BC862;
+    --chart-2: #FFC93C;
+    --chart-3: #FF8C42;
+    --chart-4: #4F9A46;
+    --chart-5: #FFF3D6;
+    --sidebar: #1A2618;
+    --sidebar-foreground: #E0E8D8;
+    --sidebar-primary: #6BC862;
+    --sidebar-primary-foreground: #1A2618;
+    --sidebar-accent: #1E3A1C;
+    --sidebar-accent-foreground: #6BC862;
+    --sidebar-border: #3A5230;
+    --sidebar-ring: #6BC862;
 }
 
 @layer base {
@@ -155,6 +145,7 @@
 
     body {
         @apply bg-background text-foreground;
+        font-family: var(--font-sans);
     }
 
     h1,
@@ -167,4 +158,12 @@
 
 @utility numeric {
     font-variant-numeric: tabular-nums;
+}
+
+@utility blob {
+    position: absolute;
+    border-radius: 58% 42% 55% 45% / 50% 55% 45% 50%;
+    filter: blur(2px);
+    opacity: 0.5;
+    pointer-events: none;
 }
