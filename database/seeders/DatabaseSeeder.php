@@ -16,10 +16,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()->admin()->create([
-            'name' => 'Administrator',
-            'email' => 'admin@slc.test',
-        ]);
+        if (! User::where('email', 'admin@slc.test')->exists()) {
+            User::factory()->admin()->create([
+                'name' => 'Administrator',
+                'email' => 'admin@slc.test',
+            ]);
+        }
 
         EventSetting::current();
     }
