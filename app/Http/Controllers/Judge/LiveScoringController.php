@@ -94,7 +94,10 @@ class LiveScoringController extends Controller
     public function increment(Request $request, Participant $participant): RedirectResponse
     {
         $judge = $request->user();
-        $activeRound = Round::with('criteria')->active();
+        $activeRound = Round::active();
+        if ($activeRound) {
+            $activeRound->load('criteria');
+        }
 
         if (! $activeRound) {
             return back()->with('error', 'Tidak ada ronde aktif.');
