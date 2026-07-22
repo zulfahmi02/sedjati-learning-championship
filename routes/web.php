@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\Reports\ScoreRecapExportController;
 use App\Http\Controllers\Admin\RoundController;
 use App\Http\Controllers\Admin\RoundStatusController;
 use App\Http\Controllers\Judge\DashboardController as JudgeDashboardController;
+use App\Http\Controllers\Judge\LiveScoringController;
 use App\Http\Controllers\Judge\ScoringController;
 use App\Http\Controllers\Judge\SubmitScoreSheetController;
 use App\Http\Controllers\LeaderboardController;
@@ -105,6 +106,10 @@ Route::middleware(['auth', 'role:juri'])
         Route::get('penilaian/{participant}', [ScoringController::class, 'show'])->name('scoring.show');
         Route::put('penilaian/{participant}', [ScoringController::class, 'update'])->name('scoring.update');
         Route::post('penilaian/{participant}/submit', [SubmitScoreSheetController::class, 'store'])->name('scoring.submit');
+
+        // Fitur Live Scoring Baru
+        Route::get('live-scoring', [LiveScoringController::class, 'index'])->name('live-scoring.index');
+        Route::post('live-scoring/{participant}/increment', [LiveScoringController::class, 'increment'])->name('live-scoring.increment');
     });
 
 require __DIR__.'/settings.php';
