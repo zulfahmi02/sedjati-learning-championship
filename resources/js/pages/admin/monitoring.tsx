@@ -207,8 +207,8 @@ export default function Monitoring({
                                     <div className="flex flex-col gap-1.5">
                                         <Progress value={progress} />
                                         <span className="numeric">
-                                            {totals.submitted}/
-                                            {totals.expected} penilaian
+                                            {totals.submitted}/{totals.expected}{' '}
+                                            penilaian
                                         </span>
                                     </div>
                                 }
@@ -247,15 +247,21 @@ export default function Monitoring({
                             <Table>
                                 <TableHeader>
                                     <TableRow className="bg-butter">
-                                        <TableHead className="font-bold text-deep/70">Panel</TableHead>
-                                        <TableHead className="font-bold text-deep/70">Juri</TableHead>
+                                        <TableHead className="font-bold text-deep/70">
+                                            Panel
+                                        </TableHead>
+                                        <TableHead className="font-bold text-deep/70">
+                                            Juri
+                                        </TableHead>
                                         <TableHead className="text-right font-bold text-deep/70">
                                             Dinilai
                                         </TableHead>
                                         <TableHead className="w-56 font-bold text-deep/70">
                                             Progres
                                         </TableHead>
-                                        <TableHead className="font-bold text-deep/70">Status</TableHead>
+                                        <TableHead className="font-bold text-deep/70">
+                                            Status
+                                        </TableHead>
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
@@ -300,12 +306,12 @@ export default function Monitoring({
                                                                 ' (nonaktif)'}
                                                         </span>
                                                     ) : (
-                                                        <span className="italic text-deep/60">
+                                                        <span className="text-deep/60 italic">
                                                             Belum ada juri
                                                         </span>
                                                     )}
                                                 </TableCell>
-                                                <TableCell className="numeric text-right">
+                                                <TableCell className="text-right numeric">
                                                     {row.submitted}/
                                                     {row.expected}
                                                 </TableCell>
@@ -351,16 +357,14 @@ export default function Monitoring({
                                                     className="flex items-center gap-3 rounded-2xl p-2"
                                                 >
                                                     <ParticipantAvatar
-                                                        name={
-                                                            participant.name
-                                                        }
+                                                        name={participant.name}
                                                         className="size-8"
                                                     />
                                                     <div>
                                                         <p className="text-sm font-bold">
                                                             {participant.name}
                                                         </p>
-                                                        <p className="numeric text-xs text-deep/70">
+                                                        <p className="text-xs text-deep/70 numeric">
                                                             {
                                                                 participant.participant_number
                                                             }{' '}

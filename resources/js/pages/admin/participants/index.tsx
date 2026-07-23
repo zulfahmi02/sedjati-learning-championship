@@ -32,9 +32,7 @@ import {
     TableRow,
 } from '@/components/ui/table';
 import { Textarea } from '@/components/ui/textarea';
-import participantRoutes, {
-    importMethod,
-} from '@/routes/admin/participants';
+import participantRoutes, { importMethod } from '@/routes/admin/participants';
 import { index as participantsIndex } from '@/routes/admin/participants';
 import type { Paginated, Panel, Participant } from '@/types';
 
@@ -104,11 +102,11 @@ export default function ParticipantsIndex({
                         </h1>
                         <p className="text-sm text-deep/70">
                             Total{' '}
-                            <span className="numeric font-bold text-deep">
+                            <span className="font-bold text-deep numeric">
                                 {stats.total}
                             </span>{' '}
                             peserta · Tingkat penilaian{' '}
-                            <span className="numeric font-bold text-deep">
+                            <span className="font-bold text-deep numeric">
                                 {completionRate}%
                             </span>
                         </p>
@@ -194,11 +192,21 @@ export default function ParticipantsIndex({
                     <Table>
                         <TableHeader>
                             <TableRow className="bg-butter">
-                                <TableHead className="w-16 font-bold text-deep/70">No.</TableHead>
-                                <TableHead className="font-bold text-deep/70">Nama Peserta</TableHead>
-                                <TableHead className="font-bold text-deep/70">Panel</TableHead>
-                                <TableHead className="font-bold text-deep/70">Institusi</TableHead>
-                                <TableHead className="font-bold text-deep/70">Status</TableHead>
+                                <TableHead className="w-16 font-bold text-deep/70">
+                                    No.
+                                </TableHead>
+                                <TableHead className="font-bold text-deep/70">
+                                    Nama Peserta
+                                </TableHead>
+                                <TableHead className="font-bold text-deep/70">
+                                    Panel
+                                </TableHead>
+                                <TableHead className="font-bold text-deep/70">
+                                    Institusi
+                                </TableHead>
+                                <TableHead className="font-bold text-deep/70">
+                                    Status
+                                </TableHead>
                                 <TableHead className="w-24 text-right font-bold text-deep/70">
                                     Aksi
                                 </TableHead>
@@ -217,7 +225,7 @@ export default function ParticipantsIndex({
                             )}
                             {participants.data.map((participant) => (
                                 <TableRow key={participant.id}>
-                                    <TableCell className="numeric text-deep/70">
+                                    <TableCell className="text-deep/70 numeric">
                                         {participant.participant_number}
                                     </TableCell>
                                     <TableCell>
@@ -232,7 +240,7 @@ export default function ParticipantsIndex({
                                     </TableCell>
                                     <TableCell>
                                         {participant.panels?.[0]?.name ?? (
-                                            <span className="italic text-deep/60">
+                                            <span className="text-deep/60 italic">
                                                 Belum ditugaskan
                                             </span>
                                         )}
@@ -328,9 +336,7 @@ export default function ParticipantsIndex({
                                             required
                                         />
                                         <InputError
-                                            message={
-                                                errors.participant_number
-                                            }
+                                            message={errors.participant_number}
                                         />
                                     </div>
                                     <div className="grid gap-2">
@@ -374,9 +380,7 @@ export default function ParticipantsIndex({
                                             }
                                             placeholder="Mis. Public Speaking"
                                         />
-                                        <InputError
-                                            message={errors.category}
-                                        />
+                                        <InputError message={errors.category} />
                                     </div>
                                 </div>
                                 <div className="grid gap-2">
@@ -429,10 +433,7 @@ export default function ParticipantsIndex({
                                     >
                                         Batal
                                     </Button>
-                                    <Button
-                                        type="submit"
-                                        disabled={processing}
-                                    >
+                                    <Button type="submit" disabled={processing}>
                                         {editing ? 'Simpan' : 'Tambah'}
                                     </Button>
                                 </DialogFooter>
@@ -483,10 +484,7 @@ export default function ParticipantsIndex({
                                     >
                                         Batal
                                     </Button>
-                                    <Button
-                                        type="submit"
-                                        disabled={processing}
-                                    >
+                                    <Button type="submit" disabled={processing}>
                                         Import
                                     </Button>
                                 </DialogFooter>

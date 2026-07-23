@@ -5,12 +5,7 @@ import InputError from '@/components/input-error';
 import { StatusBadge } from '@/components/slc/status-badge';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import {
-    Card,
-    CardContent,
-    CardHeader,
-    CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
     Dialog,
     DialogContent,
@@ -54,13 +49,11 @@ export default function RoundsIndex({ rounds, totalWeight }: Props) {
         | null
     >(null);
 
-    const editingRound =
-        dialog?.mode === 'edit-round' ? dialog.round : null;
+    const editingRound = dialog?.mode === 'edit-round' ? dialog.round : null;
     const editingCriterion =
         dialog?.mode === 'edit-criterion' ? dialog.criterion : null;
     const criterionRound =
-        dialog?.mode === 'create-criterion' ||
-        dialog?.mode === 'edit-criterion'
+        dialog?.mode === 'create-criterion' || dialog?.mode === 'edit-criterion'
             ? dialog.round
             : null;
 
@@ -76,16 +69,14 @@ export default function RoundsIndex({ rounds, totalWeight }: Props) {
                         <p className="text-sm text-deep/70">
                             Total bobot ronde:{' '}
                             <span
-                                className={`numeric font-bold ${totalWeight === 100 ? 'text-leaf' : 'text-destructive'}`}
+                                className={`font-bold numeric ${totalWeight === 100 ? 'text-leaf' : 'text-destructive'}`}
                             >
                                 {totalWeight}%
                             </span>{' '}
                             {totalWeight !== 100 && '(harus 100%)'}
                         </p>
                     </div>
-                    <Button
-                        onClick={() => setDialog({ mode: 'create-round' })}
-                    >
+                    <Button onClick={() => setDialog({ mode: 'create-round' })}>
                         <Plus className="size-4" />
                         Tambah Ronde
                     </Button>
@@ -109,7 +100,7 @@ export default function RoundsIndex({ rounds, totalWeight }: Props) {
                             <Card key={round.id}>
                                 <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-3">
                                     <div className="flex items-center gap-3">
-                                        <span className="numeric flex size-9 items-center justify-center rounded-full bg-leaf/10 font-heading font-bold text-leaf">
+                                        <span className="flex size-9 items-center justify-center rounded-full bg-leaf/10 font-heading font-bold text-leaf numeric">
                                             {round.sequence}
                                         </span>
                                         <div>
@@ -194,7 +185,7 @@ export default function RoundsIndex({ rounds, totalWeight }: Props) {
                                         <div className="flex items-center gap-2">
                                             <Badge
                                                 variant="outline"
-                                                className={`numeric rounded-full ${criteriaWeight === 100 ? '' : 'border-destructive text-destructive'}`}
+                                                className={`rounded-full numeric ${criteriaWeight === 100 ? '' : 'border-destructive text-destructive'}`}
                                             >
                                                 Σ bobot: {criteriaWeight}%
                                             </Badge>
@@ -223,7 +214,7 @@ export default function RoundsIndex({ rounds, totalWeight }: Props) {
                                         </p>
                                     ) : (
                                         <Table>
-                                                    <TableHeader className="[&_tr:first-child]:overflow-hidden [&_tr:first-child]:rounded-t-xl">
+                                            <TableHeader className="[&_tr:first-child]:overflow-hidden [&_tr:first-child]:rounded-t-xl">
                                                 <TableRow className="bg-butter">
                                                     <TableHead className="font-bold text-deep/70">
                                                         Kriteria
@@ -249,26 +240,26 @@ export default function RoundsIndex({ rounds, totalWeight }: Props) {
                                                             key={criterion.id}
                                                         >
                                                             <TableCell>
-                                                            <p className="font-bold">
-                                                                {
-                                                                    criterion.name
-                                                                }
-                                                            </p>
-                                                            {criterion.description && (
-                                                                <p className="text-xs text-deep/70">
+                                                                <p className="font-bold">
                                                                     {
-                                                                        criterion.description
+                                                                        criterion.name
                                                                     }
+                                                                </p>
+                                                                {criterion.description && (
+                                                                    <p className="text-xs text-deep/70">
+                                                                        {
+                                                                            criterion.description
+                                                                        }
                                                                     </p>
                                                                 )}
                                                             </TableCell>
-                                                            <TableCell className="numeric text-right">
+                                                            <TableCell className="text-right numeric">
                                                                 {
                                                                     criterion.weight
                                                                 }
                                                                 %
                                                             </TableCell>
-                                                            <TableCell className="numeric text-right">
+                                                            <TableCell className="text-right numeric">
                                                                 {
                                                                     criterion.min_score
                                                                 }
@@ -312,8 +303,7 @@ export default function RoundsIndex({ rounds, totalWeight }: Props) {
                                                                                     )
                                                                                         .url,
                                                                                     {
-                                                                                        preserveScroll:
-                                                                                            true,
+                                                                                        preserveScroll: true,
                                                                                     },
                                                                                 )
                                                                             }
@@ -393,9 +383,7 @@ export default function RoundsIndex({ rounds, totalWeight }: Props) {
                                             }
                                             required
                                         />
-                                        <InputError
-                                            message={errors.sequence}
-                                        />
+                                        <InputError message={errors.sequence} />
                                     </div>
                                     <div className="grid gap-2">
                                         <Label htmlFor="round-weight">
@@ -407,14 +395,10 @@ export default function RoundsIndex({ rounds, totalWeight }: Props) {
                                             type="number"
                                             min={1}
                                             max={100}
-                                            defaultValue={
-                                                editingRound?.weight
-                                            }
+                                            defaultValue={editingRound?.weight}
                                             required
                                         />
-                                        <InputError
-                                            message={errors.weight}
-                                        />
+                                        <InputError message={errors.weight} />
                                     </div>
                                 </div>
                                 <DialogFooter>
@@ -425,10 +409,7 @@ export default function RoundsIndex({ rounds, totalWeight }: Props) {
                                     >
                                         Batal
                                     </Button>
-                                    <Button
-                                        type="submit"
-                                        disabled={processing}
-                                    >
+                                    <Button type="submit" disabled={processing}>
                                         {editingRound ? 'Simpan' : 'Tambah'}
                                     </Button>
                                 </DialogFooter>
@@ -455,8 +436,8 @@ export default function RoundsIndex({ rounds, totalWeight }: Props) {
                         </DialogTitle>
                         <DialogDescription className="text-deep/70">
                             Kriteria untuk ronde{' '}
-                            <strong>{criterionRound?.name}</strong>. Total
-                            bobot kriteria harus 100%.
+                            <strong>{criterionRound?.name}</strong>. Total bobot
+                            kriteria harus 100%.
                         </DialogDescription>
                     </DialogHeader>
                     {criterionRound && (
@@ -627,8 +608,7 @@ export default function RoundsIndex({ rounds, totalWeight }: Props) {
                         <DialogTitle>
                             {dialog?.mode === 'activate' && 'Aktifkan Ronde'}
                             {dialog?.mode === 'lock' && 'Kunci Ronde'}
-                            {dialog?.mode === 'delete-round' &&
-                                'Hapus Ronde'}
+                            {dialog?.mode === 'delete-round' && 'Hapus Ronde'}
                         </DialogTitle>
                         <DialogDescription className="text-deep/70">
                             {dialog?.mode === 'activate' &&
@@ -655,8 +635,8 @@ export default function RoundsIndex({ rounds, totalWeight }: Props) {
                             }
                             onClick={() => {
                                 if (!dialog) {
-return;
-}
+                                    return;
+                                }
 
                                 if (dialog.mode === 'delete-round') {
                                     router.delete(

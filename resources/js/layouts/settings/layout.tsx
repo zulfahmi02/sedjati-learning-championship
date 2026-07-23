@@ -51,7 +51,9 @@ export default function SettingsLayout({ children }: PropsWithChildren) {
                                 variant="ghost"
                                 asChild
                                 className={cn('w-full justify-start', {
-                                    'bg-butter font-bold': isCurrentOrParentUrl(item.href),
+                                    'bg-butter font-bold': isCurrentOrParentUrl(
+                                        item.href,
+                                    ),
                                 })}
                             >
                                 <Link href={item.href}>

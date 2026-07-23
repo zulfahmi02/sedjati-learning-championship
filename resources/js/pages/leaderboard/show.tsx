@@ -106,6 +106,7 @@ export default function LeaderboardShow({
                         'bg-papaya/10',
                     ];
                     const ci = i % 3;
+
                     return (
                         <div
                             key={entry.round.id}
@@ -129,8 +130,7 @@ export default function LeaderboardShow({
                                                       ? '#FF8C42'
                                                       : '#FFF3D6',
                                             color:
-                                                entry.round.status ===
-                                                    'pending'
+                                                entry.round.status === 'pending'
                                                     ? '#2A331F'
                                                     : '#ffffff',
                                             transform: 'rotate(1deg)',

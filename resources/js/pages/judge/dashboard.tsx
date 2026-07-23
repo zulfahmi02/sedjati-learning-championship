@@ -80,8 +80,8 @@ export default function JudgeDashboard({
 
                 {panel && !activeRound && (
                     <div className="rounded-2xl border-2 border-dashed border-leaf/10 bg-white p-10 text-center text-deep/70">
-                        Belum ada ronde yang berlangsung. Penilaian akan
-                        terbuka saat administrator mengaktifkan ronde.
+                        Belum ada ronde yang berlangsung. Penilaian akan terbuka
+                        saat administrator mengaktifkan ronde.
                     </div>
                 )}
 
@@ -117,9 +117,15 @@ export default function JudgeDashboard({
                                         <TableHead className="w-24 font-bold text-deep/70">
                                             No.
                                         </TableHead>
-                                        <TableHead className="font-bold text-deep/70">Peserta</TableHead>
-                                        <TableHead className="font-bold text-deep/70">Institusi</TableHead>
-                                        <TableHead className="font-bold text-deep/70">Status</TableHead>
+                                        <TableHead className="font-bold text-deep/70">
+                                            Peserta
+                                        </TableHead>
+                                        <TableHead className="font-bold text-deep/70">
+                                            Institusi
+                                        </TableHead>
+                                        <TableHead className="font-bold text-deep/70">
+                                            Status
+                                        </TableHead>
                                         <TableHead className="w-28 text-right font-bold text-deep/70">
                                             Aksi
                                         </TableHead>
@@ -128,10 +134,8 @@ export default function JudgeDashboard({
                                 <TableBody>
                                     {participants.map((participant) => (
                                         <TableRow key={participant.id}>
-                                            <TableCell className="numeric text-deep/70">
-                                                {
-                                                    participant.participant_number
-                                                }
+                                            <TableCell className="text-deep/70 numeric">
+                                                {participant.participant_number}
                                             </TableCell>
                                             <TableCell>
                                                 <div className="flex items-center gap-3">
@@ -144,8 +148,7 @@ export default function JudgeDashboard({
                                                 </div>
                                             </TableCell>
                                             <TableCell className="text-deep/70">
-                                                {participant.institution ??
-                                                    '—'}
+                                                {participant.institution ?? '—'}
                                             </TableCell>
                                             <TableCell>
                                                 <StatusBadge

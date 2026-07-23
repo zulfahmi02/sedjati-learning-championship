@@ -1,5 +1,11 @@
 import { Head, router, usePoll } from '@inertiajs/react';
-import { ExternalLink, Gavel, LayoutGrid, TrendingUp, Users } from 'lucide-react';
+import {
+    ExternalLink,
+    Gavel,
+    LayoutGrid,
+    TrendingUp,
+    Users,
+} from 'lucide-react';
 import { useState } from 'react';
 import { StatCard } from '@/components/slc/stat-card';
 import { StatusBadge } from '@/components/slc/status-badge';
@@ -110,9 +116,7 @@ export default function AdminDashboard({
                             </Button>
                         )}
                         <Button
-                            variant={
-                                resultsPublished ? 'outline' : 'default'
-                            }
+                            variant={resultsPublished ? 'outline' : 'default'}
                             size="sm"
                             onClick={() => setConfirmPublish(true)}
                         >
@@ -206,13 +210,16 @@ export default function AdminDashboard({
                                         panel.participants_count;
 
                                 return (
-                                    <TableRow key={panel.id} className="hover:bg-butter/50">
+                                    <TableRow
+                                        key={panel.id}
+                                        className="hover:bg-butter/50"
+                                    >
                                         <TableCell className="font-bold text-deep">
                                             {panel.name}
                                         </TableCell>
                                         <TableCell>
                                             {panel.judge ?? (
-                                                <span className="font-semibold italic text-deep/60">
+                                                <span className="font-semibold text-deep/60 italic">
                                                     Belum ada juri
                                                 </span>
                                             )}

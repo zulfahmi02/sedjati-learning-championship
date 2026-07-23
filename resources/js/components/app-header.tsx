@@ -34,8 +34,7 @@ type Props = {
     breadcrumbs?: BreadcrumbItem[];
 };
 
-const activeItemStyles =
-    'bg-butter text-deep dark:bg-deep/30 dark:text-white';
+const activeItemStyles = 'bg-butter text-deep dark:bg-deep/30 dark:text-white';
 
 export function AppHeader({ breadcrumbs = [] }: Props) {
     const page = usePage();
@@ -153,7 +152,7 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
                                             src={auth.user.avatar}
                                             alt={auth.user.name}
                                         />
-                                        <AvatarFallback className="rounded-xl bg-butter text-deep font-bold">
+                                        <AvatarFallback className="rounded-xl bg-butter font-bold text-deep">
                                             {getInitials(auth.user.name)}
                                         </AvatarFallback>
                                     </Avatar>

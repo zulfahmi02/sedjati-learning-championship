@@ -105,10 +105,18 @@ export default function JudgesIndex({ judges, filters }: Props) {
                     <Table>
                         <TableHeader>
                             <TableRow className="bg-butter">
-                                <TableHead className="font-bold text-deep/70">Nama</TableHead>
-                                <TableHead className="font-bold text-deep/70">Email</TableHead>
-                                <TableHead className="font-bold text-deep/70">Panel</TableHead>
-                                <TableHead className="font-bold text-deep/70">Status</TableHead>
+                                <TableHead className="font-bold text-deep/70">
+                                    Nama
+                                </TableHead>
+                                <TableHead className="font-bold text-deep/70">
+                                    Email
+                                </TableHead>
+                                <TableHead className="font-bold text-deep/70">
+                                    Panel
+                                </TableHead>
+                                <TableHead className="font-bold text-deep/70">
+                                    Status
+                                </TableHead>
                                 <TableHead className="w-28 text-right font-bold text-deep/70">
                                     Aksi
                                 </TableHead>
@@ -142,7 +150,7 @@ export default function JudgesIndex({ judges, filters }: Props) {
                                     </TableCell>
                                     <TableCell>
                                         {judge.panel?.name ?? (
-                                            <span className="italic text-deep/60">
+                                            <span className="text-deep/60 italic">
                                                 Belum ada panel
                                             </span>
                                         )}
@@ -266,10 +274,7 @@ export default function JudgesIndex({ judges, filters }: Props) {
                                     >
                                         Batal
                                     </Button>
-                                    <Button
-                                        type="submit"
-                                        disabled={processing}
-                                    >
+                                    <Button type="submit" disabled={processing}>
                                         Tambah
                                     </Button>
                                 </DialogFooter>
@@ -335,8 +340,8 @@ export default function JudgesIndex({ judges, filters }: Props) {
                                                 Akun Aktif
                                             </p>
                                             <p className="text-xs text-deep/70">
-                                                Juri nonaktif tidak dapat
-                                                masuk ke sistem.
+                                                Juri nonaktif tidak dapat masuk
+                                                ke sistem.
                                             </p>
                                         </div>
                                         <Switch
@@ -400,9 +405,7 @@ export default function JudgesIndex({ judges, filters }: Props) {
                                             placeholder="Kata sandi baru"
                                             required
                                         />
-                                        <InputError
-                                            message={errors.password}
-                                        />
+                                        <InputError message={errors.password} />
                                     </div>
                                     <DialogFooter>
                                         <Button

@@ -27,7 +27,7 @@ export function NavUser() {
                     <DropdownMenuTrigger asChild>
                         <SidebarMenuButton
                             size="lg"
-                            className="group text-sidebar-accent-foreground data-[state=open]:bg-sidebar-accent"
+                            className="group h-12 rounded-2xl text-sidebar-accent-foreground hover:bg-butter data-[state=open]:bg-butter"
                             data-test="sidebar-menu-button"
                         >
                             <UserInfo user={auth.user} showEmail />
@@ -35,7 +35,7 @@ export function NavUser() {
                         </SidebarMenuButton>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent
-                        className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
+                        className="w-(--radix-dropdown-menu-trigger-width) min-w-56"
                         align="end"
                         side={
                             isMobile

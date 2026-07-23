@@ -18,7 +18,6 @@ type Entry = {
 function PodiumCard({ entry }: { entry: Entry }) {
     const isFirst = entry.rank === 1;
     const isSecond = entry.rank === 2;
-    const isThird = entry.rank === 3;
 
     const medal = isFirst ? '🥇' : isSecond ? '🥈' : '🥉';
     const colors = isFirst
@@ -159,12 +158,15 @@ export default function LeaderboardIndex({
                                             : entry.rank === 5
                                               ? 'bg-leaf/5 text-deep'
                                               : 'text-deep/70';
+
                                     return (
                                         <tr
                                             key={entry.participant.id}
                                             className="transition-colors hover:bg-butter/50"
                                         >
-                                            <td className={`px-6 py-5 text-center font-heading font-bold ${rankColors}`}>
+                                            <td
+                                                className={`px-6 py-5 text-center font-heading font-bold ${rankColors}`}
+                                            >
                                                 #{entry.rank}
                                             </td>
                                             <td className="px-6 py-5">
@@ -174,8 +176,10 @@ export default function LeaderboardIndex({
                                                     )}
                                                     className="flex items-center gap-3"
                                                 >
-                                                    <div className="flex size-9 items-center justify-center rounded-full bg-butter text-sm font-heading font-bold text-deep">
-                                                        {entry.participant.name.charAt(0)}
+                                                    <div className="flex size-9 items-center justify-center rounded-full bg-butter font-heading text-sm font-bold text-deep">
+                                                        {entry.participant.name.charAt(
+                                                            0,
+                                                        )}
                                                     </div>
                                                     <span className="font-bold text-deep hover:text-leaf">
                                                         {entry.participant.name}

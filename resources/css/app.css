@@ -1,5 +1,5 @@
-@import "tailwindcss";
-@import "tw-animate-css";
+@import 'tailwindcss';
+@import 'tw-animate-css';
 
 @source '../views';
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
@@ -7,7 +7,8 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-    --font-sans: 'Nunito', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
+    --font-sans:
+        'Nunito', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
         'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
     --font-heading: 'Baloo 2', system-ui, sans-serif;
 
@@ -58,84 +59,84 @@
     --color-sidebar-border: var(--sidebar-border);
     --color-sidebar-ring: var(--sidebar-ring);
 
-    --color-leaf: #4F9A46;
-    --color-butter: #FFF3D6;
-    --color-sun: #FFC93C;
-    --color-papaya: #FF8C42;
-    --color-deep: #2F4B2E;
-    --color-deep2: #2F5B2A;
-    --color-ink: #2A331F;
+    --color-leaf: #4f9a46;
+    --color-butter: #fff3d6;
+    --color-sun: #ffc93c;
+    --color-papaya: #ff8c42;
+    --color-deep: #2f4b2e;
+    --color-deep2: #2f5b2a;
+    --color-ink: #2a331f;
 }
 
 :root {
-    --background: #FFFDF6;
-    --foreground: #2A331F;
+    --background: #fffdf6;
+    --foreground: #2a331f;
     --card: #ffffff;
-    --card-foreground: #2A331F;
+    --card-foreground: #2a331f;
     --popover: #ffffff;
-    --popover-foreground: #2A331F;
-    --primary: #4F9A46;
+    --popover-foreground: #2a331f;
+    --primary: #4f9a46;
     --primary-foreground: #ffffff;
-    --secondary: #FFF3D6;
-    --secondary-foreground: #2A331F;
-    --muted: #FFF3D6;
-    --muted-foreground: #5A6B4A;
-    --accent: #E8F5E0;
-    --accent-foreground: #2F4B2E;
-    --destructive: #BA1A1A;
+    --secondary: #fff3d6;
+    --secondary-foreground: #2a331f;
+    --muted: #fff3d6;
+    --muted-foreground: #5a6b4a;
+    --accent: #e8f5e0;
+    --accent-foreground: #2f4b2e;
+    --destructive: #ba1a1a;
     --destructive-foreground: #ffffff;
-    --border: #E0E8D8;
-    --input: #C8D4BC;
-    --ring: #4F9A46;
-    --chart-1: #4F9A46;
-    --chart-2: #FFC93C;
-    --chart-3: #FF8C42;
-    --chart-4: #2F4B2E;
-    --chart-5: #FFF3D6;
+    --border: #e0e8d8;
+    --input: #c8d4bc;
+    --ring: #4f9a46;
+    --chart-1: #4f9a46;
+    --chart-2: #ffc93c;
+    --chart-3: #ff8c42;
+    --chart-4: #2f4b2e;
+    --chart-5: #fff3d6;
     --radius: 0.75rem;
-    --sidebar: #FFFDF6;
-    --sidebar-foreground: #2A331F;
-    --sidebar-primary: #4F9A46;
+    --sidebar: #fffdf6;
+    --sidebar-foreground: #2a331f;
+    --sidebar-primary: #4f9a46;
     --sidebar-primary-foreground: #ffffff;
-    --sidebar-accent: #E8F5E0;
-    --sidebar-accent-foreground: #2F4B2E;
-    --sidebar-border: #E0E8D8;
-    --sidebar-ring: #4F9A46;
+    --sidebar-accent: #e8f5e0;
+    --sidebar-accent-foreground: #2f4b2e;
+    --sidebar-border: #e0e8d8;
+    --sidebar-ring: #4f9a46;
 }
 
 .dark {
-    --background: #1A2618;
-    --foreground: #E0E8D8;
-    --card: #2A331F;
-    --card-foreground: #E0E8D8;
-    --popover: #2A331F;
-    --popover-foreground: #E0E8D8;
-    --primary: #6BC862;
-    --primary-foreground: #1A2618;
-    --secondary: #2F4B2E;
-    --secondary-foreground: #E0E8D8;
-    --muted: #2F4B2E;
-    --muted-foreground: #9AB58A;
-    --accent: #1E3A1C;
-    --accent-foreground: #6BC862;
-    --destructive: #FFB4AB;
+    --background: #1a2618;
+    --foreground: #e0e8d8;
+    --card: #2a331f;
+    --card-foreground: #e0e8d8;
+    --popover: #2a331f;
+    --popover-foreground: #e0e8d8;
+    --primary: #6bc862;
+    --primary-foreground: #1a2618;
+    --secondary: #2f4b2e;
+    --secondary-foreground: #e0e8d8;
+    --muted: #2f4b2e;
+    --muted-foreground: #9ab58a;
+    --accent: #1e3a1c;
+    --accent-foreground: #6bc862;
+    --destructive: #ffb4ab;
     --destructive-foreground: #690005;
-    --border: #3A5230;
-    --input: #4A6840;
-    --ring: #6BC862;
-    --chart-1: #6BC862;
-    --chart-2: #FFC93C;
-    --chart-3: #FF8C42;
-    --chart-4: #4F9A46;
-    --chart-5: #FFF3D6;
-    --sidebar: #1A2618;
-    --sidebar-foreground: #E0E8D8;
-    --sidebar-primary: #6BC862;
-    --sidebar-primary-foreground: #1A2618;
-    --sidebar-accent: #1E3A1C;
-    --sidebar-accent-foreground: #6BC862;
-    --sidebar-border: #3A5230;
-    --sidebar-ring: #6BC862;
+    --border: #3a5230;
+    --input: #4a6840;
+    --ring: #6bc862;
+    --chart-1: #6bc862;
+    --chart-2: #ffc93c;
+    --chart-3: #ff8c42;
+    --chart-4: #4f9a46;
+    --chart-5: #fff3d6;
+    --sidebar: #1a2618;
+    --sidebar-foreground: #e0e8d8;
+    --sidebar-primary: #6bc862;
+    --sidebar-primary-foreground: #1a2618;
+    --sidebar-accent: #1e3a1c;
+    --sidebar-accent-foreground: #6bc862;
+    --sidebar-border: #3a5230;
+    --sidebar-ring: #6bc862;
 }
 
 @layer base {
@@ -144,8 +145,10 @@
     }
 
     body {
-        @apply bg-background text-foreground;
+        @apply min-h-screen bg-background text-foreground;
         font-family: var(--font-sans);
+        background-image: linear-gradient(180deg, #fff3d6 0%, #fffdf6 36rem);
+        background-attachment: fixed;
     }
 
     h1,
@@ -153,6 +156,54 @@
     h3,
     h4 {
         font-family: var(--font-heading);
+    }
+
+    ::selection {
+        background: color-mix(in srgb, #ffc93c 65%, transparent);
+        color: #2f4b2e;
+    }
+
+    button,
+    [role='button'],
+    a {
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    :focus-visible {
+        outline-color: #4f9a46;
+    }
+}
+
+@layer components {
+    .slc-surface {
+        @apply rounded-3xl border-2 border-leaf/10 bg-white shadow-[0_4px_0_rgba(42,51,31,0.06)];
+    }
+
+    .slc-empty-state {
+        @apply rounded-3xl border-2 border-dashed border-leaf/20 bg-butter/70 p-10 text-center font-semibold text-deep/70;
+    }
+
+    .slc-page-title {
+        @apply font-heading text-2xl leading-tight font-bold text-deep md:text-[1.75rem];
+    }
+
+    .slc-page-description {
+        @apply mt-1 text-sm font-semibold text-ink/65;
+    }
+}
+
+.dark body {
+    background-image: linear-gradient(180deg, #2f4b2e 0%, #1a2618 36rem);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
     }
 }
 

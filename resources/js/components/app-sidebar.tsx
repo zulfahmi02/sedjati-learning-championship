@@ -95,17 +95,30 @@ export function AppSidebar() {
     const mainNavItems = isAdmin ? adminNavItems : judgeNavItems;
 
     return (
-        <Sidebar collapsible="icon" variant="inset">
-            <SidebarHeader>
+        <Sidebar
+            collapsible="icon"
+            variant="inset"
+            className="border-r border-leaf/10"
+        >
+            <SidebarHeader className="border-b border-leaf/10 p-3">
                 <SidebarMenu>
                     <SidebarMenuItem>
-                        <SidebarMenuButton size="lg" asChild>
+                        <SidebarMenuButton
+                            size="lg"
+                            asChild
+                            className="h-12 rounded-2xl hover:bg-butter"
+                        >
                             <Link href={dashboard()} prefetch>
-                                <span className="flex size-6 items-center justify-center rounded-lg bg-leaf text-xs text-white">
+                                <span className="flex size-9 items-center justify-center rounded-2xl bg-leaf text-base text-white shadow-[0_3px_0_rgba(42,51,31,0.18)]">
                                     🌿
                                 </span>
-                                <span className="font-heading text-base font-bold text-deep">
-                                    SLC
+                                <span className="grid text-left leading-tight">
+                                    <span className="font-heading text-base font-bold text-deep">
+                                        SLC 2026
+                                    </span>
+                                    <span className="text-[0.65rem] font-bold tracking-wider text-leaf uppercase">
+                                        Scoring System
+                                    </span>
                                 </span>
                             </Link>
                         </SidebarMenuButton>
@@ -117,7 +130,7 @@ export function AppSidebar() {
                 <NavMain items={mainNavItems} />
             </SidebarContent>
 
-            <SidebarFooter>
+            <SidebarFooter className="border-t border-leaf/10 p-3">
                 <NavUser />
             </SidebarFooter>
         </Sidebar>

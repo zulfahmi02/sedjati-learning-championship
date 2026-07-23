@@ -11,7 +11,10 @@ type Status =
     | 'published'
     | 'unpublished';
 
-const statusConfig: Record<Status, { label: string; bg: string; text: string }> = {
+const statusConfig: Record<
+    Status,
+    { label: string; bg: string; text: string }
+> = {
     registered: {
         label: 'Terdaftar',
         bg: 'bg-sun/30',
@@ -75,7 +78,9 @@ export function StatusBadge({
                 config.bg,
                 config.text,
             )}
-            style={{ transform: `rotate(${status === 'active' || status === 'published' ? -2 : 1}deg)` }}
+            style={{
+                transform: `rotate(${status === 'active' || status === 'published' ? -2 : 1}deg)`,
+            }}
         >
             {label ?? config.label}
         </span>

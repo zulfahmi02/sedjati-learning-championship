@@ -10,14 +10,22 @@ type Props = {
 
 export function StatCard({ label, value, icon: Icon, detail }: Props) {
     return (
-        <div className="flex flex-col gap-3 rounded-2xl border-2 border-leaf/10 bg-white p-5 shadow-sm">
+        <div className="group relative flex flex-col gap-3 overflow-hidden rounded-3xl border-2 border-leaf/10 bg-white p-5 shadow-[0_4px_0_rgba(42,51,31,0.06)] transition-transform duration-200 hover:-translate-y-0.5 dark:bg-card">
+            <span
+                aria-hidden
+                className="absolute -top-8 -right-7 size-20 rounded-full bg-sun/25 transition-transform duration-300 group-hover:scale-110"
+            />
             <div className="flex items-center justify-between">
                 <span className="font-heading text-xs font-bold tracking-wider text-ink/60 uppercase">
                     {label}
                 </span>
-                {Icon && <Icon className="size-4 text-leaf" />}
+                {Icon && (
+                    <span className="relative flex size-9 items-center justify-center rounded-2xl bg-butter text-leaf">
+                        <Icon className="size-4" />
+                    </span>
+                )}
             </div>
-            <div className="font-heading text-4xl font-bold text-deep">
+            <div className="relative font-heading text-4xl font-bold text-deep">
                 {value}
             </div>
             {detail && (

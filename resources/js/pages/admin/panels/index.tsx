@@ -5,12 +5,7 @@ import InputError from '@/components/input-error';
 import { ParticipantAvatar } from '@/components/slc/participant-avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import {
-    Card,
-    CardContent,
-    CardHeader,
-    CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
     Dialog,
     DialogContent,
@@ -80,7 +75,7 @@ export default function PanelsIndex({
                             {unassignedParticipants.length > 0 && (
                                 <>
                                     {' '}
-                                    <span className="numeric font-bold text-deep">
+                                    <span className="font-bold text-deep numeric">
                                         {unassignedParticipants.length}
                                     </span>{' '}
                                     peserta belum ditugaskan ke panel.
@@ -191,7 +186,7 @@ export default function PanelsIndex({
                                                         <p className="text-sm font-bold">
                                                             {participant.name}
                                                         </p>
-                                                        <p className="numeric text-xs text-deep/70">
+                                                        <p className="text-xs text-deep/70 numeric">
                                                             {
                                                                 participant.participant_number
                                                             }
@@ -213,8 +208,7 @@ export default function PanelsIndex({
                                                                 },
                                                             ).url,
                                                             {
-                                                                preserveScroll:
-                                                                    true,
+                                                                preserveScroll: true,
                                                             },
                                                         )
                                                     }
@@ -319,9 +313,7 @@ export default function PanelsIndex({
                                         placeholder="Deskripsi panel (opsional)"
                                         rows={2}
                                     />
-                                    <InputError
-                                        message={errors.description}
-                                    />
+                                    <InputError message={errors.description} />
                                 </div>
                                 <DialogFooter>
                                     <Button
@@ -331,10 +323,7 @@ export default function PanelsIndex({
                                     >
                                         Batal
                                     </Button>
-                                    <Button
-                                        type="submit"
-                                        disabled={processing}
-                                    >
+                                    <Button type="submit" disabled={processing}>
                                         {editing ? 'Simpan' : 'Buat'}
                                     </Button>
                                 </DialogFooter>
@@ -390,16 +379,13 @@ export default function PanelsIndex({
                                                 {unassignedParticipants.map(
                                                     (participant) => (
                                                         <SelectItem
-                                                            key={
-                                                                participant.id
-                                                            }
+                                                            key={participant.id}
                                                             value={participant.id.toString()}
                                                         >
                                                             {
                                                                 participant.participant_number
                                                             }{' '}
-                                                            —{' '}
-                                                            {participant.name}
+                                                            — {participant.name}
                                                         </SelectItem>
                                                     ),
                                                 )}

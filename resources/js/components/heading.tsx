@@ -19,7 +19,9 @@ export default function Heading({
                 {title}
             </h2>
             {description && (
-                <p className="text-sm font-semibold text-ink/70">{description}</p>
+                <p className="text-sm font-semibold text-ink/70">
+                    {description}
+                </p>
             )}
         </header>
     );

@@ -27,7 +27,7 @@ export default function AuthCardLayout({
                 </Link>
 
                 <div className="flex flex-col gap-6">
-                    <div className="rounded-2xl border-2 border-leaf/10 bg-white p-8 shadow-sm">
+                    <div className="rounded-[2rem] border-2 border-leaf/10 bg-white p-6 shadow-[0_5px_0_rgba(42,51,31,0.08)] sm:p-8 dark:bg-card">
                         {title && (
                             <div className="mb-6 text-center">
                                 <h2 className="font-heading text-2xl font-bold text-deep">

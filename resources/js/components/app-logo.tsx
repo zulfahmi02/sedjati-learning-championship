@@ -5,7 +5,7 @@ export default function AppLogo() {
                 <span className="text-sm">🌿</span>
             </div>
             <div className="ml-1 grid flex-1 text-left text-sm">
-                <span className="mb-0.5 truncate leading-tight font-heading font-bold text-deep">
+                <span className="mb-0.5 truncate font-heading leading-tight font-bold text-deep">
                     SLC 2026
                 </span>
             </div>
