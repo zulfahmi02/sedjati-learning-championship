@@ -3,5 +3,8 @@
     "allow": [
       "Bash(php artisan *)"
     ]
-  }
+  },
+  "enabledMcpjsonServers": [
+    "laravel-boost"
+  ]
 }

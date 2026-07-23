@@ -10,6 +10,7 @@ use App\Models\ScoreSheet;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -19,66 +20,40 @@ class LiveScoringController extends Controller
     {
         $judge = $request->user();
         $panel = $judge->panel()->with('participants')->first();
-        $activeRound = Round::active()->load('criteria');
+        $activeRound = Round::active();
 
-        // fallback to dummy data
-        $useDummy = false;
         if (! $panel || ! $activeRound || $panel->participants->isEmpty()) {
-            $useDummy = true;
-            $panel = (object)[
-                'id' => 1,
-                'name' => 'Panel 1',
-                'participants' => collect([
-                    (object)['id' => 1, 'participant_number' => '001', 'name' => 'Anak A', 'current_score' => 0],
-                    (object)['id' => 2, 'participant_number' => '002', 'name' => 'Anak B', 'current_score' => 0],
-                    (object)['id' => 3, 'participant_number' => '003', 'name' => 'Anak C', 'current_score' => 0],
-                    (object)['id' => 4, 'participant_number' => '004', 'name' => 'Anak D', 'current_score' => 0],
-                    (object)['id' => 5, 'participant_number' => '005', 'name' => 'Anak E', 'current_score' => 0],
-                ]),
-            ];
-            $activeRound = (object)[
-                'id' => 1,
-                'name' => 'Ronde 1',
-                'sequence' => 1,
-                'criteria' => collect(),
-            ];
+            return redirect()->route('judge.dashboard');
         }
 
-        if ($useDummy) {
-            $participants = $panel->participants->map(function ($p) {
+        $activeRound->load('criteria');
+        $criterion = $activeRound->criteria->first();
+
+        $sheets = ScoreSheet::query()
+            ->where('user_id', $judge->id)
+            ->where('round_id', $activeRound->id)
+            ->with('scores')
+            ->get()
+            ->keyBy('participant_id');
+
+        $participants = $panel->participants
+            ->sortBy('participant_number')
+            ->map(function (Participant $participant) use ($sheets, $criterion) {
+                $sheet = $sheets->get($participant->id);
+                $scoreValue = 0;
+
+                if ($sheet && $criterion) {
+                    $score = $sheet->scores->firstWhere('criterion_id', $criterion->id);
+                    $scoreValue = $score ? (float) $score->value : 0;
+                }
+
                 return [
-                    'id' => $p->id,
-                    'participant_number' => $p->participant_number,
-                    'name' => $p->name,
-                    'current_score' => $p->current_score ?? 0,
+                    'id' => $participant->id,
+                    'participant_number' => $participant->participant_number,
+                    'name' => $participant->name,
+                    'current_score' => $scoreValue,
                 ];
             })->values();
-        } else {
-            $criterion = $activeRound->criteria->first();
-
-            $sheets = ScoreSheet::where('user_id', $judge->id)
-                ->where('round_id', $activeRound->id)
-                ->with('scores')
-                ->get()
-                ->keyBy('participant_id');
-
-            $participants = $panel->participants
-                ->sortBy('participant_number')
-                ->map(function (Participant $participant) use ($sheets, $criterion) {
-                    $sheet = $sheets->get($participant->id);
-                    $scoreValue = 0;
-                    if ($sheet && $criterion) {
-                        $score = $sheet->scores->firstWhere('criterion_id', $criterion->id);
-                        $scoreValue = $score ? $score->value : 0;
-                    }
-                    return [
-                        'id' => $participant->id,
-                        'participant_number' => $participant->participant_number,
-                        'name' => $participant->name,
-                        'current_score' => $scoreValue,
-                    ];
-                })->values();
-        }
 
         return Inertia::render('judge/live-scoring', [
             'panel' => $panel->only(['id', 'name']),
@@ -87,6 +62,7 @@ class LiveScoringController extends Controller
                 'name' => $activeRound->name,
                 'sequence' => $activeRound->sequence,
             ],
+            'maxScore' => $criterion?->max_score,
             'participants' => $participants,
         ]);
     }
@@ -95,23 +71,20 @@ class LiveScoringController extends Controller
     {
         $judge = $request->user();
         $activeRound = Round::active();
-        if ($activeRound) {
-            $activeRound->load('criteria');
-        }
 
-        if (! $activeRound) {
-            return back()->with('error', 'Tidak ada ronde aktif.');
-        }
+        abort_unless($activeRound !== null, 404);
 
-        $incrementValue = $activeRound->sequence;
+        Gate::authorize('score', [ScoreSheet::class, $participant, $activeRound]);
+
+        $activeRound->load('criteria');
         $criterion = $activeRound->criteria->first();
 
         if (! $criterion) {
             return back()->with('error', 'Kriteria penilaian tidak ditemukan untuk ronde ini.');
         }
 
-        DB::transaction(function () use ($judge, $participant, $activeRound, $criterion, $incrementValue) {
-            $sheet = ScoreSheet::firstOrCreate(
+        DB::transaction(function () use ($judge, $participant, $activeRound, $criterion) {
+            $sheet = ScoreSheet::query()->firstOrCreate(
                 [
                     'user_id' => $judge->id,
                     'participant_id' => $participant->id,
@@ -120,7 +93,7 @@ class LiveScoringController extends Controller
                 [
                     'status' => ScoreSheetStatus::Submitted,
                     'submitted_at' => now(),
-                ]
+                ],
             );
 
             if ($sheet->isDraft()) {
@@ -132,10 +105,11 @@ class LiveScoringController extends Controller
 
             $score = $sheet->scores()->firstOrCreate(
                 ['criterion_id' => $criterion->id],
-                ['value' => 0]
+                ['value' => 0],
             );
 
-            $score->increment('value', $incrementValue);
+            $newValue = min((float) $score->value + 1, $criterion->max_score);
+            $score->update(['value' => $newValue]);
         });
 
         return back();

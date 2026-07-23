@@ -20,12 +20,14 @@ type Props = {
         name: string;
         sequence: number;
     } | null;
+    maxScore: number | null;
     participants: QueueItem[];
 };
 
 export default function LiveScoring({
     panel,
     activeRound,
+    maxScore,
     participants,
 }: Props) {
     const handleAddScore = (participantId: number) => {
@@ -62,7 +64,7 @@ export default function LiveScoring({
                                 ? `Panel Anda: ${panel.name}`
                                 : 'Anda belum ditugaskan ke panel mana pun.'}
                             {activeRound &&
-                                ` · Ronde: ${activeRound.name} (+${activeRound.sequence} poin/klik)`}
+                                ` · Ronde: ${activeRound.name} (+1 poin/klik)`}
                         </p>
                     </div>
                     {activeRound && (
@@ -75,7 +77,7 @@ export default function LiveScoring({
                                     {activeRound.name}
                                 </p>
                                 <p className="text-xs font-bold text-papaya">
-                                    +{activeRound.sequence} poin per klik
+                                    +1 poin per klik
                                 </p>
                             </div>
                         </div>
@@ -132,12 +134,17 @@ export default function LiveScoring({
                                     <Button
                                         size="lg"
                                         className="h-14 w-full rounded-[1.4rem] text-lg"
+                                        disabled={
+                                            maxScore !== null &&
+                                            participant.current_score >=
+                                                maxScore
+                                        }
                                         onClick={() =>
                                             handleAddScore(participant.id)
                                         }
                                     >
-                                        <Plus className="size-6" />+
-                                        {activeRound.sequence} Poin
+                                        <Plus className="size-6" />+1
+                                        Poin
                                     </Button>
                                 </div>
                             </div>
