@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\EventSetting;
+use App\Services\AuditLogger;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
@@ -24,6 +25,13 @@ class PublicationController extends Controller
             'results_published' => $validated['publish'],
             'published_at' => $validated['publish'] ? now() : null,
         ]);
+
+        AuditLogger::log(
+            auth()->user(),
+            'event.publication_changed',
+            $settings,
+            ['published' => $validated['publish']]
+        );
 
         return back()->with(
             'success',

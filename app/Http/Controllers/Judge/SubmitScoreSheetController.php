@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Participant;
 use App\Models\Round;
 use App\Models\ScoreSheet;
+use App\Services\AuditLogger;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -45,6 +46,8 @@ class SubmitScoreSheetController extends Controller
             'status' => ScoreSheetStatus::Submitted,
             'submitted_at' => now(),
         ]);
+
+        AuditLogger::log($judge, 'score.submitted', $sheet);
 
         return redirect()
             ->route('judge.scoring.index')

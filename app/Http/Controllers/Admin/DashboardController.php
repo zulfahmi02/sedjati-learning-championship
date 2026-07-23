@@ -46,6 +46,8 @@ class DashboardController extends Controller
                 'scored_count' => $activeRound ? ($panel->scored_count ?? 0) : 0,
             ]);
 
+        $expectedInRound = $panelStatus->sum('participants_count');
+
         return Inertia::render('admin/dashboard', [
             'stats' => [
                 'participants' => $totalParticipants,
@@ -55,10 +57,11 @@ class DashboardController extends Controller
                 'panelsWithJudge' => Panel::query()->whereNotNull('judge_id')->count(),
                 'rounds' => Round::count(),
                 'lockedRounds' => Round::query()->where('status', RoundStatus::Locked)->count(),
-                'progress' => $totalParticipants > 0 && $activeRound
-                    ? (int) round($submittedInRound / $totalParticipants * 100)
+                'progress' => $expectedInRound > 0 && $activeRound
+                    ? (int) round($submittedInRound / $expectedInRound * 100)
                     : 0,
                 'submittedInRound' => $submittedInRound,
+                'expectedInRound' => $expectedInRound,
             ],
             'activeRound' => $activeRound?->only(['id', 'name', 'sequence', 'weight']),
             'panelStatus' => $panelStatus,

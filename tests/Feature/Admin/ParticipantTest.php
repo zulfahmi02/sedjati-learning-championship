@@ -3,6 +3,7 @@
 use App\Models\Panel;
 use App\Models\Participant;
 use App\Models\User;
+use Illuminate\Http\UploadedFile;
 
 test('admins can view the participants index', function () {
     $admin = User::factory()->admin()->create();
@@ -36,6 +37,8 @@ test('admins can create a participant', function () {
         'participant_number' => 'SLC-001',
         'name' => 'Budi Santoso',
     ]);
+
+    $this->assertDatabaseHas('audit_logs', ['event' => 'participant.created']);
 });
 
 test('participant numbers must be unique', function () {
@@ -82,6 +85,8 @@ test('admins can update a participant and move panels', function () {
 
     expect($participant->refresh()->name)->toBe('Nama Baru');
     expect($participant->panels()->first()->id)->toBe($newPanel->id);
+
+    $this->assertDatabaseHas('audit_logs', ['event' => 'participant.updated']);
 });
 
 test('admins can delete a participant', function () {
@@ -93,13 +98,14 @@ test('admins can delete a participant', function () {
         ->assertRedirect();
 
     $this->assertDatabaseMissing('participants', ['id' => $participant->id]);
+    $this->assertDatabaseHas('audit_logs', ['event' => 'participant.deleted']);
 });
 
 test('admins can import participants from csv', function () {
     $admin = User::factory()->admin()->create();
 
     $csv = "nomor,nama,institusi,kategori\nSLC-101,Andi Wijaya,ITB,Public Speaking\nSLC-102,Rina Wati,UGM,";
-    $file = Illuminate\Http\UploadedFile::fake()->createWithContent('peserta.csv', $csv);
+    $file = UploadedFile::fake()->createWithContent('peserta.csv', $csv);
 
     $this->actingAs($admin)
         ->post(route('admin.participants.import'), ['file' => $file])
@@ -114,7 +120,7 @@ test('import reports row errors for duplicates', function () {
     Participant::factory()->create(['participant_number' => 'SLC-101']);
 
     $csv = "nomor,nama\nSLC-101,Duplikat\nSLC-103,Valid";
-    $file = Illuminate\Http\UploadedFile::fake()->createWithContent('peserta.csv', $csv);
+    $file = UploadedFile::fake()->createWithContent('peserta.csv', $csv);
 
     $this->actingAs($admin)
         ->post(route('admin.participants.import'), ['file' => $file])

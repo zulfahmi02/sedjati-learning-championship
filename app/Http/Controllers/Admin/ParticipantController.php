@@ -8,6 +8,7 @@ use App\Http\Requests\Admin\UpdateParticipantRequest;
 use App\Models\Panel;
 use App\Models\Participant;
 use App\Models\Round;
+use App\Services\AuditLogger;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -69,21 +70,37 @@ class ParticipantController extends Controller
             $participant->panels()->sync([$panelId]);
         }
 
+        AuditLogger::log(auth()->user(), 'participant.created', $participant, [
+            'panel_id' => $panelId,
+        ]);
+
         return back()->with('success', 'Peserta berhasil ditambahkan.');
     }
 
     public function update(UpdateParticipantRequest $request, Participant $participant): RedirectResponse
     {
+        $oldPanelId = $participant->panels()->first()?->id;
+
         $participant->update($request->safe()->except('panel_id'));
 
         $panelId = $request->validated('panel_id');
         $participant->panels()->sync($panelId ? [$panelId] : []);
+
+        AuditLogger::log(auth()->user(), 'participant.updated', $participant, array_filter([
+            'from_panel_id' => $oldPanelId,
+            'to_panel_id' => $panelId,
+        ]));
 
         return back()->with('success', 'Peserta berhasil diperbarui.');
     }
 
     public function destroy(Participant $participant): RedirectResponse
     {
+        AuditLogger::log(auth()->user(), 'participant.deleted', $participant, [
+            'name' => $participant->name,
+            'participant_number' => $participant->participant_number,
+        ]);
+
         $participant->delete();
 
         return back()->with('success', 'Peserta berhasil dihapus.');

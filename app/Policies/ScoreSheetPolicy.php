@@ -39,4 +39,14 @@ class ScoreSheetPolicy
             && $scoreSheet->isDraft()
             && $scoreSheet->round->isActive();
     }
+
+    /**
+     * Determine whether an administrator may reopen a submitted score sheet.
+     */
+    public function reopen(User $user, ScoreSheet $scoreSheet): bool
+    {
+        return $user->isAdmin()
+            && $scoreSheet->isSubmitted()
+            && $scoreSheet->round->isActive();
+    }
 }

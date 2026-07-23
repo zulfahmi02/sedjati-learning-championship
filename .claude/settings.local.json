@@ -1,7 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "Bash(php artisan *)"
+      "Bash(php artisan *)",
+      "mcp__laravel-boost__search-docs"
     ]
   },
   "enabledMcpjsonServers": [

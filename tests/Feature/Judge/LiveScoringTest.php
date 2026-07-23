@@ -65,6 +65,8 @@ test('judges can increment a score for their panel participant', function () {
     $score = $sheet->scores()->where('criterion_id', $criterion->id)->first();
     expect($score)->not->toBeNull();
     expect((float) $score->value)->toBe(1.0);
+
+    $this->assertDatabaseHas('audit_logs', ['event' => 'score.live_incremented']);
 });
 
 test('multiple increments accumulate correctly', function () {

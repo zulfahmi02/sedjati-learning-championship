@@ -83,6 +83,8 @@ test('participants can be assigned and moved between panels', function () {
 
     expect($panelA->participants()->count())->toBe(0);
     expect($panelB->participants()->count())->toBe(1);
+
+    $this->assertDatabaseHas('audit_logs', ['event' => 'participant.panel_assigned']);
 });
 
 test('participants can be removed from a panel', function () {
@@ -96,6 +98,8 @@ test('participants can be removed from a panel', function () {
         ->assertRedirect();
 
     expect($panel->participants()->count())->toBe(0);
+
+    $this->assertDatabaseHas('audit_logs', ['event' => 'participant.panel_unassigned']);
 });
 
 test('admins can update the panel judge', function () {

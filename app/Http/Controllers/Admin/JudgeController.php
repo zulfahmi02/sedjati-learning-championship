@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreJudgeRequest;
 use App\Http\Requests\Admin\UpdateJudgeRequest;
 use App\Models\User;
+use App\Services\AuditLogger;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -38,11 +39,13 @@ class JudgeController extends Controller
 
     public function store(StoreJudgeRequest $request): RedirectResponse
     {
-        User::create([
+        $judge = User::create([
             ...$request->validated(),
             'role' => UserRole::Juri,
             'is_active' => true,
         ]);
+
+        AuditLogger::log(auth()->user(), 'judge.created', $judge);
 
         return back()->with('success', 'Akun juri berhasil dibuat.');
     }
@@ -51,7 +54,13 @@ class JudgeController extends Controller
     {
         abort_unless($judge->isJudge(), 404);
 
+        $wasActive = $judge->is_active;
+
         $judge->update($request->validated());
+
+        if ($wasActive !== $judge->is_active) {
+            AuditLogger::log(auth()->user(), $judge->is_active ? 'judge.activated' : 'judge.deactivated', $judge);
+        }
 
         return back()->with('success', 'Data juri berhasil diperbarui.');
     }

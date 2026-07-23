@@ -61,6 +61,7 @@ test('a round can only be activated when criteria weights total 100 percent', fu
         ->assertRedirect();
 
     expect($round->refresh()->status)->toBe(RoundStatus::Active);
+    $this->assertDatabaseHas('audit_logs', ['event' => 'round.activated']);
 });
 
 test('only one round can be active at a time', function () {
@@ -83,6 +84,7 @@ test('an active round can be locked', function () {
         ->assertRedirect();
 
     expect($round->refresh()->status)->toBe(RoundStatus::Locked);
+    $this->assertDatabaseHas('audit_logs', ['event' => 'round.locked']);
 });
 
 test('a locked round can not be reactivated', function () {

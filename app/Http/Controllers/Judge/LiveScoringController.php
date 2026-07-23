@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Participant;
 use App\Models\Round;
 use App\Models\ScoreSheet;
+use App\Services\AuditLogger;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -108,8 +109,17 @@ class LiveScoringController extends Controller
                 ['value' => 0],
             );
 
-            $newValue = min((float) $score->value + 1, $criterion->max_score);
-            $score->update(['value' => $newValue]);
+            $oldValue = (float) $score->value;
+            $newValue = min($oldValue + 1, $criterion->max_score);
+
+            if ($newValue !== $oldValue) {
+                $score->update(['value' => $newValue]);
+
+                AuditLogger::log($judge, 'score.live_incremented', $sheet, [
+                    'criterion_id' => $criterion->id,
+                    'increment' => 1,
+                ]);
+            }
         });
 
         return back();

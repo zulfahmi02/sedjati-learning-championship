@@ -2,7 +2,15 @@
 
 namespace App\Providers;
 
+use App\Models\Criterion;
+use App\Models\EventSetting;
+use App\Models\Panel;
+use App\Models\Participant;
+use App\Models\Round;
+use App\Models\ScoreSheet;
+use App\Models\User;
 use Carbon\CarbonImmutable;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
@@ -46,5 +54,15 @@ class AppServiceProvider extends ServiceProvider
                 ->uncompromised()
             : null,
         );
+
+        Relation::enforceMorphMap([
+            'user' => User::class,
+            'participant' => Participant::class,
+            'panel' => Panel::class,
+            'round' => Round::class,
+            'criterion' => Criterion::class,
+            'score_sheet' => ScoreSheet::class,
+            'event_setting' => EventSetting::class,
+        ]);
     }
 }

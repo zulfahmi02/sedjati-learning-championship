@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\PanelParticipantController;
 use App\Http\Controllers\Admin\ParticipantController;
 use App\Http\Controllers\Admin\ParticipantImportController;
 use App\Http\Controllers\Admin\PublicationController;
+use App\Http\Controllers\Admin\ReopenScoreSheetController;
 use App\Http\Controllers\Admin\Reports\RankingExportController;
 use App\Http\Controllers\Admin\Reports\ScoreRecapExportController;
 use App\Http\Controllers\Admin\RoundController;
@@ -86,6 +87,7 @@ Route::middleware(['auth', 'role:admin'])
         Route::put('publikasi', [PublicationController::class, 'update'])->name('publication.update');
 
         Route::get('monitoring', [MonitoringController::class, 'index'])->name('monitoring.index');
+        Route::put('monitoring/lembar-nilai/{scoreSheet}/reopen', ReopenScoreSheetController::class)->name('monitoring.score-sheets.reopen');
 
         Route::get('laporan/rekap-nilai', ScoreRecapExportController::class)->name('reports.score-recap');
         Route::get('laporan/rekap-ranking', RankingExportController::class)->name('reports.ranking');

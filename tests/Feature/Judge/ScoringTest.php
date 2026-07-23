@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\RoundStatus;
 use App\Enums\ScoreSheetStatus;
 use App\Models\Criterion;
 use App\Models\Panel;
@@ -63,6 +64,8 @@ test('judges can save a draft of scores', function () {
     expect($sheet)->not->toBeNull();
     expect($sheet->isDraft())->toBeTrue();
     expect($sheet->scores()->count())->toBe(2);
+
+    $this->assertDatabaseHas('audit_logs', ['event' => 'score.draft_saved']);
 });
 
 test('score values outside the criterion range are rejected', function () {
@@ -109,6 +112,8 @@ test('a complete sheet can be submitted and becomes immutable', function () {
     $sheet = ScoreSheet::query()->first();
     expect($sheet->status)->toBe(ScoreSheetStatus::Submitted);
 
+    $this->assertDatabaseHas('audit_logs', ['event' => 'score.submitted']);
+
     // Further edits are rejected.
     $this->actingAs($judge)
         ->put(route('judge.scoring.update', $participant), [
@@ -147,7 +152,7 @@ test('submission requires saved scores', function () {
 test('scoring is closed once the round is locked', function () {
     [$judge, , $participant, $round, $criteria] = setUpScoringContext();
 
-    $round->update(['status' => App\Enums\RoundStatus::Locked]);
+    $round->update(['status' => RoundStatus::Locked]);
 
     $this->actingAs($judge)
         ->put(route('judge.scoring.update', $participant), [

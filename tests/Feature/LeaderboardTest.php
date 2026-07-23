@@ -94,6 +94,7 @@ test('admins can publish and unpublish results', function () {
         ->assertRedirect();
 
     expect(EventSetting::current()->results_published)->toBeTrue();
+    $this->assertDatabaseHas('audit_logs', ['event' => 'event.publication_changed']);
 
     $this->actingAs($admin)
         ->put(route('admin.publication.update'), ['publish' => false])

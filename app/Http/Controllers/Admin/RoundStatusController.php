@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Enums\RoundStatus;
 use App\Http\Controllers\Controller;
 use App\Models\Round;
+use App\Services\AuditLogger;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -47,6 +48,8 @@ class RoundStatusController extends Controller
 
         $round->update(['status' => RoundStatus::Active]);
 
+        AuditLogger::log(auth()->user(), 'round.activated', $round);
+
         return back()->with('success', 'Ronde '.$round->name.' diaktifkan.');
     }
 
@@ -57,6 +60,8 @@ class RoundStatusController extends Controller
         }
 
         $round->update(['status' => RoundStatus::Locked]);
+
+        AuditLogger::log(auth()->user(), 'round.locked', $round);
 
         return back()->with('success', 'Ronde '.$round->name.' dikunci. Nilai tidak dapat diubah lagi.');
     }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ResetJudgePasswordRequest;
 use App\Models\User;
+use App\Services\AuditLogger;
 use Illuminate\Http\RedirectResponse;
 
 class JudgePasswordController extends Controller
@@ -16,6 +17,8 @@ class JudgePasswordController extends Controller
         $judge->update([
             'password' => $request->validated('password'),
         ]);
+
+        AuditLogger::log(auth()->user(), 'judge.password_reset', $judge);
 
         return back()->with('success', 'Kata sandi juri berhasil direset.');
     }

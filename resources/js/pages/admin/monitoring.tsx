@@ -6,12 +6,22 @@ import {
     Download,
     FileSpreadsheet,
     FileText,
+    RotateCcw,
     Users,
 } from 'lucide-react';
+import { useState } from 'react';
 import { ParticipantAvatar } from '@/components/slc/participant-avatar';
 import { StatCard } from '@/components/slc/stat-card';
 import { StatusBadge } from '@/components/slc/status-badge';
 import { Button } from '@/components/ui/button';
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+} from '@/components/ui/dialog';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -37,6 +47,7 @@ import {
     TableRow,
 } from '@/components/ui/table';
 import monitoring from '@/routes/admin/monitoring';
+import scoreSheets from '@/routes/admin/monitoring/score-sheets';
 import reports from '@/routes/admin/reports';
 import type { Round } from '@/types';
 
@@ -44,6 +55,14 @@ type PendingParticipant = {
     id: number;
     participant_number: string;
     name: string;
+};
+
+type SubmittedParticipant = PendingParticipant & {
+    score_sheet_id: number;
+};
+
+type ReopenTarget = SubmittedParticipant & {
+    judgeName: string;
 };
 
 type MatrixRow = {
@@ -54,6 +73,15 @@ type MatrixRow = {
     submitted: number;
     done: boolean;
     pendingParticipants: PendingParticipant[];
+    submittedParticipants: SubmittedParticipant[];
+};
+
+type ActivityLog = {
+    id: number;
+    event: string;
+    actor_name: string;
+    created_at: string;
+    subject_name: string;
 };
 
 type Props = {
@@ -66,6 +94,7 @@ type Props = {
         unscored: number;
         judgesPending: number;
     };
+    activities: ActivityLog[];
 };
 
 export default function Monitoring({
@@ -73,8 +102,28 @@ export default function Monitoring({
     selectedRound,
     matrix,
     totals,
+    activities,
 }: Props) {
     usePoll(10000);
+
+    const [reopenTarget, setReopenTarget] = useState<ReopenTarget | null>(
+        null,
+    );
+
+    const reopenScoreSheet = () => {
+        if (!reopenTarget) {
+            return;
+        }
+
+        router.put(
+            scoreSheets.reopen(reopenTarget.score_sheet_id).url,
+            {},
+            {
+                preserveScroll: true,
+                onSuccess: () => setReopenTarget(null),
+            },
+        );
+    };
 
     const progress =
         totals.expected > 0
@@ -378,9 +427,152 @@ export default function Monitoring({
                                 </ul>
                             </div>
                         )}
+
+                        {selectedRound.status === 'active' &&
+                            totals.submitted > 0 && (
+                                <div className="rounded-2xl border-2 border-leaf/10 bg-white">
+                                    <div className="border-b px-5 py-4">
+                                        <h2 className="font-heading text-lg font-bold text-deep">
+                                            Peserta Sudah Dinilai
+                                        </h2>
+                                        <p className="mt-1 text-sm text-deep/70">
+                                            Buka kembali nilai jika juri perlu
+                                            melakukan koreksi.
+                                        </p>
+                                    </div>
+                                    <ul className="grid gap-2 p-4 sm:grid-cols-2 lg:grid-cols-3">
+                                        {matrix.flatMap((row) =>
+                                            row.submittedParticipants.map(
+                                                (participant) => (
+                                                    <li
+                                                        key={
+                                                            participant.score_sheet_id
+                                                        }
+                                                        className="flex items-center gap-3 rounded-2xl border border-leaf/10 p-3"
+                                                    >
+                                                        <ParticipantAvatar
+                                                            name={participant.name}
+                                                            className="size-9"
+                                                        />
+                                                        <div className="min-w-0 flex-1">
+                                                            <p className="truncate text-sm font-bold">
+                                                                {participant.name}
+                                                            </p>
+                                                            <p className="text-xs text-deep/70 numeric">
+                                                                {
+                                                                    participant.participant_number
+                                                                }{' '}
+                                                                · {row.name}
+                                                            </p>
+                                                        </div>
+                                                        <Button
+                                                            variant="outline"
+                                                            size="sm"
+                                                            onClick={() =>
+                                                                setReopenTarget({
+                                                                    ...participant,
+                                                                    judgeName:
+                                                                        row
+                                                                            .judge
+                                                                            ?.name ??
+                                                                        'juri panel',
+                                                                })
+                                                            }
+                                                        >
+                                                            <RotateCcw className="size-3.5" />
+                                                            Buka kembali
+                                                        </Button>
+                                                    </li>
+                                                ),
+                                            ),
+                                        )}
+                                    </ul>
+                                </div>
+                            )}
+
+                        {activities.length > 0 && (
+                            <div className="rounded-2xl border-2 border-leaf/10 bg-white">
+                                <div className="border-b px-5 py-4">
+                                    <h2 className="font-heading text-lg font-bold text-deep">
+                                        Aktivitas Terbaru
+                                    </h2>
+                                </div>
+                                <div className="overflow-x-auto">
+                                    <Table>
+                                        <TableHeader>
+                                            <TableRow className="bg-butter/50">
+                                                <TableHead className="w-40 font-bold text-deep/70">Waktu</TableHead>
+                                                <TableHead className="font-bold text-deep/70">Aktivitas</TableHead>
+                                                <TableHead className="font-bold text-deep/70">Objek</TableHead>
+                                                <TableHead className="font-bold text-deep/70">Pengguna</TableHead>
+                                            </TableRow>
+                                        </TableHeader>
+                                        <TableBody>
+                                            {activities.map((log) => (
+                                                <TableRow key={log.id}>
+                                                    <TableCell className="text-xs text-deep/70 whitespace-nowrap">
+                                                        {log.created_at}
+                                                    </TableCell>
+                                                    <TableCell className="font-medium text-deep">
+                                                        {log.event === 'score.draft_saved' && 'Menyimpan draf nilai'}
+                                                        {log.event === 'score.submitted' && 'Mengirim nilai'}
+                                                        {log.event === 'score.live_incremented' && 'Menambah nilai (Live)'}
+                                                        {log.event === 'score.reopened' && 'Membuka kembali nilai'}
+                                                        {log.event === 'round.activated' && 'Mengaktifkan ronde'}
+                                                        {log.event === 'round.locked' && 'Mengunci ronde'}
+                                                        {log.event === 'event.publication_changed' && 'Mengubah publikasi hasil'}
+                                                        {!['score.draft_saved', 'score.submitted', 'score.live_incremented', 'score.reopened', 'round.activated', 'round.locked', 'event.publication_changed'].includes(log.event) && log.event}
+                                                    </TableCell>
+                                                    <TableCell className="text-deep">
+                                                        {log.subject_name}
+                                                    </TableCell>
+                                                    <TableCell className="text-deep/80">
+                                                        {log.actor_name}
+                                                    </TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </div>
+                            </div>
+                        )}
                     </>
                 )}
             </div>
+
+            <Dialog
+                open={reopenTarget !== null}
+                onOpenChange={(open) => !open && setReopenTarget(null)}
+            >
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>Buka kembali nilai?</DialogTitle>
+                        <DialogDescription>
+                            {reopenTarget && (
+                                <>
+                                    Nilai {reopenTarget.name} akan kembali
+                                    menjadi draf agar {reopenTarget.judgeName}{' '}
+                                    dapat mengoreksi dan mengirim ulang. Nilai
+                                    per kriteria yang sudah tersimpan tidak
+                                    akan dihapus.
+                                </>
+                            )}
+                        </DialogDescription>
+                    </DialogHeader>
+                    <DialogFooter>
+                        <Button
+                            variant="outline"
+                            onClick={() => setReopenTarget(null)}
+                        >
+                            Batal
+                        </Button>
+                        <Button onClick={reopenScoreSheet}>
+                            <RotateCcw className="size-4" />
+                            Buka kembali nilai
+                        </Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
         </>
     );
 }

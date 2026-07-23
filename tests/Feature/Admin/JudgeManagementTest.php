@@ -2,6 +2,7 @@
 
 use App\Enums\UserRole;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 test('admins can view the judges index', function () {
     $admin = User::factory()->admin()->create();
@@ -29,6 +30,8 @@ test('admins can create a judge account', function () {
         'role' => UserRole::Juri->value,
         'is_active' => true,
     ]);
+
+    $this->assertDatabaseHas('audit_logs', ['event' => 'judge.created']);
 });
 
 test('admins can deactivate a judge', function () {
@@ -44,6 +47,8 @@ test('admins can deactivate a judge', function () {
         ->assertRedirect();
 
     expect($judge->refresh()->is_active)->toBeFalse();
+
+    $this->assertDatabaseHas('audit_logs', ['event' => 'judge.deactivated']);
 });
 
 test('admins can reset a judge password', function () {
@@ -57,7 +62,9 @@ test('admins can reset a judge password', function () {
         ])
         ->assertRedirect();
 
-    expect(Illuminate\Support\Facades\Hash::check('kata-sandi-baru-123', $judge->refresh()->password))->toBeTrue();
+    expect(Hash::check('kata-sandi-baru-123', $judge->refresh()->password))->toBeTrue();
+
+    $this->assertDatabaseHas('audit_logs', ['event' => 'judge.password_reset']);
 });
 
 test('judge management endpoints reject admin targets', function () {

@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Participant;
 use App\Models\Round;
 use App\Models\ScoreSheet;
+use App\Services\AuditLogger;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -148,6 +149,10 @@ class ScoringController extends Controller
                     ['value' => $value],
                 );
             }
+
+            AuditLogger::log($judge, 'score.draft_saved', $sheet, [
+                'scores' => $validated['scores'],
+            ]);
         });
 
         return back()->with('success', 'Draf nilai tersimpan.');

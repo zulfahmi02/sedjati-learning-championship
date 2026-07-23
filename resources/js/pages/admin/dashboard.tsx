@@ -50,6 +50,7 @@ type Props = {
         lockedRounds: number;
         progress: number;
         submittedInRound: number;
+        expectedInRound: number;
     };
     activeRound: {
         id: number;
@@ -155,7 +156,7 @@ export default function AdminDashboard({
                                 <Progress value={stats.progress} />
                                 <span className="font-bold text-deep/70">
                                     {stats.submittedInRound}/
-                                    {stats.participants} dinilai
+                                    {stats.expectedInRound} dinilai
                                 </span>
                             </div>
                         }
