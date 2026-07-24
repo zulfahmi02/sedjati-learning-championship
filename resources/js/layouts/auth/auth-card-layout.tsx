@@ -1,5 +1,6 @@
 import { Link } from '@inertiajs/react';
 import type { PropsWithChildren } from 'react';
+import AppLogoIcon from '@/components/app-logo-icon';
 import { Blob } from '@/components/slc/blob';
 import { home } from '@/routes';
 
@@ -21,9 +22,7 @@ export default function AuthCardLayout({
                     href={home()}
                     className="flex items-center gap-2 self-center font-medium"
                 >
-                    <div className="flex size-12 items-center justify-center rounded-2xl bg-leaf shadow-md">
-                        <span className="text-2xl">🌿</span>
-                    </div>
+                    <AppLogoIcon className="size-14 rounded-2xl object-contain shadow-md" />
                 </Link>
 
                 <div className="flex flex-col gap-6">

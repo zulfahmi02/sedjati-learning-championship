@@ -9,6 +9,7 @@ import {
     Users,
     UsersRound,
 } from 'lucide-react';
+import AppLogoIcon from '@/components/app-logo-icon';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
 import {
@@ -109,9 +110,7 @@ export function AppSidebar() {
                             className="h-12 rounded-2xl hover:bg-butter"
                         >
                             <Link href={dashboard()} prefetch>
-                                <span className="flex size-9 items-center justify-center rounded-2xl bg-leaf text-base text-white shadow-[0_3px_0_rgba(42,51,31,0.18)]">
-                                    🌿
-                                </span>
+                                <AppLogoIcon className="size-9 rounded-xl object-contain shadow-[0_3px_0_rgba(42,51,31,0.12)]" />
                                 <span className="grid text-left leading-tight">
                                     <span className="font-heading text-base font-bold text-deep">
                                         SLC 2026

@@ -1,6 +1,7 @@
 import { Link, usePage } from '@inertiajs/react';
 import { LayoutGrid, LogIn } from 'lucide-react';
 import type { PropsWithChildren } from 'react';
+import AppLogoIcon from '@/components/app-logo-icon';
 import { Blob } from '@/components/slc/blob';
 import { dashboard, home, login } from '@/routes';
 
@@ -23,9 +24,7 @@ export default function PublicLayout({
                             href={home()}
                             className="flex items-center gap-2 font-heading text-lg font-bold text-deep"
                         >
-                            <span className="flex size-8 items-center justify-center rounded-xl bg-leaf text-sm text-white shadow-[0_2px_0_rgba(42,51,31,0.18)]">
-                                🌿
-                            </span>
+                            <AppLogoIcon className="size-9 rounded-xl object-contain shadow-[0_2px_0_rgba(42,51,31,0.12)]" />
                             <span className="hidden sm:inline">
                                 SLC <span className="text-leaf">Scoring</span>
                             </span>
