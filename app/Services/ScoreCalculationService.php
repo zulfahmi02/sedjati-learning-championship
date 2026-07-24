@@ -122,6 +122,11 @@ class ScoreCalculationService
         );
     }
 
+    public function forgetCachedStandings(): void
+    {
+        Cache::forget('leaderboard:standings');
+    }
+
     /**
      * Per-round, per-criterion breakdown for one participant.
      *

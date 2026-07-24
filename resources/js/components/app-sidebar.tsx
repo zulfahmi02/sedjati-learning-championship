@@ -28,7 +28,7 @@ import panels from '@/routes/admin/panels';
 import participants from '@/routes/admin/participants';
 import rounds from '@/routes/admin/rounds';
 import { dashboard as judgeDashboard } from '@/routes/judge';
-import scoring from '@/routes/judge/scoring';
+import liveScoring from '@/routes/judge/live-scoring';
 import { index as leaderboard } from '@/routes/leaderboard';
 import type { NavItem } from '@/types';
 
@@ -78,7 +78,7 @@ const judgeNavItems: NavItem[] = [
     },
     {
         title: 'Penilaian',
-        href: scoring.index(),
+        href: liveScoring.index(),
         icon: ClipboardPen,
     },
     {

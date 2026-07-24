@@ -40,10 +40,16 @@ class RoundStatusController extends Controller
             return back()->withErrors(['status' => 'Masih ada ronde lain yang sedang berlangsung. Kunci ronde tersebut terlebih dahulu.']);
         }
 
-        $criteriaWeight = (int) $round->criteria()->sum('weight');
+        $criteria = $round->criteria()->get();
 
-        if ($criteriaWeight !== 100) {
-            return back()->withErrors(['status' => 'Total bobot kriteria ronde ini harus tepat 100% sebelum diaktifkan (saat ini '.$criteriaWeight.'%).']);
+        if ($criteria->count() !== 1) {
+            return back()->withErrors(['status' => 'Ronde harus memiliki tepat satu kriteria Live Scoring sebelum diaktifkan.']);
+        }
+
+        $criterion = $criteria->sole();
+
+        if ($criterion->weight !== 100 || $criterion->min_score !== 0) {
+            return back()->withErrors(['status' => 'Kriteria Live Scoring harus berbobot 100% dan memiliki nilai minimum 0.']);
         }
 
         $round->update(['status' => RoundStatus::Active]);

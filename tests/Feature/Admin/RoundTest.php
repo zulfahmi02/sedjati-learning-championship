@@ -45,16 +45,19 @@ test('locked rounds can not be edited', function () {
         ->assertSessionHasErrors();
 });
 
-test('a round can only be activated when criteria weights total 100 percent', function () {
+test('a round requires exactly one valid live scoring criterion before activation', function () {
     $admin = User::factory()->admin()->create();
     $round = Round::factory()->create(['weight' => 100]);
-    Criterion::factory()->for($round)->create(['weight' => 60]);
 
     $this->actingAs($admin)
         ->put(route('admin.rounds.status', $round), ['status' => 'active'])
         ->assertSessionHasErrors('status');
 
-    Criterion::factory()->for($round)->create(['weight' => 40, 'sequence' => 2]);
+    Criterion::factory()->for($round)->create([
+        'weight' => 100,
+        'min_score' => 0,
+        'sequence' => 1,
+    ]);
 
     $this->actingAs($admin)
         ->put(route('admin.rounds.status', $round), ['status' => 'active'])
@@ -96,20 +99,35 @@ test('a locked round can not be reactivated', function () {
         ->assertSessionHasErrors('status');
 });
 
-test('criteria weight per round can not exceed 100 percent', function () {
+test('a round can not have a second live scoring criterion', function () {
     $admin = User::factory()->admin()->create();
     $round = Round::factory()->create();
-    Criterion::factory()->for($round)->create(['weight' => 70]);
+    Criterion::factory()->for($round)->create();
 
     $this->actingAs($admin)
         ->post(route('admin.rounds.criteria.store', $round), [
-            'name' => 'Creativity',
-            'weight' => 40,
+            'name' => 'Kriteria Kedua',
+            'weight' => 100,
             'min_score' => 0,
+            'max_score' => 100,
+            'sequence' => 1,
+        ])
+        ->assertSessionHasErrors('name');
+});
+
+test('live scoring criterion must use fixed weight minimum and sequence', function () {
+    $admin = User::factory()->admin()->create();
+    $round = Round::factory()->create();
+
+    $this->actingAs($admin)
+        ->post(route('admin.rounds.criteria.store', $round), [
+            'name' => 'Jawaban Benar',
+            'weight' => 50,
+            'min_score' => 1,
             'max_score' => 100,
             'sequence' => 2,
         ])
-        ->assertSessionHasErrors('weight');
+        ->assertSessionHasErrors(['weight', 'min_score', 'sequence']);
 });
 
 test('criteria can not be modified once the round is active', function () {

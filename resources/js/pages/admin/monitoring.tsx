@@ -106,9 +106,7 @@ export default function Monitoring({
 }: Props) {
     usePoll(10000);
 
-    const [reopenTarget, setReopenTarget] = useState<ReopenTarget | null>(
-        null,
-    );
+    const [reopenTarget, setReopenTarget] = useState<ReopenTarget | null>(null);
 
     const reopenScoreSheet = () => {
         if (!reopenTarget) {
@@ -451,12 +449,16 @@ export default function Monitoring({
                                                         className="flex items-center gap-3 rounded-2xl border border-leaf/10 p-3"
                                                     >
                                                         <ParticipantAvatar
-                                                            name={participant.name}
+                                                            name={
+                                                                participant.name
+                                                            }
                                                             className="size-9"
                                                         />
                                                         <div className="min-w-0 flex-1">
                                                             <p className="truncate text-sm font-bold">
-                                                                {participant.name}
+                                                                {
+                                                                    participant.name
+                                                                }
                                                             </p>
                                                             <p className="text-xs text-deep/70 numeric">
                                                                 {
@@ -469,14 +471,16 @@ export default function Monitoring({
                                                             variant="outline"
                                                             size="sm"
                                                             onClick={() =>
-                                                                setReopenTarget({
-                                                                    ...participant,
-                                                                    judgeName:
-                                                                        row
-                                                                            .judge
-                                                                            ?.name ??
-                                                                        'juri panel',
-                                                                })
+                                                                setReopenTarget(
+                                                                    {
+                                                                        ...participant,
+                                                                        judgeName:
+                                                                            row
+                                                                                .judge
+                                                                                ?.name ??
+                                                                            'juri panel',
+                                                                    },
+                                                                )
                                                             }
                                                         >
                                                             <RotateCcw className="size-3.5" />
@@ -501,27 +505,62 @@ export default function Monitoring({
                                     <Table>
                                         <TableHeader>
                                             <TableRow className="bg-butter/50">
-                                                <TableHead className="w-40 font-bold text-deep/70">Waktu</TableHead>
-                                                <TableHead className="font-bold text-deep/70">Aktivitas</TableHead>
-                                                <TableHead className="font-bold text-deep/70">Objek</TableHead>
-                                                <TableHead className="font-bold text-deep/70">Pengguna</TableHead>
+                                                <TableHead className="w-40 font-bold text-deep/70">
+                                                    Waktu
+                                                </TableHead>
+                                                <TableHead className="font-bold text-deep/70">
+                                                    Aktivitas
+                                                </TableHead>
+                                                <TableHead className="font-bold text-deep/70">
+                                                    Objek
+                                                </TableHead>
+                                                <TableHead className="font-bold text-deep/70">
+                                                    Pengguna
+                                                </TableHead>
                                             </TableRow>
                                         </TableHeader>
                                         <TableBody>
                                             {activities.map((log) => (
                                                 <TableRow key={log.id}>
-                                                    <TableCell className="text-xs text-deep/70 whitespace-nowrap">
+                                                    <TableCell className="text-xs whitespace-nowrap text-deep/70">
                                                         {log.created_at}
                                                     </TableCell>
                                                     <TableCell className="font-medium text-deep">
-                                                        {log.event === 'score.draft_saved' && 'Menyimpan draf nilai'}
-                                                        {log.event === 'score.submitted' && 'Mengirim nilai'}
-                                                        {log.event === 'score.live_incremented' && 'Menambah nilai (Live)'}
-                                                        {log.event === 'score.reopened' && 'Membuka kembali nilai'}
-                                                        {log.event === 'round.activated' && 'Mengaktifkan ronde'}
-                                                        {log.event === 'round.locked' && 'Mengunci ronde'}
-                                                        {log.event === 'event.publication_changed' && 'Mengubah publikasi hasil'}
-                                                        {!['score.draft_saved', 'score.submitted', 'score.live_incremented', 'score.reopened', 'round.activated', 'round.locked', 'event.publication_changed'].includes(log.event) && log.event}
+                                                        {log.event ===
+                                                            'score.draft_saved' &&
+                                                            'Menyimpan draf nilai'}
+                                                        {log.event ===
+                                                            'score.submitted' &&
+                                                            'Mengirim nilai'}
+                                                        {log.event ===
+                                                            'score.live_incremented' &&
+                                                            'Menambah nilai (Live)'}
+                                                        {log.event ===
+                                                            'score.live_adjusted' &&
+                                                            'Mengubah nilai (Live)'}
+                                                        {log.event ===
+                                                            'score.reopened' &&
+                                                            'Membuka kembali nilai'}
+                                                        {log.event ===
+                                                            'round.activated' &&
+                                                            'Mengaktifkan ronde'}
+                                                        {log.event ===
+                                                            'round.locked' &&
+                                                            'Mengunci ronde'}
+                                                        {log.event ===
+                                                            'event.publication_changed' &&
+                                                            'Mengubah publikasi hasil'}
+                                                        {![
+                                                            'score.draft_saved',
+                                                            'score.submitted',
+                                                            'score.live_incremented',
+                                                            'score.live_adjusted',
+                                                            'score.reopened',
+                                                            'round.activated',
+                                                            'round.locked',
+                                                            'event.publication_changed',
+                                                        ].includes(log.event) &&
+                                                            log.event}
                                                     </TableCell>
                                                     <TableCell className="text-deep">
                                                         {log.subject_name}
@@ -553,8 +592,8 @@ export default function Monitoring({
                                     Nilai {reopenTarget.name} akan kembali
                                     menjadi draf agar {reopenTarget.judgeName}{' '}
                                     dapat mengoreksi dan mengirim ulang. Nilai
-                                    per kriteria yang sudah tersimpan tidak
-                                    akan dihapus.
+                                    per kriteria yang sudah tersimpan tidak akan
+                                    dihapus.
                                 </>
                             )}
                         </DialogDescription>

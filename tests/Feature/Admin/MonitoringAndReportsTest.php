@@ -102,15 +102,15 @@ test('a judge can correct and resubmit a reopened score sheet', function () {
     $this->actingAs($admin)
         ->put(route('admin.monitoring.score-sheets.reopen', $sheet));
 
-    $this->actingAs($judge)
-        ->put(route('judge.scoring.update', $scored), [
-            'scores' => [$criterion->id => 85],
-        ])
-        ->assertRedirect();
+    for ($i = 0; $i < 5; $i++) {
+        $this->actingAs($judge)
+            ->patch(route('judge.live-scoring.adjust', $scored), ['delta' => -1])
+            ->assertRedirect();
+    }
 
     $this->actingAs($judge)
-        ->post(route('judge.scoring.submit', $scored))
-        ->assertRedirect(route('judge.scoring.index'));
+        ->post(route('judge.live-scoring.submit', $scored))
+        ->assertRedirect();
 
     expect($sheet->refresh()->isSubmitted())->toBeTrue();
     $this->assertDatabaseHas('scores', [
@@ -118,6 +118,8 @@ test('a judge can correct and resubmit a reopened score sheet', function () {
         'criterion_id' => $criterion->id,
         'value' => 85,
     ]);
+    $this->assertDatabaseHas('audit_logs', ['event' => 'score.reopened']);
+    $this->assertDatabaseHas('audit_logs', ['event' => 'score.submitted']);
 });
 
 test('judges can not reopen submitted score sheets', function () {

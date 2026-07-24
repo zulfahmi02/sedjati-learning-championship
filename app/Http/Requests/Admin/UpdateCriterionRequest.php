@@ -5,6 +5,7 @@ namespace App\Http\Requests\Admin;
 use App\Models\Criterion;
 use App\Models\Round;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Validator;
 
 class UpdateCriterionRequest extends FormRequest
@@ -17,10 +18,10 @@ class UpdateCriterionRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string', 'max:2000'],
-            'weight' => ['required', 'integer', 'min:1', 'max:100'],
-            'min_score' => ['required', 'integer', 'min:0', 'max:100'],
+            'weight' => ['required', 'integer', Rule::in([100])],
+            'min_score' => ['required', 'integer', Rule::in([0])],
             'max_score' => ['required', 'integer', 'gt:min_score', 'max:100'],
-            'sequence' => ['required', 'integer', 'min:1'],
+            'sequence' => ['required', 'integer', Rule::in([1])],
         ];
     }
 
@@ -44,12 +45,10 @@ class UpdateCriterionRequest extends FormRequest
                     return;
                 }
 
-                $otherWeights = (int) $round->criteria()->whereKeyNot($criterion->id)->sum('weight');
-
-                if ($otherWeights + (int) $this->integer('weight') > 100) {
+                if ($round->criteria()->whereKeyNot($criterion->id)->exists()) {
                     $validator->errors()->add(
-                        'weight',
-                        'Total bobot kriteria ronde ini tidak boleh melebihi 100% (kriteria lain terpakai '.$otherWeights.'%).',
+                        'name',
+                        'Setiap ronde hanya boleh memiliki satu kriteria Live Scoring.',
                     );
                 }
             },

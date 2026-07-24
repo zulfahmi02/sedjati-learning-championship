@@ -17,8 +17,6 @@ use App\Http\Controllers\Admin\RoundController;
 use App\Http\Controllers\Admin\RoundStatusController;
 use App\Http\Controllers\Judge\DashboardController as JudgeDashboardController;
 use App\Http\Controllers\Judge\LiveScoringController;
-use App\Http\Controllers\Judge\ScoringController;
-use App\Http\Controllers\Judge\SubmitScoreSheetController;
 use App\Http\Controllers\LeaderboardController;
 use Illuminate\Support\Facades\Route;
 
@@ -104,14 +102,12 @@ Route::middleware(['auth', 'role:juri'])
     ->group(function () {
         Route::get('dashboard', JudgeDashboardController::class)->name('dashboard');
 
-        Route::get('penilaian', [ScoringController::class, 'index'])->name('scoring.index');
-        Route::get('penilaian/{participant}', [ScoringController::class, 'show'])->name('scoring.show');
-        Route::put('penilaian/{participant}', [ScoringController::class, 'update'])->name('scoring.update');
-        Route::post('penilaian/{participant}/submit', [SubmitScoreSheetController::class, 'store'])->name('scoring.submit');
+        Route::get('penilaian', fn () => redirect()->route('judge.live-scoring.index'));
+        Route::get('penilaian/{participant}', fn () => redirect()->route('judge.live-scoring.index'));
 
-        // Fitur Live Scoring Baru
         Route::get('live-scoring', [LiveScoringController::class, 'index'])->name('live-scoring.index');
-        Route::post('live-scoring/{participant}/increment', [LiveScoringController::class, 'increment'])->name('live-scoring.increment');
+        Route::patch('live-scoring/{participant}', [LiveScoringController::class, 'adjust'])->name('live-scoring.adjust');
+        Route::post('live-scoring/{participant}/submit', [LiveScoringController::class, 'submit'])->name('live-scoring.submit');
     });
 
 require __DIR__.'/settings.php';

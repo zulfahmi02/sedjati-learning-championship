@@ -13,7 +13,7 @@ import {
     TableRow,
 } from '@/components/ui/table';
 import { dashboard } from '@/routes/judge';
-import scoring from '@/routes/judge/scoring';
+import liveScoring from '@/routes/judge/live-scoring';
 
 type QueueItem = {
     id: number;
@@ -64,7 +64,7 @@ export default function JudgeDashboard({
                     </div>
                     {panel && activeRound && stats.remaining > 0 && (
                         <Button asChild>
-                            <Link href={scoring.index()}>
+                            <Link href={liveScoring.index()}>
                                 <ClipboardPen className="size-4" />
                                 Mulai Menilai
                             </Link>
@@ -178,9 +178,7 @@ export default function JudgeDashboard({
                                                     asChild
                                                 >
                                                     <Link
-                                                        href={scoring.show(
-                                                            participant.id,
-                                                        )}
+                                                        href={liveScoring.index()}
                                                     >
                                                         {participant.status ===
                                                         'submitted'

@@ -189,28 +189,30 @@ export default function RoundsIndex({ rounds, totalWeight }: Props) {
                                             >
                                                 Σ bobot: {criteriaWeight}%
                                             </Badge>
-                                            {round.status === 'pending' && (
-                                                <Button
-                                                    variant="outline"
-                                                    size="sm"
-                                                    onClick={() =>
-                                                        setDialog({
-                                                            mode: 'create-criterion',
-                                                            round,
-                                                        })
-                                                    }
-                                                >
-                                                    <Plus className="size-3.5" />
-                                                    Kriteria
-                                                </Button>
-                                            )}
+                                            {round.status === 'pending' &&
+                                                (round.criteria ?? [])
+                                                    .length === 0 && (
+                                                    <Button
+                                                        variant="outline"
+                                                        size="sm"
+                                                        onClick={() =>
+                                                            setDialog({
+                                                                mode: 'create-criterion',
+                                                                round,
+                                                            })
+                                                        }
+                                                    >
+                                                        <Plus className="size-3.5" />
+                                                        Kriteria
+                                                    </Button>
+                                                )}
                                         </div>
                                     </div>
                                     {(round.criteria ?? []).length === 0 ? (
                                         <p className="py-3 text-center text-sm text-deep/70">
-                                            Belum ada kriteria. Total bobot
-                                            kriteria harus 100% sebelum ronde
-                                            dapat diaktifkan.
+                                            Tambahkan tepat satu kriteria Live
+                                            Scoring dengan bobot 100% sebelum
+                                            ronde dapat diaktifkan.
                                         </p>
                                     ) : (
                                         <Table>
@@ -435,9 +437,9 @@ export default function RoundsIndex({ rounds, totalWeight }: Props) {
                                 : 'Tambah Kriteria'}
                         </DialogTitle>
                         <DialogDescription className="text-deep/70">
-                            Kriteria untuk ronde{' '}
-                            <strong>{criterionRound?.name}</strong>. Total bobot
-                            kriteria harus 100%.
+                            Kriteria Live Scoring untuk ronde{' '}
+                            <strong>{criterionRound?.name}</strong>. Setiap
+                            ronde menggunakan tepat satu kriteria berbobot 100%.
                         </DialogDescription>
                     </DialogHeader>
                     {criterionRound && (
@@ -496,11 +498,8 @@ export default function RoundsIndex({ rounds, totalWeight }: Props) {
                                                 id="criterion-weight"
                                                 name="weight"
                                                 type="number"
-                                                min={1}
-                                                max={100}
-                                                defaultValue={
-                                                    editingCriterion?.weight
-                                                }
+                                                value={100}
+                                                readOnly
                                                 required
                                             />
                                             <InputError
@@ -515,12 +514,8 @@ export default function RoundsIndex({ rounds, totalWeight }: Props) {
                                                 id="criterion-sequence"
                                                 name="sequence"
                                                 type="number"
-                                                min={1}
-                                                defaultValue={
-                                                    editingCriterion?.sequence ??
-                                                    (criterionRound.criteria
-                                                        ?.length ?? 0) + 1
-                                                }
+                                                value={1}
+                                                readOnly
                                                 required
                                             />
                                             <InputError
@@ -537,12 +532,8 @@ export default function RoundsIndex({ rounds, totalWeight }: Props) {
                                                 id="criterion-min"
                                                 name="min_score"
                                                 type="number"
-                                                min={0}
-                                                max={100}
-                                                defaultValue={
-                                                    editingCriterion?.min_score ??
-                                                    0
-                                                }
+                                                value={0}
+                                                readOnly
                                                 required
                                             />
                                             <InputError

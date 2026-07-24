@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Enums\RoundStatus;
-use App\Enums\ScoreSheetStatus;
 use App\Models\Criterion;
 use App\Models\Panel;
 use App\Models\Participant;
@@ -32,19 +31,15 @@ class DemoSeeder extends Seeder
             ['name' => 'Final', 'sequence' => 3, 'weight' => 40, 'status' => RoundStatus::Pending],
         ])->map(fn (array $data) => Round::factory()->create($data));
 
-        $criteriaTemplate = [
-            ['name' => 'Technique', 'description' => 'Struktur materi dan penggunaan alat bantu.', 'weight' => 40],
-            ['name' => 'Presentation', 'description' => 'Intonasi, artikulasi, dan bahasa tubuh.', 'weight' => 30],
-            ['name' => 'Creativity', 'description' => 'Keaslian ide dan cara penyampaian yang unik.', 'weight' => 30],
-        ];
-
         foreach ($rounds as $round) {
-            foreach ($criteriaTemplate as $index => $criterion) {
-                Criterion::factory()->for($round)->create([
-                    ...$criterion,
-                    'sequence' => $index + 1,
-                ]);
-            }
+            Criterion::factory()->for($round)->create([
+                'name' => 'Jawaban Benar',
+                'description' => 'Jumlah jawaban benar pada ronde ini.',
+                'weight' => 100,
+                'min_score' => 0,
+                'max_score' => 100,
+                'sequence' => 1,
+            ]);
         }
 
         $panels = collect(['Alpha', 'Bravo', 'Charlie', 'Delta'])->map(function (string $name, int $index) {
