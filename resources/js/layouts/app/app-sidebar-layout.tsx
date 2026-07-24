@@ -11,8 +11,8 @@ export default function AppSidebarLayout({
 }: AppLayoutProps) {
     return (
         <div className="relative min-h-screen overflow-x-hidden bg-gradient-to-b from-butter to-[#FFFDF6] dark:from-deep dark:to-background">
-            <Blob className="-top-16 -right-24 size-60 bg-sun" />
-            <Blob className="-bottom-16 -left-24 size-48 bg-papaya opacity-25" />
+            <Blob className="-top-16 -right-24 size-60 bg-sun dark:opacity-15" />
+            <Blob className="-bottom-16 -left-24 size-48 bg-papaya opacity-25 dark:opacity-10" />
             <AppShell variant="sidebar">
                 <AppSidebar />
                 <AppContent

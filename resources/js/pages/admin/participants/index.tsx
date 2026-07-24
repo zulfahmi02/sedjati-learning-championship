@@ -97,16 +97,16 @@ export default function ParticipantsIndex({
             <div className="flex h-full flex-1 flex-col gap-6 p-4 md:p-6">
                 <div className="flex flex-wrap items-center justify-between gap-3">
                     <div>
-                        <h1 className="font-heading text-2xl font-bold text-deep">
+                        <h1 className="font-heading text-2xl font-bold text-foreground">
                             Manajemen Peserta
                         </h1>
-                        <p className="text-sm text-deep/70">
+                        <p className="text-sm text-muted-foreground">
                             Total{' '}
-                            <span className="font-bold text-deep numeric">
+                            <span className="font-bold text-foreground numeric">
                                 {stats.total}
                             </span>{' '}
                             peserta · Tingkat penilaian{' '}
-                            <span className="font-bold text-deep numeric">
+                            <span className="font-bold text-foreground numeric">
                                 {completionRate}%
                             </span>
                         </p>
@@ -127,9 +127,9 @@ export default function ParticipantsIndex({
                 </div>
 
                 {/* Filters */}
-                <div className="flex flex-wrap items-center gap-3 rounded-2xl border-2 border-leaf/10 bg-white p-4">
+                <div className="flex flex-wrap items-center gap-3 rounded-2xl border-2 border-border bg-card p-4 text-card-foreground">
                     <div className="relative min-w-56 flex-1">
-                        <Search className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-deep/70" />
+                        <Search className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
                         <Input
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
@@ -188,26 +188,26 @@ export default function ParticipantsIndex({
                 </div>
 
                 {/* Table */}
-                <div className="rounded-2xl border-2 border-leaf/10 bg-white">
+                <div className="rounded-2xl border-2 border-border bg-card text-card-foreground">
                     <Table>
                         <TableHeader>
-                            <TableRow className="bg-butter">
-                                <TableHead className="w-16 font-bold text-deep/70">
+                            <TableRow className="bg-secondary">
+                                <TableHead className="w-16 font-bold text-muted-foreground">
                                     No.
                                 </TableHead>
-                                <TableHead className="font-bold text-deep/70">
+                                <TableHead className="font-bold text-muted-foreground">
                                     Nama Peserta
                                 </TableHead>
-                                <TableHead className="font-bold text-deep/70">
+                                <TableHead className="font-bold text-muted-foreground">
                                     Panel
                                 </TableHead>
-                                <TableHead className="font-bold text-deep/70">
+                                <TableHead className="font-bold text-muted-foreground">
                                     Institusi
                                 </TableHead>
-                                <TableHead className="font-bold text-deep/70">
+                                <TableHead className="font-bold text-muted-foreground">
                                     Status
                                 </TableHead>
-                                <TableHead className="w-24 text-right font-bold text-deep/70">
+                                <TableHead className="w-24 text-right font-bold text-muted-foreground">
                                     Aksi
                                 </TableHead>
                             </TableRow>
@@ -217,7 +217,7 @@ export default function ParticipantsIndex({
                                 <TableRow>
                                     <TableCell
                                         colSpan={6}
-                                        className="py-10 text-center text-deep/70"
+                                        className="py-10 text-center text-muted-foreground"
                                     >
                                         Belum ada peserta yang cocok.
                                     </TableCell>
@@ -225,7 +225,7 @@ export default function ParticipantsIndex({
                             )}
                             {participants.data.map((participant) => (
                                 <TableRow key={participant.id}>
-                                    <TableCell className="text-deep/70 numeric">
+                                    <TableCell className="text-muted-foreground numeric">
                                         {participant.participant_number}
                                     </TableCell>
                                     <TableCell>
@@ -240,12 +240,12 @@ export default function ParticipantsIndex({
                                     </TableCell>
                                     <TableCell>
                                         {participant.panels?.[0]?.name ?? (
-                                            <span className="text-deep/60 italic">
+                                            <span className="text-muted-foreground italic">
                                                 Belum ditugaskan
                                             </span>
                                         )}
                                     </TableCell>
-                                    <TableCell className="text-deep/70">
+                                    <TableCell className="text-muted-foreground">
                                         {participant.institution ?? '—'}
                                     </TableCell>
                                     <TableCell>
@@ -305,7 +305,7 @@ export default function ParticipantsIndex({
                         <DialogTitle>
                             {editing ? 'Edit Peserta' : 'Tambah Peserta'}
                         </DialogTitle>
-                        <DialogDescription className="text-deep/70">
+                        <DialogDescription className="text-muted-foreground">
                             {editing
                                 ? 'Perbarui data peserta di bawah ini.'
                                 : 'Isi data peserta baru di bawah ini.'}
@@ -451,7 +451,7 @@ export default function ParticipantsIndex({
                 <DialogContent className="sm:max-w-md">
                     <DialogHeader>
                         <DialogTitle>Import Peserta dari Excel</DialogTitle>
-                        <DialogDescription className="text-deep/70">
+                        <DialogDescription className="text-muted-foreground">
                             Unggah berkas .xlsx atau .csv dengan kolom: nomor
                             peserta, nama, institusi, kategori. Baris pertama
                             dianggap judul kolom.
@@ -502,7 +502,7 @@ export default function ParticipantsIndex({
                 <DialogContent className="sm:max-w-md">
                     <DialogHeader>
                         <DialogTitle>Hapus Peserta</DialogTitle>
-                        <DialogDescription className="text-deep/70">
+                        <DialogDescription className="text-muted-foreground">
                             Yakin ingin menghapus{' '}
                             <strong>
                                 {dialog?.mode === 'delete'

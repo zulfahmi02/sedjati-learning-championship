@@ -67,15 +67,15 @@ export default function PanelsIndex({
             <div className="flex h-full flex-1 flex-col gap-6 p-4 md:p-6">
                 <div className="flex flex-wrap items-center justify-between gap-3">
                     <div>
-                        <h1 className="font-heading text-2xl font-bold text-deep">
+                        <h1 className="font-heading text-2xl font-bold text-foreground">
                             Panel Juri
                         </h1>
-                        <p className="text-sm text-deep/70">
+                        <p className="text-sm text-muted-foreground">
                             Setiap panel dipegang oleh tepat satu juri.
                             {unassignedParticipants.length > 0 && (
                                 <>
                                     {' '}
-                                    <span className="font-bold text-deep numeric">
+                                    <span className="font-bold text-foreground numeric">
                                         {unassignedParticipants.length}
                                     </span>{' '}
                                     peserta belum ditugaskan ke panel.
@@ -90,7 +90,7 @@ export default function PanelsIndex({
                 </div>
 
                 {panels.length === 0 && (
-                    <div className="rounded-2xl border-2 border-dashed border-leaf/10 bg-white p-10 text-center text-deep/70">
+                    <div className="rounded-2xl border-2 border-dashed border-border bg-card p-10 text-center text-card-foreground text-muted-foreground">
                         Belum ada panel. Buat panel pertama untuk mulai membagi
                         peserta.
                     </div>
@@ -104,7 +104,7 @@ export default function PanelsIndex({
                                     <CardTitle className="font-heading text-lg">
                                         {panel.name}
                                     </CardTitle>
-                                    <p className="mt-1 text-sm text-deep/70">
+                                    <p className="mt-1 text-sm text-muted-foreground">
                                         {panel.judge ? (
                                             <>Juri: {panel.judge.name}</>
                                         ) : (
@@ -186,7 +186,7 @@ export default function PanelsIndex({
                                                         <p className="text-sm font-bold">
                                                             {participant.name}
                                                         </p>
-                                                        <p className="text-xs text-deep/70 numeric">
+                                                        <p className="text-xs text-muted-foreground numeric">
                                                             {
                                                                 participant.participant_number
                                                             }
@@ -196,7 +196,7 @@ export default function PanelsIndex({
                                                 <Button
                                                     variant="ghost"
                                                     size="icon"
-                                                    className="size-7 text-deep/70"
+                                                    className="size-7 text-muted-foreground"
                                                     title="Keluarkan dari panel"
                                                     onClick={() =>
                                                         router.delete(
@@ -220,7 +220,7 @@ export default function PanelsIndex({
                                     )}
                                     {(panel.participants ?? []).length ===
                                         0 && (
-                                        <li className="py-3 text-center text-sm text-deep/70">
+                                        <li className="py-3 text-center text-sm text-muted-foreground">
                                             Belum ada peserta.
                                         </li>
                                     )}
@@ -241,7 +241,7 @@ export default function PanelsIndex({
                         <DialogTitle>
                             {editing ? 'Edit Panel' : 'Buat Panel'}
                         </DialogTitle>
-                        <DialogDescription className="text-deep/70">
+                        <DialogDescription className="text-muted-foreground">
                             Satu panel dipegang oleh tepat satu juri. Juri yang
                             sudah memegang panel lain tidak dapat dipilih.
                         </DialogDescription>
@@ -341,7 +341,7 @@ export default function PanelsIndex({
                 <DialogContent className="sm:max-w-md">
                     <DialogHeader>
                         <DialogTitle>Tugaskan Peserta</DialogTitle>
-                        <DialogDescription className="text-deep/70">
+                        <DialogDescription className="text-muted-foreground">
                             Pilih peserta yang akan ditugaskan ke panel{' '}
                             <strong>
                                 {dialog?.mode === 'assign'
@@ -371,7 +371,7 @@ export default function PanelsIndex({
                                             <SelectContent>
                                                 {unassignedParticipants.length ===
                                                     0 && (
-                                                    <div className="px-3 py-2 text-sm text-deep/70">
+                                                    <div className="px-3 py-2 text-sm text-muted-foreground">
                                                         Semua peserta sudah
                                                         memiliki panel.
                                                     </div>
@@ -425,7 +425,7 @@ export default function PanelsIndex({
                 <DialogContent className="sm:max-w-md">
                     <DialogHeader>
                         <DialogTitle>Hapus Panel</DialogTitle>
-                        <DialogDescription className="text-deep/70">
+                        <DialogDescription className="text-muted-foreground">
                             Yakin ingin menghapus panel{' '}
                             <strong>
                                 {dialog?.mode === 'delete'

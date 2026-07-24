@@ -26,7 +26,12 @@ export default function Login({ status }: Props) {
                     <>
                         <div className="grid gap-6">
                             <div className="grid gap-2">
-                                <Label htmlFor="email">Alamat email</Label>
+                                <Label
+                                    htmlFor="email"
+                                    className="font-bold text-deep"
+                                >
+                                    Alamat email
+                                </Label>
                                 <Input
                                     id="email"
                                     type="email"
@@ -36,12 +41,18 @@ export default function Login({ status }: Props) {
                                     tabIndex={1}
                                     autoComplete="email"
                                     placeholder="email@contoh.com"
+                                    className="border-leaf/35 bg-white text-deep placeholder:text-deep/50 dark:bg-white"
                                 />
                                 <InputError message={errors.email} />
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="password">Kata sandi</Label>
+                                <Label
+                                    htmlFor="password"
+                                    className="font-bold text-deep"
+                                >
+                                    Kata sandi
+                                </Label>
                                 <PasswordInput
                                     id="password"
                                     name="password"
@@ -49,6 +60,7 @@ export default function Login({ status }: Props) {
                                     tabIndex={2}
                                     autoComplete="current-password"
                                     placeholder="Kata sandi"
+                                    className="border-leaf/35 bg-white text-deep placeholder:text-deep/50 dark:bg-white"
                                 />
                                 <InputError message={errors.password} />
                             </div>
@@ -58,13 +70,19 @@ export default function Login({ status }: Props) {
                                     id="remember"
                                     name="remember"
                                     tabIndex={3}
+                                    className="border-leaf/50 bg-white data-[state=checked]:border-leaf data-[state=checked]:bg-leaf data-[state=checked]:text-white"
                                 />
-                                <Label htmlFor="remember">Ingat saya</Label>
+                                <Label
+                                    htmlFor="remember"
+                                    className="font-semibold text-deep/80"
+                                >
+                                    Ingat saya
+                                </Label>
                             </div>
 
                             <Button
                                 type="submit"
-                                className="mt-4 w-full"
+                                className="mt-2 w-full border-[#6BC862] bg-[#397C34] text-white shadow-[0_4px_0_rgba(42,51,31,0.2)] hover:bg-[#438F3D] focus-visible:ring-leaf/30"
                                 tabIndex={4}
                                 disabled={processing}
                                 data-test="login-button"
@@ -78,7 +96,7 @@ export default function Login({ status }: Props) {
             </Form>
 
             {status && (
-                <div className="mb-4 text-center text-sm font-bold text-leaf">
+                <div className="mb-4 rounded-xl bg-leaf/10 px-4 py-3 text-center text-sm font-bold text-[#397C34]">
                     {status}
                 </div>
             )}

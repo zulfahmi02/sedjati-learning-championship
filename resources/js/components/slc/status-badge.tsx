@@ -18,32 +18,32 @@ const statusConfig: Record<
     registered: {
         label: 'Terdaftar',
         bg: 'bg-sun/30',
-        text: 'text-deep',
+        text: 'text-foreground',
     },
     scored: {
         label: 'Dinilai',
-        bg: 'bg-leaf/20',
-        text: 'text-leaf',
+        bg: 'bg-primary/15',
+        text: 'text-primary',
     },
     draft: {
         label: 'Draf',
-        bg: 'bg-butter',
-        text: 'text-ink/60',
+        bg: 'bg-secondary',
+        text: 'text-secondary-foreground',
     },
     submitted: {
         label: 'Terkirim',
-        bg: 'bg-leaf/20',
-        text: 'text-leaf',
+        bg: 'bg-primary/15',
+        text: 'text-primary',
     },
     pending: {
         label: 'Menunggu',
-        bg: 'bg-butter',
-        text: 'text-ink/60',
+        bg: 'bg-secondary',
+        text: 'text-secondary-foreground',
     },
     active: {
         label: 'Berlangsung',
-        bg: 'bg-leaf',
-        text: 'text-white',
+        bg: 'bg-primary',
+        text: 'text-primary-foreground',
     },
     locked: {
         label: 'Terkunci',
@@ -52,13 +52,13 @@ const statusConfig: Record<
     },
     published: {
         label: 'Dipublikasikan',
-        bg: 'bg-leaf',
-        text: 'text-white',
+        bg: 'bg-primary',
+        text: 'text-primary-foreground',
     },
     unpublished: {
         label: 'Belum Dipublikasikan',
-        bg: 'bg-butter',
-        text: 'text-ink/60',
+        bg: 'bg-secondary',
+        text: 'text-secondary-foreground',
     },
 };
 

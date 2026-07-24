@@ -99,23 +99,23 @@ export function AppSidebar() {
         <Sidebar
             collapsible="icon"
             variant="inset"
-            className="border-r border-leaf/10"
+            className="border-r border-sidebar-border"
         >
-            <SidebarHeader className="border-b border-leaf/10 p-3">
+            <SidebarHeader className="border-b border-sidebar-border p-3">
                 <SidebarMenu>
                     <SidebarMenuItem>
                         <SidebarMenuButton
                             size="lg"
                             asChild
-                            className="h-12 rounded-2xl hover:bg-butter"
+                            className="h-12 rounded-2xl hover:bg-sidebar-accent"
                         >
                             <Link href={dashboard()} prefetch>
                                 <AppLogoIcon className="size-9 rounded-xl object-contain shadow-[0_3px_0_rgba(42,51,31,0.12)]" />
                                 <span className="grid text-left leading-tight">
-                                    <span className="font-heading text-base font-bold text-deep">
+                                    <span className="font-heading text-base font-bold text-sidebar-foreground">
                                         SLC 2026
                                     </span>
-                                    <span className="text-[0.65rem] font-bold tracking-wider text-leaf uppercase">
+                                    <span className="text-[0.65rem] font-bold tracking-wider text-sidebar-primary uppercase">
                                         Scoring System
                                     </span>
                                 </span>
@@ -129,7 +129,7 @@ export function AppSidebar() {
                 <NavMain items={mainNavItems} />
             </SidebarContent>
 
-            <SidebarFooter className="border-t border-leaf/10 p-3">
+            <SidebarFooter className="border-t border-sidebar-border p-3">
                 <NavUser />
             </SidebarFooter>
         </Sidebar>

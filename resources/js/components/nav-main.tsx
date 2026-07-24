@@ -14,7 +14,7 @@ export function NavMain({ items = [] }: { items: NavItem[] }) {
 
     return (
         <SidebarGroup className="px-3 py-2">
-            <SidebarGroupLabel className="px-3 font-heading text-[0.7rem] font-bold tracking-[0.14em] text-deep/45 uppercase">
+            <SidebarGroupLabel className="px-3 font-heading text-[0.7rem] font-bold tracking-[0.14em] text-sidebar-foreground/60 uppercase">
                 Menu Utama
             </SidebarGroupLabel>
             <SidebarMenu className="gap-1.5">
@@ -24,7 +24,7 @@ export function NavMain({ items = [] }: { items: NavItem[] }) {
                             asChild
                             isActive={isCurrentUrl(item.href)}
                             tooltip={{ children: item.title }}
-                            className="h-10 rounded-2xl px-3 font-heading font-bold text-deep transition-all hover:bg-butter data-[active=true]:bg-deep data-[active=true]:text-white data-[active=true]:shadow-[0_3px_0_rgba(42,51,31,0.16)]"
+                            className="h-10 rounded-2xl px-3 font-heading font-bold text-sidebar-foreground transition-all hover:bg-sidebar-accent hover:text-sidebar-accent-foreground data-[active=true]:bg-sidebar-primary data-[active=true]:text-sidebar-primary-foreground data-[active=true]:shadow-[0_3px_0_rgba(42,51,31,0.16)]"
                         >
                             <Link href={item.href} prefetch>
                                 {item.icon && <item.icon />}

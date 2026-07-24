@@ -10,15 +10,16 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "border-2 border-leaf bg-leaf text-white shadow-[0_3px_0_rgba(42,51,31,0.2)] hover:bg-leaf/90 active:shadow-[0_1px_0_rgba(42,51,31,0.2)]",
+          "border-2 border-primary bg-primary text-primary-foreground shadow-[0_3px_0_rgba(42,51,31,0.2)] hover:bg-primary/90 active:shadow-[0_1px_0_rgba(42,51,31,0.2)]",
         destructive:
           "border-2 border-destructive bg-destructive text-white shadow-[0_3px_0_rgba(105,0,5,0.18)] hover:bg-destructive/90 focus-visible:ring-destructive/20 active:shadow-[0_1px_0_rgba(105,0,5,0.18)] dark:focus-visible:ring-destructive/40",
         outline:
-          "border-2 border-leaf/25 bg-white text-deep shadow-[0_3px_0_rgba(42,51,31,0.08)] hover:border-leaf/45 hover:bg-butter active:shadow-[0_1px_0_rgba(42,51,31,0.08)] dark:bg-card",
+          "border-2 border-primary/25 bg-card text-card-foreground shadow-[0_3px_0_rgba(42,51,31,0.08)] hover:border-primary/45 hover:bg-accent active:shadow-[0_1px_0_rgba(42,51,31,0.08)]",
         secondary:
-          "border-2 border-butter bg-butter text-deep shadow-[0_3px_0_rgba(42,51,31,0.1)] hover:bg-sun/35 active:shadow-[0_1px_0_rgba(42,51,31,0.1)]",
-        ghost: "border-2 border-transparent text-deep hover:bg-butter",
-        link: "text-leaf underline-offset-4 hover:underline",
+          "border-2 border-secondary bg-secondary text-secondary-foreground shadow-[0_3px_0_rgba(42,51,31,0.1)] hover:bg-accent active:shadow-[0_1px_0_rgba(42,51,31,0.1)]",
+        ghost:
+          "border-2 border-transparent text-foreground hover:bg-accent hover:text-accent-foreground",
+        link: "text-primary underline-offset-4 hover:underline",
       },
       size: {
         default: "h-11 px-5 py-2 has-[>svg]:px-4",

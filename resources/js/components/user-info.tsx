@@ -18,16 +18,16 @@ export function UserInfo({
                 {showAvatar ? (
                     <AvatarImage src={user.avatar} alt={user.name} />
                 ) : null}
-                <AvatarFallback className="rounded-xl bg-butter font-heading font-bold text-deep">
+                <AvatarFallback className="rounded-xl bg-secondary font-heading font-bold text-secondary-foreground">
                     {getInitials(user.name)}
                 </AvatarFallback>
             </Avatar>
             <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-heading font-bold text-deep">
+                <span className="truncate font-heading font-bold text-sidebar-foreground">
                     {user.name}
                 </span>
                 {showEmail ? (
-                    <span className="truncate text-xs font-semibold text-ink/55">
+                    <span className="truncate text-xs font-semibold text-sidebar-foreground/65">
                         {user.email}
                     </span>
                 ) : null}

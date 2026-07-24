@@ -82,28 +82,31 @@ export default function LeaderboardIndex({
                 <Blob className="-top-8 -right-12 size-40 bg-sun" />
                 <Blob className="-bottom-8 -left-12 size-36 bg-papaya opacity-25" />
 
-                <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
+                <section className="relative z-10 flex flex-col justify-between gap-5 rounded-3xl border-2 border-leaf/10 bg-white/85 p-5 shadow-[0_5px_0_rgba(42,51,31,0.07)] backdrop-blur-sm sm:p-6 md:flex-row md:items-center">
                     <div>
-                        <h1 className="font-heading text-[32px] leading-10 font-bold text-deep">
+                        <span className="mb-2 inline-flex rounded-full bg-leaf/10 px-3 py-1 text-[0.7rem] font-extrabold tracking-[0.14em] text-deep uppercase">
+                            Leaderboard Publik
+                        </span>
+                        <h1 className="font-heading text-3xl leading-tight font-extrabold text-deep sm:text-4xl">
                             {isFinal
                                 ? 'Klasemen Akhir'
                                 : 'Leaderboard Real-time'}
                         </h1>
-                        <p className="mt-2 font-semibold text-ink/70">
+                        <p className="mt-2 text-base leading-6 font-semibold text-deep/80">
                             {isFinal
                                 ? 'Hasil akhir seluruh ronde perlombaan.'
                                 : 'Klasemen sementara — penilaian masih berlangsung.'}
                         </p>
                     </div>
                     {!isFinal && (
-                        <div className="flex items-center gap-3 rounded-2xl border-2 border-leaf/10 bg-white px-4 py-2 shadow-sm">
+                        <div className="flex items-center gap-3 rounded-2xl border-2 border-leaf/15 bg-butter/70 px-4 py-2.5 shadow-sm">
                             <span className="inline-block size-2 animate-pulse rounded-full bg-papaya" />
-                            <span className="font-heading text-xs font-bold tracking-wider text-deep/70">
+                            <span className="font-heading text-xs font-extrabold tracking-wider text-deep">
                                 Pembaruan langsung
                             </span>
                         </div>
                     )}
-                </div>
+                </section>
 
                 {standings.length === 0 && (
                     <div className="rounded-2xl border-2 border-dashed border-leaf/20 bg-white p-16 text-center font-semibold text-deep/70">
