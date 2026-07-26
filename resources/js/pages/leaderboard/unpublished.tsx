@@ -15,7 +15,7 @@ export default function LeaderboardUnpublished({
                 <Blob className="-top-4 -right-10 size-40 bg-sun" />
                 <Blob className="-bottom-4 -left-10 size-36 bg-papaya opacity-25" />
 
-                <section className="relative z-10 w-full overflow-hidden rounded-[2rem] border-2 border-leaf/15 bg-white/90 px-6 py-12 shadow-[0_8px_0_rgba(42,51,31,0.08)] backdrop-blur-sm sm:px-12 sm:py-16">
+                <section className="relative z-10 w-full overflow-hidden rounded-[2rem] border-2 border-leaf/15 bg-white/90 px-6 py-12 shadow-[0_8px_0_rgba(42,51,31,0.08)] backdrop-blur-sm sm:px-12 sm:py-16 dark:border-border dark:bg-card/95">
                     <div className="absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-leaf via-sun to-papaya" />
                     <div className="mx-auto flex max-w-xl flex-col items-center gap-5">
                         <span className="inline-flex rounded-full border border-leaf/15 bg-leaf/10 px-4 py-1.5 text-xs font-extrabold tracking-[0.16em] text-deep uppercase">
