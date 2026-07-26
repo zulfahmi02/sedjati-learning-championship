@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Enums\ScoreSheetStatus;
 use App\Http\Controllers\Controller;
 use App\Models\AuditLog;
-use App\Models\EventSetting;
 use App\Models\Panel;
 use App\Models\Round;
 use App\Models\ScoreSheet;
@@ -99,16 +98,10 @@ class MonitoringController extends Controller
                 ->map(fn (AuditLog $log) => [
                     'id' => $log->id,
                     'event' => $log->event,
-                    'actor_name' => $log->actor?->name ?? 'Sistem',
+                    'actor_name' => $log->actor->name ?? 'Sistem',
                     'created_at' => $log->created_at?->diffForHumans(),
                     'context' => $log->context,
-                    // Minimal subject snapshot for UI
-                    'subject_name' => match ($log->subject_type) {
-                        (new ScoreSheet)->getMorphClass() => $log->subject?->participant?->name ?? 'Peserta Terhapus',
-                        (new Round)->getMorphClass() => $log->subject?->name ?? 'Ronde',
-                        (new EventSetting)->getMorphClass() => 'Pengaturan Event',
-                        default => 'Item',
-                    },
+                    'subject_name' => $log->subjectName(),
                 ]);
         }
 

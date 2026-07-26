@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\ScoreSheet;
 use App\Models\User;
 
 test('profile page is displayed', function () {
@@ -82,4 +83,17 @@ test('correct password must be provided to delete account', function () {
         ->assertRedirect(route('profile.edit'));
 
     expect($user->fresh())->not->toBeNull();
+});
+
+test('a judge account with scoring history can not be deleted', function () {
+    $judge = User::factory()->judge()->create();
+    $scoreSheet = ScoreSheet::factory()->create(['user_id' => $judge->id]);
+
+    $this->actingAs($judge)
+        ->delete(route('profile.destroy'), ['password' => 'password'])
+        ->assertSessionHasErrors('user');
+
+    expect($judge->fresh())->not->toBeNull();
+    expect($scoreSheet->fresh())->not->toBeNull();
+    $this->assertAuthenticatedAs($judge);
 });

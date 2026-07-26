@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Database\Factories\ParticipantFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -20,7 +21,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property-read Panel|null $panel
- * @property-read \Illuminate\Database\Eloquent\Collection<int, ScoreSheet> $scoreSheets
+ * @property-read Collection<int, ScoreSheet> $scoreSheets
  */
 #[Fillable(['participant_number', 'name', 'institution', 'category', 'notes'])]
 class Participant extends Model
@@ -50,5 +51,10 @@ class Participant extends Model
     public function scoreSheets(): HasMany
     {
         return $this->hasMany(ScoreSheet::class);
+    }
+
+    public function hasScoringHistory(): bool
+    {
+        return $this->scoreSheets()->exists();
     }
 }

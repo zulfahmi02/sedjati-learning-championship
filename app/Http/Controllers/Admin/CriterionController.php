@@ -43,6 +43,10 @@ class CriterionController extends Controller
             return back()->withErrors(['criterion' => 'Kriteria hanya dapat dihapus saat ronde masih berstatus menunggu.']);
         }
 
+        if ($criterion->hasScoringHistory()) {
+            return back()->withErrors(['criterion' => 'Kriteria tidak dapat dihapus karena sudah memiliki histori penilaian.']);
+        }
+
         $criterion->delete();
 
         return back()->with('success', 'Kriteria berhasil dihapus.');

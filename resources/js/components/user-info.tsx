@@ -14,20 +14,20 @@ export function UserInfo({
 
     return (
         <>
-            <Avatar className="h-9 w-9 overflow-hidden rounded-xl border-2 border-leaf/15">
+            <Avatar className="size-9 overflow-hidden rounded-xl border-2 border-leaf/15 group-data-[collapsible=icon]:size-8">
                 {showAvatar ? (
                     <AvatarImage src={user.avatar} alt={user.name} />
                 ) : null}
-                <AvatarFallback className="rounded-xl bg-secondary font-heading font-bold text-secondary-foreground">
+                <AvatarFallback className="rounded-xl bg-butter font-heading font-bold text-deep">
                     {getInitials(user.name)}
                 </AvatarFallback>
             </Avatar>
             <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-heading font-bold text-sidebar-foreground">
+                <span className="truncate font-heading font-bold text-deep dark:text-sidebar-foreground">
                     {user.name}
                 </span>
                 {showEmail ? (
-                    <span className="truncate text-xs font-semibold text-sidebar-foreground/65">
+                    <span className="truncate text-xs font-semibold text-ink/55 dark:text-muted-foreground">
                         {user.email}
                     </span>
                 ) : null}

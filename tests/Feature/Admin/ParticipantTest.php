@@ -2,7 +2,9 @@
 
 use App\Models\Panel;
 use App\Models\Participant;
+use App\Models\ScoreSheet;
 use App\Models\User;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\UploadedFile;
 
 test('admins can view the participants index', function () {
@@ -99,6 +101,43 @@ test('admins can delete a participant', function () {
 
     $this->assertDatabaseMissing('participants', ['id' => $participant->id]);
     $this->assertDatabaseHas('audit_logs', ['event' => 'participant.deleted']);
+});
+
+test('participants with scoring history can not move panels or be deleted', function () {
+    $admin = User::factory()->admin()->create();
+    $oldPanel = Panel::factory()->withJudge()->create();
+    $newPanel = Panel::factory()->withJudge()->create();
+    $participant = Participant::factory()->create();
+    $participant->panels()->attach($oldPanel);
+    ScoreSheet::factory()->create([
+        'user_id' => $oldPanel->judge_id,
+        'participant_id' => $participant->id,
+    ]);
+
+    $this->actingAs($admin)
+        ->put(route('admin.participants.update', $participant), [
+            'participant_number' => $participant->participant_number,
+            'name' => $participant->name,
+            'panel_id' => $newPanel->id,
+        ])
+        ->assertSessionHasErrors('panel_id');
+
+    $this->actingAs($admin)
+        ->delete(route('admin.participants.destroy', $participant))
+        ->assertSessionHasErrors('participant');
+
+    expect($participant->fresh())->not->toBeNull();
+    expect($participant->panels()->first()->is($oldPanel))->toBeTrue();
+});
+
+test('the database prevents scoring history from being cascade deleted', function () {
+    $participant = Participant::factory()->create();
+    $scoreSheet = ScoreSheet::factory()->create(['participant_id' => $participant->id]);
+
+    expect(fn () => $participant->delete())->toThrow(QueryException::class);
+
+    expect($participant->fresh())->not->toBeNull();
+    expect($scoreSheet->fresh())->not->toBeNull();
 });
 
 test('admins can import participants from csv', function () {

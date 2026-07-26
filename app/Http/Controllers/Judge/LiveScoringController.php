@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Judge;
 
+use App\Actions\Judge\SaveLiveScoreBatch;
 use App\Enums\ScoreSheetStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Judge\AdjustLiveScoreRequest;
+use App\Http\Requests\Judge\BatchLiveScoreRequest;
 use App\Models\Criterion;
 use App\Models\Participant;
 use App\Models\Round;
@@ -20,7 +22,10 @@ use Inertia\Response;
 
 class LiveScoringController extends Controller
 {
-    public function __construct(private ScoreCalculationService $calculator) {}
+    public function __construct(
+        private ScoreCalculationService $calculator,
+        private SaveLiveScoreBatch $saveLiveScoreBatch,
+    ) {}
 
     public function index(Request $request): Response|RedirectResponse
     {
@@ -197,6 +202,40 @@ class LiveScoringController extends Controller
         $this->calculator->forgetCachedStandings();
 
         return back()->with('success', 'Nilai '.$participant->name.' berhasil dikirim.');
+    }
+
+    public function updateBatch(BatchLiveScoreRequest $request): RedirectResponse
+    {
+        $activeRound = Round::active();
+        abort_unless($activeRound !== null, 404);
+
+        $count = $this->saveLiveScoreBatch->handle(
+            $request->user(),
+            $activeRound,
+            $this->soleCriterion($activeRound),
+            $request->validated('scores'),
+            submit: false,
+        );
+
+        return back()->with('success', "{$count} nilai berhasil disimpan sebagai draf.");
+    }
+
+    public function submitBatch(BatchLiveScoreRequest $request): RedirectResponse
+    {
+        $activeRound = Round::active();
+        abort_unless($activeRound !== null, 404);
+
+        $count = $this->saveLiveScoreBatch->handle(
+            $request->user(),
+            $activeRound,
+            $this->soleCriterion($activeRound),
+            $request->validated('scores'),
+            submit: true,
+        );
+
+        $this->calculator->forgetCachedStandings();
+
+        return back()->with('success', "{$count} nilai berhasil dikirim final.");
     }
 
     private function soleCriterion(Round $round): Criterion

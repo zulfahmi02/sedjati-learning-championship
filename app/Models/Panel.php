@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Database\Factories\PanelFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -18,7 +19,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property-read User|null $judge
- * @property-read \Illuminate\Database\Eloquent\Collection<int, Participant> $participants
+ * @property-read Collection<int, Participant> $participants
  */
 #[Fillable(['name', 'description', 'judge_id'])]
 class Panel extends Model
@@ -47,5 +48,10 @@ class Panel extends Model
     public function hasJudge(): bool
     {
         return $this->judge_id !== null;
+    }
+
+    public function hasScoringHistory(): bool
+    {
+        return $this->participants()->whereHas('scoreSheets')->exists();
     }
 }

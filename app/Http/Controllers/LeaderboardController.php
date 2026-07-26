@@ -12,9 +12,7 @@ use Inertia\Response;
 
 class LeaderboardController extends Controller
 {
-    public function __construct(private ScoreCalculationService $calculator)
-    {
-    }
+    public function __construct(private ScoreCalculationService $calculator) {}
 
     public function index(): Response
     {

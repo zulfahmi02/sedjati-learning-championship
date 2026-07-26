@@ -1,6 +1,7 @@
 import { Head, Link } from '@inertiajs/react';
 import { ArrowLeft } from 'lucide-react';
 import { Blob } from '@/components/slc/blob';
+import { StatusBadge } from '@/components/slc/status-badge';
 import PublicLayout from '@/layouts/public-layout';
 import { index } from '@/routes/leaderboard';
 import type { RoundStatus } from '@/types';
@@ -119,29 +120,7 @@ export default function LeaderboardShow({
                                     <h2 className="font-heading text-lg font-bold text-deep">
                                         {entry.round.name}
                                     </h2>
-                                    <span
-                                        className="inline-block rounded-full px-3 py-1 font-heading text-xs font-bold shadow-sm"
-                                        style={{
-                                            background:
-                                                entry.round.status === 'active'
-                                                    ? '#4F9A46'
-                                                    : entry.round.status ===
-                                                        'locked'
-                                                      ? '#FF8C42'
-                                                      : '#FFF3D6',
-                                            color:
-                                                entry.round.status === 'pending'
-                                                    ? '#2A331F'
-                                                    : '#ffffff',
-                                            transform: 'rotate(1deg)',
-                                        }}
-                                    >
-                                        {entry.round.status === 'active'
-                                            ? 'Berlangsung'
-                                            : entry.round.status === 'locked'
-                                              ? 'Terkunci'
-                                              : 'Menunggu'}
-                                    </span>
+                                    <StatusBadge status={entry.round.status} />
                                 </div>
                                 <div className="text-right">
                                     <span className="font-heading text-xl font-bold text-deep">

@@ -105,7 +105,7 @@ export default function JudgeDashboard({
                             />
                         </div>
 
-                        <div className="rounded-2xl border-2 border-leaf/10 bg-white">
+                        <div className="overflow-hidden rounded-2xl border-2 border-leaf/10 bg-white">
                             <div className="border-b px-5 py-4">
                                 <h2 className="font-heading text-lg font-bold text-deep">
                                     Daftar Peserta — {activeRound.name}

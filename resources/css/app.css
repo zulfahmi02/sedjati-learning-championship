@@ -176,24 +176,123 @@
 
 @layer components {
     .slc-surface {
-        @apply rounded-3xl border-2 border-leaf/10 bg-white shadow-[0_4px_0_rgba(42,51,31,0.06)];
+        @apply rounded-3xl border-2 border-leaf/10 bg-white shadow-[0_4px_0_rgba(42,51,31,0.06)] dark:border-border dark:bg-card;
     }
 
     .slc-empty-state {
-        @apply rounded-3xl border-2 border-dashed border-leaf/20 bg-butter/70 p-10 text-center font-semibold text-deep/70;
+        @apply rounded-3xl border-2 border-dashed border-leaf/20 bg-butter/70 p-10 text-center font-semibold text-deep/70 dark:border-border dark:bg-muted dark:text-muted-foreground;
     }
 
     .slc-page-title {
-        @apply font-heading text-2xl leading-tight font-bold text-deep md:text-[1.75rem];
+        @apply font-heading text-2xl leading-tight font-bold text-deep md:text-[1.75rem] dark:text-foreground;
     }
 
     .slc-page-description {
-        @apply mt-1 text-sm font-semibold text-ink/65;
+        @apply mt-1 text-sm font-semibold text-ink/65 dark:text-muted-foreground;
     }
 }
 
 .dark body {
     background-image: linear-gradient(180deg, #2f4b2e 0%, #1a2618 36rem);
+}
+
+/*
+ * Dark-mode compatibility for the original SLC brand utilities. These
+ * utilities predate the semantic foreground/card/muted tokens and are used
+ * throughout the application pages.
+ */
+.dark {
+    color-scheme: dark;
+}
+
+.dark .text-deep {
+    color: var(--foreground);
+}
+
+.dark .text-deep\/45 {
+    color: color-mix(in srgb, var(--foreground) 45%, transparent);
+}
+
+.dark .text-deep\/60 {
+    color: color-mix(in srgb, var(--foreground) 60%, transparent);
+}
+
+.dark .text-deep\/70 {
+    color: color-mix(in srgb, var(--foreground) 70%, transparent);
+}
+
+.dark .text-deep\/80 {
+    color: color-mix(in srgb, var(--foreground) 80%, transparent);
+}
+
+.dark .text-ink\/50 {
+    color: color-mix(in srgb, var(--foreground) 50%, transparent);
+}
+
+.dark .text-ink\/55 {
+    color: color-mix(in srgb, var(--foreground) 55%, transparent);
+}
+
+.dark .text-ink\/60 {
+    color: color-mix(in srgb, var(--foreground) 60%, transparent);
+}
+
+.dark .text-ink\/65 {
+    color: color-mix(in srgb, var(--foreground) 65%, transparent);
+}
+
+.dark .text-ink\/70 {
+    color: color-mix(in srgb, var(--foreground) 70%, transparent);
+}
+
+.dark .bg-white {
+    background-color: var(--card);
+}
+
+.dark .bg-white\/75 {
+    background-color: color-mix(in srgb, var(--card) 75%, transparent);
+}
+
+.dark .bg-white\/80 {
+    background-color: color-mix(in srgb, var(--card) 80%, transparent);
+}
+
+.dark .bg-butter {
+    background-color: var(--muted);
+}
+
+.dark .bg-butter\/45 {
+    background-color: color-mix(in srgb, var(--muted) 45%, transparent);
+}
+
+.dark .bg-butter\/50 {
+    background-color: color-mix(in srgb, var(--muted) 50%, transparent);
+}
+
+.dark .bg-butter\/60 {
+    background-color: color-mix(in srgb, var(--muted) 60%, transparent);
+}
+
+.dark .bg-butter\/70 {
+    background-color: color-mix(in srgb, var(--muted) 70%, transparent);
+}
+
+.dark .border-leaf\/10,
+.dark .border-leaf\/15,
+.dark .border-leaf\/20 {
+    border-color: var(--border);
+}
+
+.dark .border-butter {
+    border-color: var(--border);
+}
+
+.dark .hover\:bg-butter:hover {
+    background-color: var(--accent);
+}
+
+.dark .hover\:bg-butter\/50:hover {
+    background-color: color-mix(in srgb, var(--accent) 50%, transparent);
 }
 
 @media (prefers-reduced-motion: reduce) {

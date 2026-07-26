@@ -55,6 +55,100 @@ test('live scoring redirects to dashboard when no round is active', function () 
         ->assertRedirect(route('judge.dashboard'));
 });
 
+test('judges can save multiple live scores as drafts in one request', function () {
+    [$judge, $panel, $participant, $round, $criterion] = setUpLiveScoringContext();
+    $secondParticipant = Participant::factory()->create();
+    $secondParticipant->panels()->attach($panel);
+
+    $this->actingAs($judge)
+        ->patch(route('judge.live-scoring.batch-update'), [
+            'scores' => [
+                ['participant_id' => $participant->id, 'value' => 7],
+                ['participant_id' => $secondParticipant->id, 'value' => 8],
+            ],
+        ])
+        ->assertRedirect()
+        ->assertSessionHas('success');
+
+    $sheets = ScoreSheet::query()
+        ->where('user_id', $judge->id)
+        ->where('round_id', $round->id)
+        ->with('scores')
+        ->get()
+        ->keyBy('participant_id');
+
+    expect($sheets)->toHaveCount(2)
+        ->and($sheets[$participant->id]->isDraft())->toBeTrue()
+        ->and((float) $sheets[$participant->id]->scores->sole()->value)->toBe(7.0)
+        ->and($sheets[$secondParticipant->id]->isDraft())->toBeTrue()
+        ->and((float) $sheets[$secondParticipant->id]->scores->sole()->value)->toBe(8.0);
+
+    $this->assertDatabaseCount('audit_logs', 2);
+    $this->assertDatabaseHas('scores', ['criterion_id' => $criterion->id, 'value' => 7]);
+});
+
+test('judges can save and submit multiple live scores atomically', function () {
+    [$judge, $panel, $participant, $round] = setUpLiveScoringContext();
+    $secondParticipant = Participant::factory()->create();
+    $secondParticipant->panels()->attach($panel);
+
+    $this->actingAs($judge)
+        ->post(route('judge.live-scoring.batch-submit'), [
+            'scores' => [
+                ['participant_id' => $participant->id, 'value' => 6],
+                ['participant_id' => $secondParticipant->id, 'value' => 9],
+            ],
+        ])
+        ->assertRedirect()
+        ->assertSessionHas('success');
+
+    $sheets = ScoreSheet::query()
+        ->where('user_id', $judge->id)
+        ->where('round_id', $round->id)
+        ->with('scores')
+        ->get();
+
+    expect($sheets)->toHaveCount(2)
+        ->and($sheets->every->isSubmitted())->toBeTrue()
+        ->and($sheets->every(fn (ScoreSheet $sheet) => $sheet->submitted_at !== null))->toBeTrue();
+
+    $this->assertDatabaseCount('audit_logs', 4);
+});
+
+test('batch scoring validates unique participants and criterion bounds', function () {
+    [$judge, , $participant] = setUpLiveScoringContext();
+
+    $this->actingAs($judge)
+        ->patch(route('judge.live-scoring.batch-update'), [
+            'scores' => [
+                ['participant_id' => $participant->id, 'value' => 11],
+                ['participant_id' => $participant->id, 'value' => 5],
+            ],
+        ])
+        ->assertSessionHasErrors([
+            'scores.0.value',
+            'scores.1.participant_id',
+        ]);
+
+    expect(ScoreSheet::query()->count())->toBe(0);
+});
+
+test('batch scoring rejects the whole request when a participant is outside the judge panel', function () {
+    [$judge, , $participant] = setUpLiveScoringContext();
+    $foreignParticipant = Participant::factory()->create();
+
+    $this->actingAs($judge)
+        ->patch(route('judge.live-scoring.batch-update'), [
+            'scores' => [
+                ['participant_id' => $participant->id, 'value' => 7],
+                ['participant_id' => $foreignParticipant->id, 'value' => 8],
+            ],
+        ])
+        ->assertForbidden();
+
+    expect(ScoreSheet::query()->count())->toBe(0);
+});
+
 test('adjustment creates a draft sheet and updates the score', function () {
     [$judge, , $participant, $round, $criterion] = setUpLiveScoringContext();
 

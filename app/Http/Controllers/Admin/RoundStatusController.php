@@ -6,8 +6,10 @@ use App\Enums\RoundStatus;
 use App\Http\Controllers\Controller;
 use App\Models\Round;
 use App\Services\AuditLogger;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
 class RoundStatusController extends Controller
@@ -23,20 +25,30 @@ class RoundStatusController extends Controller
 
         $target = RoundStatus::from($validated['status']);
 
-        return match ($target) {
-            RoundStatus::Active => $this->activate($round),
-            RoundStatus::Locked => $this->lock($round),
-            RoundStatus::Pending => back()->withErrors(['status' => 'Ronde tidak dapat dikembalikan ke status menunggu.']),
-        };
+        return DB::transaction(function () use ($round, $target): RedirectResponse {
+            $rounds = Round::query()->orderBy('id')->lockForUpdate()->get();
+            $lockedRound = $rounds->firstWhere('id', $round->id);
+
+            abort_unless($lockedRound instanceof Round, 404);
+
+            return match ($target) {
+                RoundStatus::Active => $this->activate($lockedRound, $rounds),
+                RoundStatus::Locked => $this->lock($lockedRound),
+                RoundStatus::Pending => back()->withErrors(['status' => 'Ronde tidak dapat dikembalikan ke status menunggu.']),
+            };
+        }, attempts: 3);
     }
 
-    private function activate(Round $round): RedirectResponse
+    /**
+     * @param  Collection<int, Round>  $rounds
+     */
+    private function activate(Round $round, Collection $rounds): RedirectResponse
     {
         if ($round->isLocked()) {
             return back()->withErrors(['status' => 'Ronde yang terkunci tidak dapat diaktifkan kembali.']);
         }
 
-        if (Round::query()->where('status', RoundStatus::Active)->whereKeyNot($round->id)->exists()) {
+        if ($rounds->contains(fn (Round $otherRound) => $otherRound->id !== $round->id && $otherRound->isActive())) {
             return back()->withErrors(['status' => 'Masih ada ronde lain yang sedang berlangsung. Kunci ronde tersebut terlebih dahulu.']);
         }
 

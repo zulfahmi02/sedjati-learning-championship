@@ -9,8 +9,9 @@ use App\Models\ScoreSheet;
 use App\Models\User;
 use App\Services\ScoreCalculationService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
-uses(Tests\TestCase::class, RefreshDatabase::class);
+uses(TestCase::class, RefreshDatabase::class);
 
 function makeScoredParticipant(Round $round, array $criterionValues, ?User $judge = null): Participant
 {

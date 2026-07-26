@@ -14,7 +14,7 @@ use Illuminate\Support\Carbon;
  * @property string $event
  * @property string|null $subject_type
  * @property int|null $subject_id
- * @property array|null $context
+ * @property array<string, mixed>|null $context
  * @property Carbon|null $created_at
  * @property-read User|null $actor
  * @property-read Model|null $subject
@@ -38,6 +38,18 @@ class AuditLog extends Model
     public function subject(): MorphTo
     {
         return $this->morphTo('subject');
+    }
+
+    public function subjectName(): string
+    {
+        $subject = $this->getRelationValue('subject');
+
+        return match (true) {
+            $subject instanceof ScoreSheet => $subject->participant->name,
+            $subject instanceof Round => $subject->name,
+            $subject instanceof EventSetting => 'Pengaturan Event',
+            default => 'Item',
+        };
     }
 
     protected function casts(): array

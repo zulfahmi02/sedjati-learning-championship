@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Admin;
 
+use App\Models\Round;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Validator;
@@ -29,7 +30,7 @@ class StoreRoundRequest extends FormRequest
     {
         return [
             function (Validator $validator) {
-                $existing = (int) \App\Models\Round::query()->sum('weight');
+                $existing = (int) Round::query()->sum('weight');
 
                 if ($existing + (int) $this->integer('weight') > 100) {
                     $validator->errors()->add(

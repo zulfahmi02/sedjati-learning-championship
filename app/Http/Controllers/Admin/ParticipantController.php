@@ -80,10 +80,16 @@ class ParticipantController extends Controller
     public function update(UpdateParticipantRequest $request, Participant $participant): RedirectResponse
     {
         $oldPanelId = $participant->panels()->first()?->id;
+        $panelId = $request->validated('panel_id');
+
+        if ($oldPanelId !== $panelId && $participant->hasScoringHistory()) {
+            return back()->withErrors([
+                'panel_id' => 'Panel peserta tidak dapat diubah karena peserta sudah memiliki histori penilaian.',
+            ]);
+        }
 
         $participant->update($request->safe()->except('panel_id'));
 
-        $panelId = $request->validated('panel_id');
         $participant->panels()->sync($panelId ? [$panelId] : []);
 
         AuditLogger::log(auth()->user(), 'participant.updated', $participant, array_filter([
@@ -96,6 +102,12 @@ class ParticipantController extends Controller
 
     public function destroy(Participant $participant): RedirectResponse
     {
+        if ($participant->hasScoringHistory()) {
+            return back()->withErrors([
+                'participant' => 'Peserta tidak dapat dihapus karena sudah memiliki histori penilaian.',
+            ]);
+        }
+
         AuditLogger::log(auth()->user(), 'participant.deleted', $participant, [
             'name' => $participant->name,
             'participant_number' => $participant->participant_number,

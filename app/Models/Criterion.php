@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
 /**
@@ -36,5 +37,18 @@ class Criterion extends Model
     public function round(): BelongsTo
     {
         return $this->belongsTo(Round::class);
+    }
+
+    /**
+     * @return HasMany<Score, $this>
+     */
+    public function scores(): HasMany
+    {
+        return $this->hasMany(Score::class);
+    }
+
+    public function hasScoringHistory(): bool
+    {
+        return $this->scores()->exists();
     }
 }

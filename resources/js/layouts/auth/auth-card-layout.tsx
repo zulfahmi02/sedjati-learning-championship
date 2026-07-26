@@ -2,6 +2,7 @@ import { Link } from '@inertiajs/react';
 import type { PropsWithChildren } from 'react';
 import AppLogoIcon from '@/components/app-logo-icon';
 import { Blob } from '@/components/slc/blob';
+import { BrandWatermark } from '@/components/slc/brand-watermark';
 import { home } from '@/routes';
 
 export default function AuthCardLayout({
@@ -14,15 +15,16 @@ export default function AuthCardLayout({
     description?: string;
 }>) {
     return (
-        <div className="relative flex min-h-svh flex-col items-center justify-center gap-6 bg-gradient-to-b from-butter to-[#FFFDF6] p-6 md:p-10">
+        <div className="relative flex min-h-svh flex-col items-center justify-center gap-6 bg-gradient-to-b from-butter to-[#FFFDF6] p-6 md:p-10 dark:from-deep dark:to-background">
             <Blob className="-top-12 -right-20 size-52 bg-sun" />
             <Blob className="-bottom-12 -left-20 size-44 bg-papaya opacity-35" />
-            <div className="relative flex w-full max-w-md flex-col gap-6">
+            <BrandWatermark />
+            <div className="relative z-10 flex w-full max-w-md flex-col gap-6">
                 <Link
                     href={home()}
                     className="flex items-center gap-2 self-center font-medium"
                 >
-                    <AppLogoIcon className="size-14 rounded-2xl object-contain shadow-md" />
+                    <AppLogoIcon className="size-16 shadow-md" />
                 </Link>
 
                 <div className="flex flex-col gap-6">

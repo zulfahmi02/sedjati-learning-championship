@@ -44,6 +44,14 @@ class PanelController extends Controller
 
     public function update(UpdatePanelRequest $request, Panel $panel): RedirectResponse
     {
+        $judgeId = $request->validated('judge_id');
+
+        if ($panel->judge_id !== $judgeId && $panel->hasScoringHistory()) {
+            return back()->withErrors([
+                'judge_id' => 'Juri panel tidak dapat diubah karena panel sudah memiliki histori penilaian.',
+            ]);
+        }
+
         $panel->update($request->validated());
 
         return back()->with('success', 'Panel berhasil diperbarui.');
@@ -51,6 +59,12 @@ class PanelController extends Controller
 
     public function destroy(Panel $panel): RedirectResponse
     {
+        if ($panel->hasScoringHistory()) {
+            return back()->withErrors([
+                'panel' => 'Panel tidak dapat dihapus karena sudah memiliki histori penilaian.',
+            ]);
+        }
+
         $panel->delete();
 
         return back()->with('success', 'Panel berhasil dihapus.');

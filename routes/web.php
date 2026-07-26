@@ -106,6 +106,8 @@ Route::middleware(['auth', 'role:juri'])
         Route::get('penilaian/{participant}', fn () => redirect()->route('judge.live-scoring.index'));
 
         Route::get('live-scoring', [LiveScoringController::class, 'index'])->name('live-scoring.index');
+        Route::patch('live-scoring', [LiveScoringController::class, 'updateBatch'])->name('live-scoring.batch-update');
+        Route::post('live-scoring/submit', [LiveScoringController::class, 'submitBatch'])->name('live-scoring.batch-submit');
         Route::patch('live-scoring/{participant}', [LiveScoringController::class, 'adjust'])->name('live-scoring.adjust');
         Route::post('live-scoring/{participant}/submit', [LiveScoringController::class, 'submit'])->name('live-scoring.submit');
     });

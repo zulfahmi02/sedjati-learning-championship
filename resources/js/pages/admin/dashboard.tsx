@@ -87,21 +87,18 @@ export default function AdminDashboard({
         <>
             <Head title="Dashboard" />
             <div className="flex h-full flex-1 flex-col gap-6 p-4 md:p-6">
-                <section className="flex flex-col justify-between gap-4 rounded-3xl border-2 border-border bg-card/85 p-5 text-card-foreground shadow-[0_5px_0_rgba(42,51,31,0.07)] backdrop-blur-sm sm:p-6 lg:flex-row lg:items-center">
+                <div className="flex flex-wrap items-center justify-between gap-2">
                     <div>
-                        <span className="mb-2 inline-flex rounded-full bg-primary/10 px-3 py-1 text-[0.7rem] font-extrabold tracking-[0.14em] text-primary uppercase">
-                            Admin Overview
-                        </span>
-                        <h1 className="font-heading text-3xl leading-tight font-extrabold text-card-foreground sm:text-4xl">
+                        <h1 className="font-heading text-2xl font-bold text-deep dark:text-foreground">
                             Ringkasan Dashboard
                         </h1>
-                        <p className="mt-1 text-sm leading-6 font-semibold text-muted-foreground sm:text-base">
+                        <p className="text-sm font-semibold text-ink/70 dark:text-muted-foreground">
                             {activeRound
                                 ? `Ronde berlangsung: ${activeRound.name}`
                                 : 'Belum ada ronde yang berlangsung.'}
                         </p>
                     </div>
-                    <div className="flex flex-wrap items-center gap-2">
+                    <div className="flex items-center gap-2">
                         <StatusBadge
                             status={
                                 resultsPublished ? 'published' : 'unpublished'
@@ -129,7 +126,7 @@ export default function AdminDashboard({
                                 : 'Publikasikan Hasil'}
                         </Button>
                     </div>
-                </section>
+                </div>
 
                 <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
                     <StatCard
@@ -157,7 +154,7 @@ export default function AdminDashboard({
                         detail={
                             <div className="flex flex-col gap-1.5">
                                 <Progress value={stats.progress} />
-                                <span className="font-bold text-muted-foreground">
+                                <span className="font-bold text-deep/70 dark:text-muted-foreground">
                                     {stats.submittedInRound}/
                                     {stats.expectedInRound} dinilai
                                 </span>
@@ -166,31 +163,31 @@ export default function AdminDashboard({
                     />
                 </div>
 
-                <section className="overflow-hidden rounded-3xl border-2 border-border bg-card text-card-foreground shadow-[0_5px_0_rgba(42,51,31,0.06)]">
-                    <div className="flex flex-col justify-between gap-1 border-b border-border px-5 py-4 sm:flex-row sm:items-center">
-                        <h2 className="font-heading text-xl font-bold text-card-foreground">
+                <div className="overflow-hidden rounded-2xl border-2 border-leaf/10 bg-white shadow-sm dark:border-border dark:bg-card">
+                    <div className="flex items-center justify-between border-b border-leaf/10 px-5 py-4">
+                        <h2 className="font-heading text-lg font-bold text-deep dark:text-card-foreground">
                             Status Penilaian Panel
                         </h2>
-                        <span className="text-xs font-bold text-muted-foreground">
+                        <span className="text-xs font-bold text-deep/60 dark:text-muted-foreground">
                             Diperbarui otomatis setiap 10 detik
                         </span>
                     </div>
                     <Table>
                         <TableHeader>
-                            <TableRow className="bg-secondary hover:bg-secondary">
-                                <TableHead className="font-heading text-xs font-bold tracking-wider text-secondary-foreground/80 uppercase">
+                            <TableRow className="bg-butter dark:bg-muted">
+                                <TableHead className="font-heading text-xs font-bold tracking-wider text-deep/70 uppercase dark:text-muted-foreground">
                                     Nama Panel
                                 </TableHead>
-                                <TableHead className="font-heading text-xs font-bold tracking-wider text-secondary-foreground/80 uppercase">
+                                <TableHead className="font-heading text-xs font-bold tracking-wider text-deep/70 uppercase dark:text-muted-foreground">
                                     Juri
                                 </TableHead>
-                                <TableHead className="text-right font-heading text-xs font-bold tracking-wider text-secondary-foreground/80 uppercase">
+                                <TableHead className="text-right font-heading text-xs font-bold tracking-wider text-deep/70 uppercase dark:text-muted-foreground">
                                     Peserta
                                 </TableHead>
-                                <TableHead className="text-right font-heading text-xs font-bold tracking-wider text-secondary-foreground/80 uppercase">
+                                <TableHead className="text-right font-heading text-xs font-bold tracking-wider text-deep/70 uppercase dark:text-muted-foreground">
                                     Dinilai
                                 </TableHead>
-                                <TableHead className="font-heading text-xs font-bold tracking-wider text-secondary-foreground/80 uppercase">
+                                <TableHead className="font-heading text-xs font-bold tracking-wider text-deep/70 uppercase dark:text-muted-foreground">
                                     Status
                                 </TableHead>
                             </TableRow>
@@ -200,7 +197,7 @@ export default function AdminDashboard({
                                 <TableRow>
                                     <TableCell
                                         colSpan={5}
-                                        className="py-10 text-center font-semibold text-muted-foreground"
+                                        className="py-8 text-center font-semibold text-deep/70 dark:text-muted-foreground"
                                     >
                                         Belum ada panel. Buat panel terlebih
                                         dahulu di menu Panel.
@@ -216,22 +213,22 @@ export default function AdminDashboard({
                                 return (
                                     <TableRow
                                         key={panel.id}
-                                        className="hover:bg-accent/50"
+                                        className="hover:bg-butter/50 dark:hover:bg-muted/50"
                                     >
-                                        <TableCell className="font-bold text-card-foreground">
+                                        <TableCell className="font-bold text-deep dark:text-card-foreground">
                                             {panel.name}
                                         </TableCell>
                                         <TableCell>
                                             {panel.judge ?? (
-                                                <span className="font-semibold text-muted-foreground italic">
+                                                <span className="font-semibold text-deep/60 italic dark:text-muted-foreground">
                                                     Belum ada juri
                                                 </span>
                                             )}
                                         </TableCell>
-                                        <TableCell className="text-right font-bold text-card-foreground">
+                                        <TableCell className="text-right font-bold text-deep dark:text-card-foreground">
                                             {panel.participants_count}
                                         </TableCell>
-                                        <TableCell className="text-right font-bold text-card-foreground">
+                                        <TableCell className="text-right font-bold text-deep dark:text-card-foreground">
                                             {panel.scored_count}
                                         </TableCell>
                                         <TableCell>
@@ -257,7 +254,7 @@ export default function AdminDashboard({
                             })}
                         </TableBody>
                     </Table>
-                </section>
+                </div>
             </div>
 
             <Dialog open={confirmPublish} onOpenChange={setConfirmPublish}>

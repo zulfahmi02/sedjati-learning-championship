@@ -99,23 +99,23 @@ export function AppSidebar() {
         <Sidebar
             collapsible="icon"
             variant="inset"
-            className="border-r border-sidebar-border"
+            className="border-r border-leaf/10"
         >
-            <SidebarHeader className="border-b border-sidebar-border p-3">
+            <SidebarHeader className="border-b border-leaf/10 p-3 group-data-[collapsible=icon]:p-2">
                 <SidebarMenu>
                     <SidebarMenuItem>
                         <SidebarMenuButton
                             size="lg"
                             asChild
-                            className="h-12 rounded-2xl hover:bg-sidebar-accent"
+                            className="h-28 flex-col justify-center gap-1 rounded-2xl group-data-[collapsible=icon]:gap-0 hover:bg-butter"
                         >
                             <Link href={dashboard()} prefetch>
-                                <AppLogoIcon className="size-9 rounded-xl object-contain shadow-[0_3px_0_rgba(42,51,31,0.12)]" />
-                                <span className="grid text-left leading-tight">
-                                    <span className="font-heading text-base font-bold text-sidebar-foreground">
+                                <AppLogoIcon className="size-14 group-data-[collapsible=icon]:size-7" />
+                                <span className="grid text-center leading-tight group-data-[collapsible=icon]:hidden">
+                                    <span className="font-heading text-base font-bold text-deep dark:text-sidebar-foreground">
                                         SLC 2026
                                     </span>
-                                    <span className="text-[0.65rem] font-bold tracking-wider text-sidebar-primary uppercase">
+                                    <span className="text-[0.65rem] font-bold tracking-wider text-leaf uppercase">
                                         Scoring System
                                     </span>
                                 </span>
@@ -129,7 +129,7 @@ export function AppSidebar() {
                 <NavMain items={mainNavItems} />
             </SidebarContent>
 
-            <SidebarFooter className="border-t border-sidebar-border p-3">
+            <SidebarFooter className="border-t border-leaf/10 p-3 group-data-[collapsible=icon]:p-2">
                 <NavUser />
             </SidebarFooter>
         </Sidebar>

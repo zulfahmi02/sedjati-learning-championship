@@ -6,6 +6,7 @@ use App\Enums\UserRole;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -25,7 +26,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property-read Panel|null $panel
- * @property-read \Illuminate\Database\Eloquent\Collection<int, ScoreSheet> $scoreSheets
+ * @property-read Collection<int, ScoreSheet> $scoreSheets
  */
 #[Fillable(['name', 'email', 'password', 'role', 'is_active'])]
 #[Hidden(['password', 'remember_token'])]
@@ -60,6 +61,11 @@ class User extends Authenticatable
     public function isJudge(): bool
     {
         return $this->role === UserRole::Juri;
+    }
+
+    public function hasScoringHistory(): bool
+    {
+        return $this->scoreSheets()->exists();
     }
 
     /**

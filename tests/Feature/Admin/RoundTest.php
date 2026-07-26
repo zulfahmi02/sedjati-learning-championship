@@ -3,6 +3,8 @@
 use App\Enums\RoundStatus;
 use App\Models\Criterion;
 use App\Models\Round;
+use App\Models\Score;
+use App\Models\ScoreSheet;
 use App\Models\User;
 
 test('admins can create rounds within the 100 percent weight ceiling', function () {
@@ -154,4 +156,27 @@ test('non pending rounds can not be deleted', function () {
         ->assertSessionHasErrors();
 
     $this->assertDatabaseHas('rounds', ['id' => $round->id]);
+});
+
+test('rounds and criteria with scoring history can not be deleted', function () {
+    $admin = User::factory()->admin()->create();
+    $round = Round::factory()->create();
+    $criterion = Criterion::factory()->for($round)->create();
+    $scoreSheet = ScoreSheet::factory()->create(['round_id' => $round->id]);
+    Score::factory()->create([
+        'score_sheet_id' => $scoreSheet->id,
+        'criterion_id' => $criterion->id,
+    ]);
+
+    $this->actingAs($admin)
+        ->delete(route('admin.rounds.criteria.destroy', [$round, $criterion]))
+        ->assertSessionHasErrors('criterion');
+
+    $this->actingAs($admin)
+        ->delete(route('admin.rounds.destroy', $round))
+        ->assertSessionHasErrors('round');
+
+    expect($round->fresh())->not->toBeNull();
+    expect($criterion->fresh())->not->toBeNull();
+    expect($scoreSheet->fresh())->not->toBeNull();
 });

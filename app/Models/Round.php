@@ -5,10 +5,10 @@ namespace App\Models;
 use App\Enums\RoundStatus;
 use Database\Factories\RoundFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
 
 /**
@@ -19,8 +19,8 @@ use Illuminate\Support\Carbon;
  * @property RoundStatus $status
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, Criterion> $criteria
- * @property-read \Illuminate\Database\Eloquent\Collection<int, ScoreSheet> $scoreSheets
+ * @property-read Collection<int, Criterion> $criteria
+ * @property-read Collection<int, ScoreSheet> $scoreSheets
  */
 #[Fillable(['name', 'sequence', 'weight', 'status'])]
 class Round extends Model
@@ -65,6 +65,11 @@ class Round extends Model
     public static function active(): ?self
     {
         return self::query()->where('status', RoundStatus::Active)->first();
+    }
+
+    public function hasScoringHistory(): bool
+    {
+        return $this->scoreSheets()->exists();
     }
 
     protected function casts(): array

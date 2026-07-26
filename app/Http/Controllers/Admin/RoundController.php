@@ -43,6 +43,10 @@ class RoundController extends Controller
             return back()->withErrors(['round' => 'Hanya ronde berstatus menunggu yang dapat dihapus.']);
         }
 
+        if ($round->hasScoringHistory()) {
+            return back()->withErrors(['round' => 'Ronde tidak dapat dihapus karena sudah memiliki histori penilaian.']);
+        }
+
         $round->delete();
 
         return back()->with('success', 'Ronde berhasil dihapus.');

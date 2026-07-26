@@ -20,6 +20,12 @@ class PanelParticipantController extends Controller
         $participant = Participant::findOrFail($request->validated('participant_id'));
         $oldPanelId = $participant->panels()->first()?->id;
 
+        if ($oldPanelId !== $panel->id && $participant->hasScoringHistory()) {
+            return back()->withErrors([
+                'participant_id' => 'Peserta tidak dapat dipindahkan karena sudah memiliki histori penilaian.',
+            ]);
+        }
+
         $participant->panels()->sync([$panel->id]);
 
         AuditLogger::log(auth()->user(), 'participant.panel_assigned', $participant, [
@@ -35,6 +41,14 @@ class PanelParticipantController extends Controller
      */
     public function destroy(Panel $panel, Participant $participant): RedirectResponse
     {
+        abort_unless($participant->panels()->whereKey($panel->id)->exists(), 404);
+
+        if ($participant->hasScoringHistory()) {
+            return back()->withErrors([
+                'participant' => 'Peserta tidak dapat dikeluarkan dari panel karena sudah memiliki histori penilaian.',
+            ]);
+        }
+
         $panel->participants()->detach($participant);
 
         AuditLogger::log(auth()->user(), 'participant.panel_unassigned', $participant, [

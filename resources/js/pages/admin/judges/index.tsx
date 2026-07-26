@@ -69,10 +69,10 @@ export default function JudgesIndex({ judges, filters }: Props) {
             <div className="flex h-full flex-1 flex-col gap-6 p-4 md:p-6">
                 <div className="flex flex-wrap items-center justify-between gap-3">
                     <div>
-                        <h1 className="font-heading text-2xl font-bold text-foreground">
+                        <h1 className="font-heading text-2xl font-bold text-deep">
                             Manajemen Juri
                         </h1>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-sm text-deep/70">
                             Kelola akun juri, status aktif, dan reset kata
                             sandi.
                         </p>
@@ -83,9 +83,9 @@ export default function JudgesIndex({ judges, filters }: Props) {
                     </Button>
                 </div>
 
-                <div className="flex items-center gap-3 rounded-2xl border-2 border-border bg-card p-4 text-card-foreground">
+                <div className="flex items-center gap-3 rounded-2xl border-2 border-leaf/10 bg-white p-4">
                     <div className="relative flex-1">
-                        <Search className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
+                        <Search className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-deep/70" />
                         <Input
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
@@ -101,23 +101,23 @@ export default function JudgesIndex({ judges, filters }: Props) {
                     </div>
                 </div>
 
-                <div className="rounded-2xl border-2 border-border bg-card text-card-foreground">
+                <div className="overflow-hidden rounded-2xl border-2 border-leaf/10 bg-white">
                     <Table>
                         <TableHeader>
-                            <TableRow className="bg-secondary">
-                                <TableHead className="font-bold text-muted-foreground">
+                            <TableRow className="bg-butter">
+                                <TableHead className="font-bold text-deep/70">
                                     Nama
                                 </TableHead>
-                                <TableHead className="font-bold text-muted-foreground">
+                                <TableHead className="font-bold text-deep/70">
                                     Email
                                 </TableHead>
-                                <TableHead className="font-bold text-muted-foreground">
+                                <TableHead className="font-bold text-deep/70">
                                     Panel
                                 </TableHead>
-                                <TableHead className="font-bold text-muted-foreground">
+                                <TableHead className="font-bold text-deep/70">
                                     Status
                                 </TableHead>
-                                <TableHead className="w-28 text-right font-bold text-muted-foreground">
+                                <TableHead className="w-28 text-right font-bold text-deep/70">
                                     Aksi
                                 </TableHead>
                             </TableRow>
@@ -127,7 +127,7 @@ export default function JudgesIndex({ judges, filters }: Props) {
                                 <TableRow>
                                     <TableCell
                                         colSpan={5}
-                                        className="py-10 text-center text-muted-foreground"
+                                        className="py-10 text-center text-deep/70"
                                     >
                                         Belum ada juri.
                                     </TableCell>
@@ -145,12 +145,12 @@ export default function JudgesIndex({ judges, filters }: Props) {
                                             </span>
                                         </div>
                                     </TableCell>
-                                    <TableCell className="text-muted-foreground">
+                                    <TableCell className="text-deep/70">
                                         {judge.email}
                                     </TableCell>
                                     <TableCell>
                                         {judge.panel?.name ?? (
-                                            <span className="text-muted-foreground italic">
+                                            <span className="text-deep/60 italic">
                                                 Belum ada panel
                                             </span>
                                         )}
@@ -220,7 +220,7 @@ export default function JudgesIndex({ judges, filters }: Props) {
                 <DialogContent className="sm:max-w-md">
                     <DialogHeader>
                         <DialogTitle>Tambah Juri</DialogTitle>
-                        <DialogDescription className="text-muted-foreground">
+                        <DialogDescription className="text-deep/70">
                             Buat akun juri baru. Sampaikan email dan kata sandi
                             kepada juri secara langsung.
                         </DialogDescription>
@@ -292,7 +292,7 @@ export default function JudgesIndex({ judges, filters }: Props) {
                 <DialogContent className="sm:max-w-md">
                     <DialogHeader>
                         <DialogTitle>Edit Juri</DialogTitle>
-                        <DialogDescription className="text-muted-foreground">
+                        <DialogDescription className="text-deep/70">
                             Perbarui data juri atau nonaktifkan akunnya.
                         </DialogDescription>
                     </DialogHeader>
@@ -334,12 +334,12 @@ export default function JudgesIndex({ judges, filters }: Props) {
                                         />
                                         <InputError message={errors.email} />
                                     </div>
-                                    <div className="flex items-center justify-between rounded-2xl border-2 border-border p-3">
+                                    <div className="flex items-center justify-between rounded-2xl border-2 border-leaf/10 p-3">
                                         <div>
                                             <p className="text-sm font-bold">
                                                 Akun Aktif
                                             </p>
-                                            <p className="text-xs text-muted-foreground">
+                                            <p className="text-xs text-deep/70">
                                                 Juri nonaktif tidak dapat masuk
                                                 ke sistem.
                                             </p>
@@ -380,7 +380,7 @@ export default function JudgesIndex({ judges, filters }: Props) {
                 <DialogContent className="sm:max-w-md">
                     <DialogHeader>
                         <DialogTitle>Reset Kata Sandi</DialogTitle>
-                        <DialogDescription className="text-muted-foreground">
+                        <DialogDescription className="text-deep/70">
                             Tetapkan kata sandi baru untuk{' '}
                             <strong>{resetting?.name}</strong>. Sampaikan kata
                             sandi baru kepada juri secara langsung.

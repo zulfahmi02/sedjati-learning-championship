@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\ScoreSheetStatus;
 use Database\Factories\ScoreSheetFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -23,7 +24,7 @@ use Illuminate\Support\Carbon;
  * @property-read User $judge
  * @property-read Participant $participant
  * @property-read Round $round
- * @property-read \Illuminate\Database\Eloquent\Collection<int, Score> $scores
+ * @property-read Collection<int, Score> $scores
  */
 #[Fillable(['user_id', 'participant_id', 'round_id', 'status', 'submitted_at'])]
 class ScoreSheet extends Model

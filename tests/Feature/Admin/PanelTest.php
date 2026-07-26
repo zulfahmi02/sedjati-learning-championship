@@ -2,6 +2,8 @@
 
 use App\Models\Panel;
 use App\Models\Participant;
+use App\Models\Round;
+use App\Models\ScoreSheet;
 use App\Models\User;
 
 test('admins can create a panel with a judge', function () {
@@ -115,4 +117,55 @@ test('admins can update the panel judge', function () {
         ->assertRedirect();
 
     expect($panel->refresh()->judge_id)->toBe($newJudge->id);
+});
+
+test('panel assignments become immutable after scoring begins', function () {
+    $admin = User::factory()->admin()->create();
+    $panel = Panel::factory()->withJudge()->create();
+    $otherPanel = Panel::factory()->withJudge()->create();
+    $participant = Participant::factory()->create();
+    $participant->panels()->attach($panel);
+    ScoreSheet::factory()->create([
+        'user_id' => $panel->judge_id,
+        'participant_id' => $participant->id,
+        'round_id' => Round::factory(),
+    ]);
+
+    $this->actingAs($admin)
+        ->post(route('admin.panels.participants.store', $otherPanel), [
+            'participant_id' => $participant->id,
+        ])
+        ->assertSessionHasErrors('participant_id');
+
+    $this->actingAs($admin)
+        ->delete(route('admin.panels.participants.destroy', [$panel, $participant]))
+        ->assertSessionHasErrors('participant');
+
+    expect($participant->panels()->first()->is($panel))->toBeTrue();
+});
+
+test('a panel judge and panel can not change after scoring begins', function () {
+    $admin = User::factory()->admin()->create();
+    $panel = Panel::factory()->withJudge()->create();
+    $participant = Participant::factory()->create();
+    $participant->panels()->attach($panel);
+    ScoreSheet::factory()->create([
+        'user_id' => $panel->judge_id,
+        'participant_id' => $participant->id,
+    ]);
+    $newJudge = User::factory()->judge()->create();
+
+    $this->actingAs($admin)
+        ->put(route('admin.panels.update', $panel), [
+            'name' => $panel->name,
+            'judge_id' => $newJudge->id,
+        ])
+        ->assertSessionHasErrors('judge_id');
+
+    $this->actingAs($admin)
+        ->delete(route('admin.panels.destroy', $panel))
+        ->assertSessionHasErrors('panel');
+
+    expect($panel->fresh())->not->toBeNull();
+    expect($panel->refresh()->judge_id)->not->toBe($newJudge->id);
 });

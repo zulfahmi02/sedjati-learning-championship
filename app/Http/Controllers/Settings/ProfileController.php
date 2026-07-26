@@ -50,6 +50,12 @@ class ProfileController extends Controller
     {
         $user = $request->user();
 
+        if ($user->hasScoringHistory()) {
+            return back()->withErrors([
+                'user' => 'Akun tidak dapat dihapus karena memiliki histori penilaian.',
+            ]);
+        }
+
         Auth::logout();
 
         $user->delete();
