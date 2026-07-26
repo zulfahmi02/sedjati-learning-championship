@@ -15,7 +15,7 @@ class ResetJudgePasswordRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'password' => $this->passwordRules(),
+            'password' => $this->passwordRules(requiresConfirmation: false),
         ];
     }
 

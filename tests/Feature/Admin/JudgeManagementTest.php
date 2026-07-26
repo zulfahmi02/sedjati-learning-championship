@@ -21,8 +21,8 @@ test('admins can create a judge account', function () {
             'name' => 'Juri Utama',
             'email' => 'juri@slc.test',
             'password' => 'password-juri-123',
-            'password_confirmation' => 'password-juri-123',
         ])
+        ->assertSessionHasNoErrors()
         ->assertRedirect();
 
     $this->assertDatabaseHas('users', [
@@ -58,8 +58,8 @@ test('admins can reset a judge password', function () {
     $this->actingAs($admin)
         ->put(route('admin.judges.password', $judge), [
             'password' => 'kata-sandi-baru-123',
-            'password_confirmation' => 'kata-sandi-baru-123',
         ])
+        ->assertSessionHasNoErrors()
         ->assertRedirect();
 
     expect(Hash::check('kata-sandi-baru-123', $judge->refresh()->password))->toBeTrue();
