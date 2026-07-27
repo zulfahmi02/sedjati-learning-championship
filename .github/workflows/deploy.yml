@@ -67,7 +67,7 @@ jobs:
           DEPLOY_PATH: ${{ secrets.CPANEL_DEPLOY_PATH }}
         run: |
           ssh -p "${CPANEL_PORT:-22}" "$CPANEL_USER@$CPANEL_HOST" \
-            "if [ -f '$DEPLOY_PATH/artisan' ]; then cd '$DEPLOY_PATH' && php artisan down --retry=10; fi"
+            "if [ -f '$DEPLOY_PATH/artisan' ] && [ -f '$DEPLOY_PATH/vendor/autoload.php' ]; then cd '$DEPLOY_PATH' && /opt/cpanel/ea-php85/root/usr/bin/php artisan down --retry=10; fi"
 
       - name: Upload release
         env:
@@ -94,4 +94,4 @@ jobs:
           DEPLOY_PATH: ${{ secrets.CPANEL_DEPLOY_PATH }}
         run: |
           ssh -p "${CPANEL_PORT:-22}" "$CPANEL_USER@$CPANEL_HOST" \
-            "cd '$DEPLOY_PATH' && trap 'php artisan up' EXIT; php artisan migrate --force && php artisan optimize"
+            "cd '$DEPLOY_PATH' && trap '/opt/cpanel/ea-php85/root/usr/bin/php artisan up' EXIT; chmod -R ug+rwX storage bootstrap/cache && /opt/cpanel/ea-php85/root/usr/bin/php artisan migrate --force && /opt/cpanel/ea-php85/root/usr/bin/php artisan optimize"
