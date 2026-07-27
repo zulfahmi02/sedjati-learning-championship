@@ -43,7 +43,7 @@ jobs:
         run: composer install --no-ansi --no-interaction --no-progress --prefer-dist
 
       - name: Generate Wayfinder Definitions
-        run: php artisan wayfinder:generate --no-interaction
+        run: php artisan wayfinder:generate --with-form --no-interaction
 
       - name: Check Pint
         run: composer lint:check

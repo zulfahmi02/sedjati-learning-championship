@@ -21,10 +21,16 @@ function PodiumCard({ entry }: { entry: Entry }) {
 
     const medal = isFirst ? '🥇' : isSecond ? '🥈' : '🥉';
     const colors = isFirst
-        ? 'bg-sun border-sun shadow-md'
+        ? 'bg-sun border-sun shadow-md dark:bg-sun dark:border-sun'
         : isSecond
           ? 'bg-butter border-sun/50 shadow-sm'
           : 'bg-butter border-sun/30 shadow-sm';
+    const primaryText = isFirst ? 'text-ink' : 'text-deep';
+    const secondaryText = isFirst ? 'text-ink/70' : 'text-deep/70';
+    const rankColors = isFirst
+        ? 'bg-ink/90 text-white'
+        : 'bg-white/80 text-deep';
+    const scoreColors = isFirst ? 'text-ink' : 'text-papaya';
 
     return (
         <Link
@@ -35,25 +41,31 @@ function PodiumCard({ entry }: { entry: Entry }) {
                 {medal}
             </div>
             <span
-                className="mb-2 inline-block rounded-full bg-white/80 px-3.5 py-1 font-heading text-xs font-bold text-deep shadow-sm"
+                className={`mb-2 inline-block rounded-full px-3.5 py-1 font-heading text-xs font-bold shadow-sm ${rankColors}`}
                 style={{ transform: 'rotate(-2deg)' }}
             >
                 RANK {String(entry.rank).padStart(2, '0')}
             </span>
-            <h3 className="font-heading text-xl font-bold text-deep">
+            <h3 className={`font-heading text-xl font-bold ${primaryText}`}>
                 {entry.participant.name}
             </h3>
-            <p className="mt-1 text-xs font-bold text-deep/70">
+            <p className={`mt-1 text-xs font-bold ${secondaryText}`}>
                 {entry.participant.panel
                     ? `Panel: ${entry.participant.panel}`
                     : (entry.participant.institution ??
                       entry.participant.participant_number)}
             </p>
-            <div className="mt-6 w-full border-t border-white/30 pt-6">
-                <span className="font-heading text-5xl font-bold text-papaya">
+            <div
+                className={`mt-6 w-full border-t pt-6 ${isFirst ? 'border-ink/15' : 'border-white/30'}`}
+            >
+                <span
+                    className={`font-heading text-5xl font-bold ${scoreColors}`}
+                >
                     {entry.total.toFixed(1)}
                 </span>
-                <span className="ml-1.5 text-xs font-bold text-deep/60">
+                <span
+                    className={`ml-1.5 text-xs font-bold ${isFirst ? 'text-ink/60' : 'text-deep/60'}`}
+                >
                     pts
                 </span>
             </div>
@@ -82,7 +94,7 @@ export default function LeaderboardIndex({
                 <Blob className="-top-8 -right-12 size-40 bg-sun" />
                 <Blob className="-bottom-8 -left-12 size-36 bg-papaya opacity-25" />
 
-                <section className="relative z-10 flex flex-col justify-between gap-5 rounded-3xl border-2 border-leaf/10 bg-white/85 p-5 shadow-[0_5px_0_rgba(42,51,31,0.07)] backdrop-blur-sm sm:p-6 md:flex-row md:items-center">
+                <section className="relative z-10 flex flex-col justify-between gap-5 rounded-3xl border-2 border-leaf/10 bg-white/85 p-5 shadow-[0_5px_0_rgba(42,51,31,0.07)] backdrop-blur-sm sm:p-6 md:flex-row md:items-center dark:bg-card/95">
                     <div>
                         <span className="mb-2 inline-flex rounded-full bg-leaf/10 px-3 py-1 text-[0.7rem] font-extrabold tracking-[0.14em] text-deep uppercase">
                             Leaderboard Publik
