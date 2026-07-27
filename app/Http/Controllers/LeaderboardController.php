@@ -28,13 +28,7 @@ class LeaderboardController extends Controller
             ->map(fn (array $entry) => [
                 'rank' => $entry['rank'],
                 'total' => $entry['total'],
-                'participant' => [
-                    'id' => $entry['participant']->id,
-                    'participant_number' => $entry['participant']->participant_number,
-                    'name' => $entry['participant']->name,
-                    'institution' => $entry['participant']->institution,
-                    'panel' => $entry['participant']->panels->first()?->name,
-                ],
+                'participant' => $entry['participant'],
                 'rounds' => $entry['rounds'],
             ])
             ->values();
@@ -62,7 +56,7 @@ class LeaderboardController extends Controller
             ]);
 
         $standing = collect($this->calculator->cachedStandings())
-            ->firstWhere(fn (array $entry) => $entry['participant']->id === $participant->id);
+            ->firstWhere(fn (array $entry) => $entry['participant']['id'] === $participant->id);
 
         return Inertia::render('leaderboard/show', [
             'eventName' => $settings->event_name,

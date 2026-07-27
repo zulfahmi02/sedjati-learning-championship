@@ -158,3 +158,20 @@ test('tied totals share the same dense rank', function () {
 
     expect($ranks->all())->toBe([1, 1, 2]);
 });
+
+test('cached standings contain only deployment-safe scalar data', function () {
+    $round = Round::factory()->locked()->create(['weight' => 100]);
+    $criterion = Criterion::factory()->for($round)->create(['weight' => 100]);
+    $participant = makeScoredParticipant($round, [$criterion->id => 90]);
+
+    $standings = app(ScoreCalculationService::class)->cachedStandings();
+    $values = [];
+
+    array_walk_recursive($standings, function (mixed $value) use (&$values): void {
+        $values[] = $value;
+    });
+
+    expect($standings[0]['participant']['id'])->toBe($participant->id)
+        ->and($standings[0]['total'])->toBe(90.0)
+        ->and(collect($values)->contains(fn (mixed $value): bool => is_object($value)))->toBeFalse();
+});

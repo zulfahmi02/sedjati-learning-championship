@@ -23,6 +23,8 @@ class ScoreCalculationService
 {
     private const CACHE_SECONDS = 10;
 
+    private const STANDINGS_CACHE_KEY = 'leaderboard:standings:v2';
+
     /**
      * Score per participant for one round, keyed by participant_id.
      *
@@ -111,20 +113,39 @@ class ScoreCalculationService
     /**
      * Cached standings for the public leaderboard.
      *
-     * @return array<int, array{rank: int, participant: Participant, total: float, rounds: array<int, float|null>}>
+     * Cache only scalar arrays. Laravel 13 blocks arbitrary object
+     * unserialization by default, and cached Eloquent models can become
+     * incomplete objects between deployments.
+     *
+     * @return array<int, array{rank: int, participant: array{id: int, participant_number: string, name: string, institution: string|null, panel: string|null}, total: float, rounds: array<int, float|null>}>
      */
     public function cachedStandings(): array
     {
         return Cache::remember(
-            'leaderboard:standings',
+            self::STANDINGS_CACHE_KEY,
             self::CACHE_SECONDS,
-            fn (): array => $this->rankedStandings(),
+            fn (): array => array_map(
+                static fn (array $entry): array => [
+                    'rank' => $entry['rank'],
+                    'participant' => [
+                        'id' => $entry['participant']->id,
+                        'participant_number' => $entry['participant']->participant_number,
+                        'name' => $entry['participant']->name,
+                        'institution' => $entry['participant']->institution,
+                        'panel' => $entry['participant']->panels->first()?->name,
+                    ],
+                    'total' => $entry['total'],
+                    'rounds' => $entry['rounds'],
+                ],
+                $this->rankedStandings(),
+            ),
         );
     }
 
     public function forgetCachedStandings(): void
     {
         Cache::forget('leaderboard:standings');
+        Cache::forget(self::STANDINGS_CACHE_KEY);
     }
 
     /**

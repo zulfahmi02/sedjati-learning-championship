@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\EventSetting;
 use App\Models\User;
 use Illuminate\Support\Facades\RateLimiter;
 
@@ -62,6 +63,25 @@ test('users can logout', function () {
 
     $this->assertGuest();
     $response->assertRedirect(route('home'));
+});
+
+test('users can reach the public leaderboard after logout', function () {
+    $user = User::factory()->create();
+    EventSetting::current()->update([
+        'results_published' => true,
+        'published_at' => now(),
+    ]);
+
+    $this->actingAs($user)
+        ->followingRedirects()
+        ->post(route('logout'))
+        ->assertOk()
+        ->assertInertia(fn ($page) => $page
+            ->component('leaderboard/index')
+            ->where('auth.user', null),
+        );
+
+    $this->assertGuest();
 });
 
 test('users are rate limited', function () {
