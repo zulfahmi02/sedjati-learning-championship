@@ -14,7 +14,8 @@ use function Laravel\Prompts\password;
 
 #[Signature('app:provision-admin
             {--name=Admin SLC : Nama administrator}
-            {--email=admin@tamanbelajarsedjati.com : Email administrator}')]
+            {--email=admin@tamanbelajarsedjati.com : Email administrator}
+            {--password-env= : Nama environment variable yang berisi kata sandi}')]
 #[Description('Membuat akun administrator production secara aman')]
 class ProvisionAdmin extends Command
 {
@@ -32,26 +33,62 @@ class ProvisionAdmin extends Command
             return self::FAILURE;
         }
 
-        $plainPassword = password(
-            label: 'Kata sandi administrator',
-            required: true,
-            validate: fn (string $value) => validator(
-                ['password' => $value],
-                ['password' => [PasswordRule::min(12)->mixedCase()->numbers()->symbols()->uncompromised()]],
-            )->errors()->first('password') ?: null,
-        );
+        $passwordEnvironmentVariable = (string) $this->option('password-env');
+        $plainPassword = $this->resolvePassword($passwordEnvironmentVariable);
 
-        User::query()->create([
+        if ($plainPassword === null) {
+            return self::FAILURE;
+        }
+
+        $administrator = User::query()->create([
             'name' => $name,
             'email' => $email,
-            'email_verified_at' => now(),
             'password' => Hash::make($plainPassword),
             'role' => UserRole::Admin,
             'is_active' => true,
         ]);
 
+        $administrator->forceFill(['email_verified_at' => now()])->save();
+
         $this->components->info("Administrator {$email} berhasil dibuat.");
 
         return self::SUCCESS;
+    }
+
+    private function resolvePassword(string $passwordEnvironmentVariable): ?string
+    {
+        if ($passwordEnvironmentVariable === '') {
+            return password(
+                label: 'Kata sandi administrator',
+                required: true,
+                validate: fn (string $value) => $this->passwordValidationError($value),
+            );
+        }
+
+        $plainPassword = getenv($passwordEnvironmentVariable);
+
+        if ($plainPassword === false || $plainPassword === '') {
+            $this->components->error("Environment variable {$passwordEnvironmentVariable} tidak tersedia.");
+
+            return null;
+        }
+
+        $validationError = $this->passwordValidationError($plainPassword);
+
+        if ($validationError !== null) {
+            $this->components->error($validationError);
+
+            return null;
+        }
+
+        return $plainPassword;
+    }
+
+    private function passwordValidationError(string $plainPassword): ?string
+    {
+        return validator(
+            ['password' => $plainPassword],
+            ['password' => [PasswordRule::min(12)->mixedCase()->numbers()->symbols()->uncompromised()]],
+        )->errors()->first('password') ?: null;
     }
 }
