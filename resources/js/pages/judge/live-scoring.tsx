@@ -53,7 +53,7 @@ type Props = {
 };
 
 type ScoreValues = Record<number, string>;
-type ProcessingAction = 'save' | 'submit' | null;
+type ProcessingAction = 'adjust' | 'save' | 'submit' | null;
 
 const valuesFromParticipants = (participants: QueueItem[]): ScoreValues =>
     Object.fromEntries(
@@ -115,10 +115,11 @@ export default function LiveScoring({
     };
 
     const adjustScore = (participant: QueueItem, delta: -1 | 1) => {
-        if (participant.status === 'submitted') {
+        if (participant.status === 'submitted' || isProcessing) {
             return;
         }
 
+        const previousValue = scoreValues[participant.id] ?? '';
         const currentValue = Number(scoreValues[participant.id]);
         const safeCurrentValue = Number.isFinite(currentValue)
             ? currentValue
@@ -128,7 +129,29 @@ export default function LiveScoring({
             Math.max(criterion.min_score, safeCurrentValue + delta),
         );
 
+        if (nextValue === safeCurrentValue) {
+            return;
+        }
+
         setScore(participant.id, String(nextValue));
+        setProcessingAction('adjust');
+
+        router.patch(
+            liveScoring.adjust(participant.id).url,
+            { delta },
+            {
+                preserveScroll: true,
+                preserveState: true,
+                onError: (errors) => {
+                    setScoreValues((current) => ({
+                        ...current,
+                        [participant.id]: previousValue,
+                    }));
+                    handleErrors(errors);
+                },
+                onFinish: () => setProcessingAction(null),
+            },
+        );
     };
 
     const entriesFor = (items: QueueItem[]) =>
@@ -230,6 +253,11 @@ export default function LiveScoring({
                         {dirtyParticipants.length > 0 && (
                             <span className="rounded-full bg-sun/25 px-3 py-1 text-deep">
                                 {dirtyParticipants.length} perubahan
+                            </span>
+                        )}
+                        {processingAction === 'adjust' && (
+                            <span className="rounded-full bg-leaf/10 px-3 py-1 text-leaf">
+                                Menyimpan perubahan...
                             </span>
                         )}
                     </div>

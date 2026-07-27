@@ -170,6 +170,14 @@ test('adjustment creates a draft sheet and updates the score', function () {
         'event' => 'score.live_adjusted',
         'subject_id' => $sheet->id,
     ]);
+
+    $this->actingAs($judge)
+        ->get(route('judge.live-scoring.index'))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->where('participants.0.current_score', 1)
+            ->where('participants.0.status', ScoreSheetStatus::Draft->value),
+        );
 });
 
 test('score can be incremented and decremented within criterion bounds', function () {

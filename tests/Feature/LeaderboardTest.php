@@ -65,6 +65,24 @@ test('the leaderboard is publicly visible after publication', function () {
         );
 });
 
+test('the leaderboard remains accessible to authenticated users', function (string $role) {
+    $participant = seedScoredEvent();
+    publishResults();
+    $user = $role === 'admin'
+        ? User::factory()->admin()->create()
+        : User::factory()->judge()->create();
+
+    $this->actingAs($user)
+        ->get(route('leaderboard.index'))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('leaderboard/index')
+            ->where('auth.user.id', $user->id)
+            ->where('auth.user.role', $role)
+            ->where('standings.0.participant.id', $participant->id),
+        );
+})->with(['admin', 'juri']);
+
 test('participant detail is hidden before publication', function () {
     $participant = seedScoredEvent();
     publishResults(false);
