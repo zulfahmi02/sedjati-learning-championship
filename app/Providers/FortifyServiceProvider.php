@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Actions\Fortify\ResetUserPassword;
 use App\Http\Responses\LoginResponse;
 use App\Models\User;
 use Illuminate\Cache\RateLimiting\Limit;
@@ -39,6 +40,8 @@ class FortifyServiceProvider extends ServiceProvider
      */
     private function configureAuthentication(): void
     {
+        Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
+
         Fortify::authenticateUsing(function (Request $request) {
             $user = User::query()
                 ->where('email', Str::lower($request->string('email')->value()))
@@ -62,6 +65,15 @@ class FortifyServiceProvider extends ServiceProvider
         ]));
 
         Fortify::confirmPasswordView(fn () => Inertia::render('auth/confirm-password'));
+
+        Fortify::requestPasswordResetLinkView(fn (Request $request) => Inertia::render('auth/forgot-password', [
+            'status' => $request->session()->get('status'),
+        ]));
+
+        Fortify::resetPasswordView(fn (Request $request) => Inertia::render('auth/reset-password', [
+            'email' => $request->string('email')->value(),
+            'token' => $request->route('token'),
+        ]));
     }
 
     /**

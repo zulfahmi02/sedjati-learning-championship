@@ -15,7 +15,7 @@ export function AppSidebarHeader({
             </div>
             <div className="ml-auto hidden items-center gap-2 text-xs font-bold tracking-wider text-leaf uppercase sm:flex">
                 <span className="size-2 animate-pulse rounded-full bg-papaya" />
-                SLC 2026
+                SLC
             </div>
         </header>
     );

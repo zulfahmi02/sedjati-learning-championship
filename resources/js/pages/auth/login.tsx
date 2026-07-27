@@ -1,4 +1,4 @@
-import { Form, Head } from '@inertiajs/react';
+import { Form, Head, Link } from '@inertiajs/react';
 import InputError from '@/components/input-error';
 import PasswordInput from '@/components/password-input';
 import { Button } from '@/components/ui/button';
@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
 import { store } from '@/routes/login';
+import { request as passwordRequest } from '@/routes/password';
 
 type Props = {
     status?: string;
@@ -47,12 +48,20 @@ export default function Login({ status }: Props) {
                             </div>
 
                             <div className="grid gap-2">
-                                <Label
-                                    htmlFor="password"
-                                    className="font-bold text-deep"
-                                >
-                                    Kata sandi
-                                </Label>
+                                <div className="flex items-center justify-between gap-3">
+                                    <Label
+                                        htmlFor="password"
+                                        className="font-bold text-deep"
+                                    >
+                                        Kata sandi
+                                    </Label>
+                                    <Link
+                                        href={passwordRequest()}
+                                        className="text-xs font-bold text-leaf hover:underline"
+                                    >
+                                        Lupa kata sandi?
+                                    </Link>
+                                </div>
                                 <PasswordInput
                                     id="password"
                                     name="password"

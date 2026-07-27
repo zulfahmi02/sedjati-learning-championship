@@ -21,8 +21,9 @@ jobs:
   ci:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
-        php-version: ['8.3', '8.4', '8.5']
+        php-version: ['8.4', '8.5']
 
     steps:
       - name: Checkout code
@@ -43,7 +44,7 @@ jobs:
           node-version: '22'
 
       - name: Install Node Dependencies
-        run: npm i
+        run: npm ci
 
       - name: Install Dependencies
         run: composer install --no-interaction --prefer-dist --optimize-autoloader
@@ -57,8 +58,21 @@ jobs:
       - name: Build Assets
         run: npm run build
 
+      - name: Check Code Quality
+        if: matrix.php-version == '8.5'
+        run: |
+          composer lint:check
+          npm run format:check
+          npm run lint:check
+
       - name: Run Type Analysis
         run: composer types:check
+
+      - name: Audit PHP Dependencies
+        run: composer audit --locked --no-interaction
+
+      - name: Audit Production Node Dependencies
+        run: npm audit --omit=dev
 
       - name: Tests
         run: php artisan test

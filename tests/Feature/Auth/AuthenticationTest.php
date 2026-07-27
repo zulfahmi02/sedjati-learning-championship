@@ -81,6 +81,6 @@ test('registration routes are not available', function () {
     $this->get('/register')->assertNotFound();
 });
 
-test('password reset routes are not available', function () {
-    $this->get('/forgot-password')->assertNotFound();
+test('password reset route is available', function () {
+    $this->get('/forgot-password')->assertOk();
 });

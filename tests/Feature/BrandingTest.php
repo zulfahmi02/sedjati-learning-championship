@@ -42,7 +42,7 @@ test('the web manifest uses the supplied application icons', function () {
 
     expect($manifest)
         ->name->toBe('Sedjati Learning Championship')
-        ->short_name->toBe('SLC 2026')
+        ->short_name->toBe('SLC')
         ->theme_color->toBe('#4F9A46')
         ->icons->toHaveCount(2)
         ->icons->{0}->src->toBe('/android-chrome-192x192.png')

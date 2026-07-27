@@ -1,5 +1,7 @@
 <?php
 
+use Laravel\Fortify\Features;
+
 return [
 
     /*
@@ -157,8 +159,7 @@ return [
     */
 
     'features' => [
-        // Single-event scoring system: accounts are provisioned by the
-        // administrator, passwords are reset manually (no email integration).
+        Features::resetPasswords(),
     ],
 
 ];

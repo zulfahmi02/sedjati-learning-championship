@@ -113,7 +113,7 @@ export function AppSidebar() {
                                 <AppLogoIcon className="size-14 group-data-[collapsible=icon]:size-7" />
                                 <span className="grid text-center leading-tight group-data-[collapsible=icon]:hidden">
                                     <span className="font-heading text-base font-bold text-deep dark:text-sidebar-foreground">
-                                        SLC 2026
+                                        SLC
                                     </span>
                                     <span className="text-[0.65rem] font-bold tracking-wider text-leaf uppercase">
                                         Scoring System
