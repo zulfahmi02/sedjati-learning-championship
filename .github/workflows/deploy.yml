@@ -76,15 +76,16 @@ jobs:
           CPANEL_USER: ${{ secrets.CPANEL_USER }}
           DEPLOY_PATH: ${{ secrets.CPANEL_DEPLOY_PATH }}
         run: |
-          rsync -az --delete \
-            --exclude='.env' \
-            --exclude='.git/' \
-            --exclude='storage/logs/*' \
-            --exclude='storage/framework/cache/*' \
-            --exclude='storage/framework/sessions/*' \
-            --exclude='storage/framework/views/*' \
-            -e "ssh -p ${CPANEL_PORT:-22}" \
-            ./ "$CPANEL_USER@$CPANEL_HOST:$DEPLOY_PATH/"
+          tar -czf - \
+            --exclude='./.env' \
+            --exclude='./.git' \
+            --exclude='./node_modules' \
+            --exclude='./storage/logs/*' \
+            --exclude='./storage/framework/cache/*' \
+            --exclude='./storage/framework/sessions/*' \
+            --exclude='./storage/framework/views/*' \
+            . | ssh -p "${CPANEL_PORT:-22}" "$CPANEL_USER@$CPANEL_HOST" \
+            "mkdir -p '$DEPLOY_PATH' && tar -xzf - -C '$DEPLOY_PATH'"
 
       - name: Finalize deployment
         env:
