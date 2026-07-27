@@ -42,6 +42,9 @@ jobs:
       - name: Install PHP Dependencies
         run: composer install --no-ansi --no-interaction --no-progress --prefer-dist
 
+      - name: Generate Wayfinder Definitions
+        run: php artisan wayfinder:generate --no-interaction
+
       - name: Check Pint
         run: composer lint:check
 
