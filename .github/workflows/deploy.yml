@@ -87,6 +87,27 @@ jobs:
             . | ssh -p "${CPANEL_PORT:-22}" "$CPANEL_USER@$CPANEL_HOST" \
             "mkdir -p '$DEPLOY_PATH' && tar -xzf - -C '$DEPLOY_PATH'"
 
+      - name: Upload public web root
+        env:
+          CPANEL_HOST: ${{ secrets.CPANEL_HOST }}
+          CPANEL_PORT: ${{ secrets.CPANEL_PORT }}
+          CPANEL_USER: ${{ secrets.CPANEL_USER }}
+          DEPLOY_PATH: ${{ secrets.CPANEL_DEPLOY_PATH }}
+          PUBLIC_PATH: ${{ secrets.CPANEL_PUBLIC_PATH }}
+        run: |
+          PUBLIC_RELEASE="$RUNNER_TEMP/slc-public-release"
+          install -d "$PUBLIC_RELEASE"
+          cp -a public/. "$PUBLIC_RELEASE/"
+          rm -f "$PUBLIC_RELEASE/index.php" "$PUBLIC_RELEASE/.htaccess"
+          sed "s|__LARAVEL_BASE_PATH__|$DEPLOY_PATH|g" \
+            .github/deployment/cpanel-index.php > "$PUBLIC_RELEASE/index.php"
+          cp .github/deployment/laravel-rewrite.htaccess \
+            "$PUBLIC_RELEASE/.slc-laravel-rewrite"
+
+          tar -C "$PUBLIC_RELEASE" -czf - . | \
+            ssh -p "${CPANEL_PORT:-22}" "$CPANEL_USER@$CPANEL_HOST" \
+            "mkdir -p '$PUBLIC_PATH' && tar -xzf - -C '$PUBLIC_PATH' && if ! grep -q 'SLC Laravel front controller' '$PUBLIC_PATH/.htaccess'; then cat '$PUBLIC_PATH/.slc-laravel-rewrite' >> '$PUBLIC_PATH/.htaccess'; fi && rm -f '$PUBLIC_PATH/.slc-laravel-rewrite' && if [ ! -e '$PUBLIC_PATH/storage' ]; then ln -s '$DEPLOY_PATH/storage/app/public' '$PUBLIC_PATH/storage'; fi"
+
       - name: Finalize deployment
         env:
           CPANEL_HOST: ${{ secrets.CPANEL_HOST }}
